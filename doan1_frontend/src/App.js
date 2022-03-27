@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useLayoutEffect } from 'react';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
+import PublicRoute from './PublicRoute';
+import {mainJS} from './js/main';
 
 function App() {
+  useEffect(() => {
+    mainJS()
+  }, [])
+  
+ 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Router>
+          <Switch>
+              {/* <Route exact path="/" component={Home}/>
+              <Route path="/about" component={About}/>
+              <Route path="/contact" component={Contact}/> */}
+           
+              <PublicRoute path="/" name="Home"/>
+             
+              
+              {/* <Route path="/admin" name="Admin" render={(props) => <Masterlayout {...props}/>}/> */}
+              
+          </Switch>
+        </Router>
     </div>
   );
 }
