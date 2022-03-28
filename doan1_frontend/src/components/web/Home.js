@@ -1,158 +1,19 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {mainJS} from '../../js/main';
 
-function Home () {
-    
+function Home() {
+    useEffect(() => {
+        mainJS()
+      }, []);
+      
     return (
         <div>
             <div className="click-closed"></div>
-
-            <div className="box-collapse">
-                <div className="title-box-d">
-                    <h3 className="title-d">Search Property</h3>
-                </div>
-                <span className="close-box-collapse right-boxed bi bi-x"></span>
-                <div className="box-collapse-wrap form">
-                    <form className="form-a">
-                        <div className="row">
-                            <div className="col-md-12 mb-2">
-                                <div className="form-group">
-                                    <label className="pb-2" >Keyword</label>
-                                    <input type="text" className="form-control form-control-lg form-control-a" placeholder="Keyword" />
-                                </div>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <div className="form-group mt-3">
-                                    <label className="pb-2">Type</label>
-                                    <select className="form-control form-select form-control-a" id="Type">
-                                        <option>All Type</option>
-                                        <option>For Rent</option>
-                                        <option>For Sale</option>
-                                        <option>Open House</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <div className="form-group mt-3">
-                                    <label className="pb-2">City</label>
-                                    <select className="form-control form-select form-control-a" id="city">
-                                        <option>All City</option>
-                                        <option>Alabama</option>
-                                        <option>Arizona</option>
-                                        <option>California</option>
-                                        <option>Colorado</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <div className="form-group mt-3">
-                                    <label className="pb-2">Bedrooms</label>
-                                    <select className="form-control form-select form-control-a" id="bedrooms">
-                                        <option>Any</option>
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <div className="form-group mt-3">
-                                    <label className="pb-2">Garages</label>
-                                    <select className="form-control form-select form-control-a" id="garages">
-                                        <option>Any</option>
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                        <option>04</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <div className="form-group mt-3">
-                                    <label className="pb-2">Bathrooms</label>
-                                    <select className="form-control form-select form-control-a" id="bathrooms">
-                                        <option>Any</option>
-                                        <option>01</option>
-                                        <option>02</option>
-                                        <option>03</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-6 mb-2">
-                                <div className="form-group mt-3">
-                                    <label className="pb-2">Min Price</label>
-                                    <select className="form-control form-select form-control-a" id="price">
-                                        <option>Unlimite</option>
-                                        <option>$50,000</option>
-                                        <option>$100,000</option>
-                                        <option>$150,000</option>
-                                        <option>$200,000</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <button type="submit" className="btn btn-b">Search Property</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <nav className="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
-                <div className="container">
-                    <button className="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <Link className="navbar-brand text-brand" to="index.html">Estate<span className="color-b">Agency</span></Link>
-
-                    <div className="navbar-collapse collapse justify-content-center" id="navbarDefault">
-                        <ul className="navbar-nav">
-
-                            <li className="nav-item">
-                                <Link className="nav-link active" to="index.html">Home</Link>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link className="nav-link " to="about.html">About</Link>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link className="nav-link " to="property-grid.html">Property</Link>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link className="nav-link " to="blog-grid.html">Blog</Link>
-                            </li>
-
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</Link>
-                                <div className="dropdown-menu">
-                                    <Link className="dropdown-item " to="property-single.html">Property Single</Link>
-                                    <Link className="dropdown-item " to="blog-single.html">Blog Single</Link>
-                                    <Link className="dropdown-item " to="agents-grid.html">Agents Grid</Link>
-                                    <Link className="dropdown-item " to="agent-single.html">Agent Single</Link>
-                                </div>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link " to="contact.html">Contact</Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <button type="button" className="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
-                        <i className="bi bi-search"></i>
-                    </button>
-
-                </div>
-            </nav>
-
             <div className="intro intro-carousel swiper position-relative">
 
                 <div className="swiper-wrapper">
-
-                    <div className="swiper-slide carousel-item-a intro-item bg-image">
+                    <div className="swiper-slide carousel-item-a intro-item bg-image"  style={{backgroundImage: `url(assets/img/slide-1.jpg)`}}>
                         <div className="overlay overlay-a"></div>
                         <div className="intro-content display-table">
                             <div className="table-cell">
@@ -177,7 +38,7 @@ function Home () {
                             </div>
                         </div>
                     </div>
-                    <div className="swiper-slide carousel-item-a intro-item bg-image">
+                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{backgroundImage: `url(assets/img/slide-2.jpg)`}}>
                         <div className="overlay overlay-a"></div>
                         <div className="intro-content display-table">
                             <div className="table-cell">
@@ -202,7 +63,7 @@ function Home () {
                             </div>
                         </div>
                     </div>
-                    <div className="swiper-slide carousel-item-a intro-item bg-image">
+                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{backgroundImage: `url(assets/img/slide-3.jpg)`}}>
                         <div className="overlay overlay-a"></div>
                         <div className="intro-content display-table">
                             <div className="table-cell">
@@ -934,159 +795,7 @@ function Home () {
             </main>
 
 
-            <section className="section-footer">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-sm-12 col-md-4">
-                            <div className="widget-a">
-                                <div className="w-header-a">
-                                    <h3 className="w-title-a text-brand">EstateAgency</h3>
-                                </div>
-                                <div className="w-body-a">
-                                    <p className="w-text-a color-text-a">
-                                        Enim minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip exea commodo consequat duis
-                                        sed aute irure.
-                                    </p>
-                                </div>
-                                <div className="w-footer-a">
-                                    <ul className="list-unstyled">
-                                        <li className="color-a">
-                                            <span className="color-text-a">Phone .</span> contact@example.com
-                                        </li>
-                                        <li className="color-a">
-                                            <span className="color-text-a">Email .</span> +54 356 945234
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-sm-12 col-md-4 section-md-t3">
-                            <div className="widget-a">
-                                <div className="w-header-a">
-                                    <h3 className="w-title-a text-brand">The Company</h3>
-                                </div>
-                                <div className="w-body-a">
-                                    <div className="w-body-a">
-                                        <ul className="list-unstyled">
-                                            <li className="item-list-a">
-                                                <i className="bi bi-chevron-right"></i> <Link to="#">Site Map</Link>
-                                            </li>
-                                            <li className="item-list-a">
-                                                <i className="bi bi-chevron-right"></i> <Link to="#">Legal</Link>
-                                            </li>
-                                            <li className="item-list-a">
-                                                <i className="bi bi-chevron-right"></i> <Link to="#">Agent Admin</Link>
-                                            </li>
-                                            <li className="item-list-a">
-                                                <i className="bi bi-chevron-right"></i> <Link to="#">Careers</Link>
-                                            </li>
-                                            <li className="item-list-a">
-                                                <i className="bi bi-chevron-right"></i> <Link to="#">Affiliate</Link>
-                                            </li>
-                                            <li className="item-list-a">
-                                                <i className="bi bi-chevron-right"></i> <Link to="#">Privacy Policy</Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-sm-12 col-md-4 section-md-t3">
-                            <div className="widget-a">
-                                <div className="w-header-a">
-                                    <h3 className="w-title-a text-brand">International sites</h3>
-                                </div>
-                                <div className="w-body-a">
-                                    <ul className="list-unstyled">
-                                        <li className="item-list-a">
-                                            <i className="bi bi-chevron-right"></i> <Link to="#">Venezuela</Link>
-                                        </li>
-                                        <li className="item-list-a">
-                                            <i className="bi bi-chevron-right"></i> <Link to="#">China</Link>
-                                        </li>
-                                        <li className="item-list-a">
-                                            <i className="bi bi-chevron-right"></i> <Link to="#">Hong Kong</Link>
-                                        </li>
-                                        <li className="item-list-a">
-                                            <i className="bi bi-chevron-right"></i> <Link to="#">Argentina</Link>
-                                        </li>
-                                        <li className="item-list-a">
-                                            <i className="bi bi-chevron-right"></i> <Link to="#">Singapore</Link>
-                                        </li>
-                                        <li className="item-list-a">
-                                            <i className="bi bi-chevron-right"></i> <Link to="#">Philippines</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <footer>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <nav className="nav-footer">
-                                <ul className="list-inline">
-                                    <li className="list-inline-item">
-                                        <Link to="#">Home</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">About</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">Property</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">Blog</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">Contact</Link>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <div className="socials-a">
-                                <ul className="list-inline">
-                                    <li className="list-inline-item">
-                                        <Link to="#">
-                                            <i className="bi bi-facebook" aria-hidden="true"></i>
-                                        </Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">
-                                            <i className="bi bi-twitter" aria-hidden="true"></i>
-                                        </Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">
-                                            <i className="bi bi-instagram" aria-hidden="true"></i>
-                                        </Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="#">
-                                            <i className="bi bi-linkedin" aria-hidden="true"></i>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="copyright-footer">
-                                <p className="copyright color-text-a">
-                                    &copy; Copyright
-                                    <span className="color-a">EstateAgency</span> All Rights Reserved.
-                                </p>
-                            </div>
-                            <div className="credits">
-
-                                Designed by <Link to="https://bootstrapmade.com/">BootstrapMade</Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-
-            {/* <div id="preloader"></div> */}
-            <Link to="#" className="back-to-top d-flex align-items-center justify-content-center"><i className="bi bi-arrow-up-short"></i></Link>
+           
         </div>
 
     );

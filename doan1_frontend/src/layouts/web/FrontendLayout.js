@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
-
-// import '../../js/main.js';
-
 import {Switch, Route} from 'react-router-dom';
 import publicRoutesList from '../../routes/Publicroutelist';
-
-
-
-
+import Footer from './Footer';
+import NavBar from './NavBar';
+import {mainJS} from '../../js/main';
 
 
 const FrontendLayout = () => {
+    // useEffect(() => {
+    //     mainJS()
+    // }, []);
+    
     return(
-                 <div>
+      <div>
+            <NavBar/>
+                 <main id="main">
                         <Switch>
                             {publicRoutesList.map((routedata, idx)=>{
                                 return(
@@ -31,7 +33,9 @@ const FrontendLayout = () => {
                             })}
                        
                         </Switch>
-                </div>
+                </main>
+                <Footer/>
+      </div>
     );
 }
 export default FrontendLayout;
