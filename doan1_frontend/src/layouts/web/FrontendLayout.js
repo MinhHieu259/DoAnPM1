@@ -6,6 +6,8 @@ import NavBar from './NavBar';
 import {mainJS} from '../../js/main';
 
 
+
+
 const FrontendLayout = () => {
     // useEffect(() => {
     //     mainJS()

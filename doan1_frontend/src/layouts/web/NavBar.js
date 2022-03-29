@@ -133,7 +133,7 @@ function NavBar() {
                                 </div>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link " to="contact.html">Quản trị</Link>
+                                <Link className="nav-link " to="admin/dashboard">Quản trị</Link>
                             </li>
                         </ul>
                     </div>
