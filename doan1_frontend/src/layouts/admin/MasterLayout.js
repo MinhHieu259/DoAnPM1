@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 
 import '../../css/styles.css';
+import '../../css/bootstrap.min.css'
 import '../../js/scripts';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';

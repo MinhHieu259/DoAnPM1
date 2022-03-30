@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import '../../css/bootstrap421.min.css'
 import {Switch, Route} from 'react-router-dom';
 import publicRoutesList from '../../routes/Publicroutelist';
 import Footer from './Footer';
