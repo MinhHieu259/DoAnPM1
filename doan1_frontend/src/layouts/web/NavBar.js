@@ -1,7 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
+import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from 'axios';
 
 function NavBar() {
+
+    const history = useHistory();
+    const logoutSubmit = (e) => {
+      e.preventDefault();
+      axios.post(`api/logout`).then(res => {
+        if (res.data.status === 200) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_name');
+          swal("Success", res.data.message, "success");
+          history.push('/');
+        }
+      });
+    }
+    var AuthButtons = '';
+  if (!localStorage.getItem('auth_token')) {
+    AuthButtons = (
+      <ul className='navbar-nav'>
+        <li className="nav-item">
+          <Link className="nav-link" to="/login">Đăng nhập</Link>
+        </li>
+      </ul>
+    );
+  } else {
+    AuthButtons = (
+      <li className="nav-item">
+        <button onClick={logoutSubmit} className="nav-link btn btn-danger btn-sm text-white"  to="/register">Đăng xuất</button>
+      </li>
+    );
+  }
     return ( 
         <div>
             <div className="box-collapse">
@@ -115,13 +147,6 @@ function NavBar() {
                                 <Link className="nav-link " to="#">About</Link>
                             </li>
 
-                            <li className="nav-item">
-                                <Link className="nav-link " to="/login">Đăng nhập</Link>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link className="nav-link " to="/signup">Đăng ký</Link>
-                            </li>
 
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</Link>
@@ -132,6 +157,7 @@ function NavBar() {
                                     <Link className="dropdown-item " to="agent-single.html">Agent Single</Link>
                                 </div>
                             </li>
+                            {AuthButtons}
                             <li className="nav-item">
                                 <Link className="nav-link " to="admin/dashboard">Quản trị</Link>
                             </li>

@@ -1,12 +1,94 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { mainJS } from '../../js/main';
-
-
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 function Login() {
     useEffect(() => {
         mainJS()
     }, [])
+
+    const styleError = {
+        color: "red"
+    };
+    const history = useHistory();
+    // Khai báo các trường dl
+    const [registerInput, setRegister] = useState({
+        signupusername: '',
+        signupemail: '',
+        signupphone: '',
+        signuppassword: '',
+        signupcpassword: '',
+        error_list: []
+    });
+
+    const handleInput = (e) => {
+        e.persist();
+        setRegister({ ...registerInput, [e.target.name]: e.target.value });
+    }
+
+    const registerSubmit = (e) => {
+        e.preventDefault();
+
+        const data = {
+            signupusername: registerInput.signupusername,
+            signupemail: registerInput.signupemail,
+            signupphone: registerInput.signupphone,
+            signuppassword: registerInput.signuppassword,
+            signupcpassword: registerInput.signupcpassword
+        }
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post(`/api/register`, data).then(res => {
+                if(res.data.status === 200){
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('auth_name', res.data.username);
+                    swal("Success", res.data.message, "success");
+                    history.push('/');
+                }else{
+                    setRegister({...registerInput , error_list: res.data.validation_errors});
+                }
+            });
+        });
+    }
+
+    const [loginInput, setLogin] = useState({
+        email: '',
+        password: '',
+        error_list: []
+    });
+    const handleLoginInput = (e) => {
+        e.persist();
+        setLogin({ ...loginInput, [e.target.name]: e.target.value });
+    }
+
+    const loginSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            email: loginInput.email,
+            password: loginInput.password
+        };
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post(`api/login`, data).then(res => {
+                if (res.data.status === 200) {
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('auth_name', res.data.username);
+                    swal("Success", res.data.message, "success");
+                    if(res.data.role === 'admin'){
+                        history.push('/admin/dashboard');
+                    }else{
+                        history.push('/');
+                    }
+                    
+                } else if (res.data.status === 401) {
+                    swal("Warning", res.data.message, "warning");
+                } else {
+                    setLogin({ ...loginInput, error_list: res.data.validation_errors });
+                }
+            });
+        });
+    }
+
     return (
         <div>
         <br/>
@@ -25,21 +107,23 @@ function Login() {
                     <div className="tab-pane fade show active" id="pills-signin" role="tabpanel" aria-labelledby="pills-signin-tab">
                         <div className="col-sm-12 border border-primary shadow rounded pt-2">
                            
-                            <form method="post" id="singninFrom">
+                            <form onSubmit={loginSubmit}>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Email <span className="text-danger">*</span></label>
-                                    <input type="email" name="email" id="email" className="form-control" placeholder="Enter valid email" required />
+                                    <input type="email" onChange={handleLoginInput} value={loginInput.email} name="email" id="email" className="form-control" placeholder="Nhập email..."  />
+                                    <span style={styleError}>{loginInput.error_list.email}</span>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Mật khẩu <span className="text-danger">*</span></label>
-                                    <input type="password" name="password" id="password" className="form-control" placeholder="***********" required />
+                                    <input type="password" onChange={handleLoginInput} value={loginInput.password} name="password" id="password" className="form-control" placeholder="Nhập mật khẩu..."  />
+                                    <span style={styleError}>{loginInput.error_list.password}</span>
                                 </div>
                                 <div className="form-group">
                                     <div className="row">
                                         <div className="col">
                                             <label><input type="checkbox" name="condition" id="condition" /> Lưu thông tin.</label>
                                         </div>
-                                        <div className="col text-right"> <a href="javascript:;" data-toggle="modal" data-target="#forgotPass">Quên mật khẩu?</a> </div>
+                                        <div className="col text-right"> <a  data-toggle="modal" data-target="#forgotPass">Quên mật khẩu?</a> </div>
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -48,31 +132,37 @@ function Login() {
                             </form>
                         </div>
                     </div>
+
                     <div className="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
                         <div className="col-sm-12 border border-primary shadow rounded pt-2">
                           
-                            <form method="post" id="singnupFrom">
+                            <form onSubmit={registerSubmit}>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Email <span className="text-danger">*</span></label>
-                                    <input type="email" name="signupemail" id="signupemail" className="form-control" placeholder="Enter valid email" required />
+                                    <input type="" onChange={handleInput} value={registerInput.signupemail} name="signupemail" id="signupemail" className="form-control" placeholder="Nhập email..."  />
+                                    <div className='text-success' style={{fontStyle: 'italic'}}>* Email này dùng để đăng nhập tài khoản</div>
+                                    <span style={styleError}>{registerInput.error_list.signupemail}</span>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Họ và tên <span className="text-danger">*</span></label>
-                                    <input type="text" name="signupusername" id="signupusername" className="form-control" placeholder="Choose your user name" required />
-                                    <div className="text-danger"><em>This will be your login name!</em></div>
+                                    <input type="text" onChange={handleInput} value={registerInput.signupusername} name="signupusername" id="signupusername" className="form-control" placeholder="Nhập họ tên..."  />
+                                    <span style={styleError}>{registerInput.error_list.signupusername}</span>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Số điện thoại</label>
-                                    <input type="text" name="signupphone" id="signupphone" className="form-control" placeholder="(000)-(0000000)" />
+                                    <input type="text" onChange={handleInput} value={registerInput.signupphone} name="signupphone" id="signupphone" className="form-control" placeholder="Nhập số điện thoại..." />
+                                    <span style={styleError}>{registerInput.error_list.signupphone}</span>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Mật khẩu <span className="text-danger">*</span></label>
-                                    <input type="password" name="signuppassword" id="signuppassword" className="form-control" placeholder="***********" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
-                                        required />
+                                    <input type="password" onChange={handleInput} value={registerInput.signuppassword} name="signuppassword" id="signuppassword" className="form-control" placeholder="Nhập mật khẩu..." 
+                                         />
+                                    <span style={styleError}>{registerInput.error_list.signuppassword}</span>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Xác nhận mật khẩu <span className="text-danger">*</span></label>
-                                    <input type="password" name="signupcpassword" id="signupcpassword" className="form-control" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" placeholder="***********" required />
+                                    <input type="password"  onChange={handleInput} value={registerInput.signupcpassword} name="signupcpassword" id="signupcpassword" className="form-control"   placeholder="Xác nhận mật khẩu..."  />
+                                    <span style={styleError}>{registerInput.error_list.signupcpassword}</span>
                                 </div>
                                 <div className="form-group">
                                     <input type="submit" name="signupsubmit" value="Đăng ký" className="btn btn-block btn-primary" />
@@ -84,7 +174,7 @@ function Login() {
             </div>
 
 
-            <div className="modal fade" id="forgotPass" tabindex="-1" role="dialog" aria-hidden="true">
+            <div className="modal fade" id="forgotPass" tabIndex={-1} role="dialog" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <form method="post" id="forgotpassForm">
                         <div className="modal-content">

@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger("maPhanQuyen");
+            $table->unsignedBigInteger("maPhanQuyen")->default(2);
             $table->date("ngaySinh")->nullable();
             $table->string("diaChi", 255)->nullable();
             $table->tinyInteger("gioiTinh")->nullable();
             $table->string("soDienThoai", 10);
-            $table->string("cmnd", 15);
+            $table->string("cmnd", 15)->nullable();
             $table->double("soDuTaiKhoan")->default(0);
             $table->date("ngayHetHanTaiKhoan")->nullable();
             $table->tinyInteger("trangThai")->default(1);
