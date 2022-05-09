@@ -19,13 +19,13 @@ const Sidebar = () => {
                             
                             <Link className="nav-link collapsed" to="#" data-bs-toggle="collapse" data-bs-target="#collapseProducts" aria-expanded="false" aria-controls="collapseProducts">
                                 <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
-                                Quản lý sản phẩm
+                                Quản lý hình thức
                                 <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
                             </Link>
                             <div className="collapse" id="collapseProducts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
-                                    <Link className="nav-link" to="/admin/add-product">Thêm sản phẩm</Link>
-                                    <Link className="nav-link" to="/admin/view-product">Danh sách sản phẩm</Link>
+                                    <Link className="nav-link" to="/admin/add-product">Thêm hình thức</Link>
+                                    <Link className="nav-link" to="/admin/view-product">Danh sách hình thức</Link>
                                 </nav>
                             </div>
 
