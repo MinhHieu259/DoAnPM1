@@ -1,8 +1,25 @@
+import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import swal from 'sweetalert';
 
 
 const Navbar = () => {
+
+    const history = useHistory();
+    const logoutSubmit = (e) => {
+      e.preventDefault();
+      axios.post(`api/logout`).then(res => {
+        if (res.data.status === 200) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_name');
+          localStorage.removeItem('role');
+          swal("Success", res.data.message, "success");
+          history.push('/');
+        }
+      });
+    }
     return(
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <Link className="navbar-brand ps-3" to="/admin">Start Bootstrap</Link>
@@ -20,7 +37,7 @@ const Navbar = () => {
                         <li><Link className="dropdown-item" to="#!">Settings</Link></li>
                         <li><Link className="dropdown-item" to="#!">Activity Log</Link></li>
                         <li><hr className="dropdown-divider" /></li>
-                        <li><Link className="dropdown-item" to="#!">Logout</Link></li>
+                        <li><Link  onClick={logoutSubmit} className="dropdown-item" to="#!">Logout</Link></li>
                     </ul>
                 </li>
             </ul>

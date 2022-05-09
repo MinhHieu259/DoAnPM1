@@ -8,33 +8,49 @@ function NavBar() {
 
     const history = useHistory();
     const logoutSubmit = (e) => {
-      e.preventDefault();
-      axios.post(`api/logout`).then(res => {
-        if (res.data.status === 200) {
-          localStorage.removeItem('auth_token');
-          localStorage.removeItem('auth_name');
-          swal("Success", res.data.message, "success");
-          history.push('/');
-        }
-      });
+        e.preventDefault();
+        axios.post(`api/logout`).then(res => {
+            if (res.data.status === 200) {
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('auth_name');
+                localStorage.removeItem('role');
+                swal("Success", res.data.message, "success");
+                history.push('/');
+            }
+        });
     }
     var AuthButtons = '';
-  if (!localStorage.getItem('auth_token')) {
-    AuthButtons = (
-      <ul className='navbar-nav'>
+    if (!localStorage.getItem('auth_token')) {
+        AuthButtons = (
+            <ul className='navbar-nav'>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/login">Đăng nhập</Link>
+                </li>
+            </ul>
+        );
+    } else {
+        AuthButtons = (
+            <li className="nav-item">
+                <button onClick={logoutSubmit} className="btn btn-danger text-white" to="/register">Đăng xuất</button>
+            </li>
+        );
+    }
+
+    var adminButton = '';
+    if (localStorage.getItem('role') === 'admin') {
+       adminButton = (
+    <li className="nav-item">
+        <Link className="nav-link " to="admin/dashboard">Quản trị</Link>
+    </li>
+       );
+    } else if(localStorage.getItem('role') === '' || localStorage.getItem('role') == null) {
+        adminButton = (
         <li className="nav-item">
-          <Link className="nav-link" to="/login">Đăng nhập</Link>
         </li>
-      </ul>
-    );
-  } else {
-    AuthButtons = (
-      <li className="nav-item">
-        <button onClick={logoutSubmit} className="nav-link btn btn-danger btn-sm text-white"  to="/register">Đăng xuất</button>
-      </li>
-    );
-  }
-    return ( 
+        );
+    }
+
+    return (
         <div>
             <div className="box-collapse">
                 <div className="title-box-d">
@@ -158,9 +174,8 @@ function NavBar() {
                                 </div>
                             </li>
                             {AuthButtons}
-                            <li className="nav-item">
-                                <Link className="nav-link " to="admin/dashboard">Quản trị</Link>
-                            </li>
+
+                            {adminButton}
                         </ul>
                     </div>
 
@@ -171,7 +186,7 @@ function NavBar() {
                 </div>
             </nav>
         </div>
-     );
+    );
 }
 
 export default NavBar;

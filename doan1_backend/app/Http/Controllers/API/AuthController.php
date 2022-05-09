@@ -25,6 +25,7 @@ class AuthController extends Controller
             'signupemail.required' => 'Email không được để trống',
             'signupemail.email' => 'Email không hợp lệ',
             'signupemail.max' => 'Tối đa 191 ký tự',
+            'signupemail.unique' => 'Email đã tồn tại trong hệ thống',
             'signuppassword.required' => 'Mật khẩu không được để trống',
             'signuppassword.min' => 'Phải ít nhất 8 kí tự',
             'signupphone.required' => 'Bạn chưa nhập số điện thoại',
