@@ -30,9 +30,17 @@ function NavBar() {
         );
     } else {
         AuthButtons = (
-            <li className="nav-item">
-                <button onClick={logoutSubmit} className="btn btn-danger text-white" to="/register">Đăng xuất</button>
-            </li>
+           
+            <div class="nav-item dropdown">
+				<Link to="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"> <img src="assets/img/agent-4.jpg" alt="anh" width={"30"} className="img-circle" /></Link>
+				<div class="dropdown-menu">
+					<Link to="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</Link>
+					<Link to="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</Link>
+					<Link to="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</Link>
+					<div class="dropdown-divider"></div>
+					<Link to="#" onClick={logoutSubmit} class="dropdown-item"><i class="fa-solid fa-power-off"></i> Đăng xuất</Link>
+				</div>
+			</div>
         );
     }
 
