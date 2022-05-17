@@ -14,6 +14,9 @@ class LoaiTinController extends Controller
         $validator = Validator::make($request->all(), [
             'tenLoaiTinDang' => 'required|max:255',
             'gia' => 'required',
+        ], [
+            'tenLoaiTinDang.required' => 'Tên loại tin không được để trống',
+            'tenLoaiTinDang.gia' => 'Giá được để trống'
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +56,8 @@ class LoaiTinController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenLoaiTin' => 'required|max:255'
+        ], [
+            'tenLoaiTin.required' => 'Tên loại tin không được để trống'
         ]);
         if ($validator->fails()) {
             return response()->json([

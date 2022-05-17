@@ -74,6 +74,10 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'matKhauMoi' => 'required|min:8',
             'xacNhanMatKhau' => 'required|same:matKhauMoi',
+        ], [
+            'matKhauMoi.required' => 'Chưa nhập mật khẩu',
+            'xacNhanMatKhau.required' => 'Chưa nhập xác nhận mật khẩu',
+            'xacNhanMatKhau.same' => 'Mật khẩu xác nhận không trùng khớp'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -111,6 +115,21 @@ class UserController extends Controller
                 ]);
             }
         }
+    }
+
+    public function capNhatTrangThai(Request $request, $id)
+    {
+        # code...
+    }
+
+    public function capNhatQuyen(Request $request, $id)
+    {
+        # code...
+    }
+
+    public function xoaNguoiDung($id)
+    {
+        # code...
     }
 
 }

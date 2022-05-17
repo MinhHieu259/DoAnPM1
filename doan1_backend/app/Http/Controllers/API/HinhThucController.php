@@ -13,6 +13,8 @@ class HinhThucController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenHinhThuc' => 'required|max:255'
+        ], [
+            'tenHinhThuc.required' => 'Tên hình thức không được để trống'
         ]);
 
         if($validator->fails()){
@@ -51,6 +53,8 @@ class HinhThucController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenHinhThuc' => 'required|max:255'
+        ], [
+            'tenHinhThuc.required' => 'Tên hình thức không được để trống'
         ]);
         if ($validator->fails()) {
             return response()->json([
