@@ -31,14 +31,14 @@ function NavBar() {
         );
     } else {
         AuthButtons = ( 
-            <div class="nav-item dropdown">
-				<Link to="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"> <img src="assets/img/agent-4.jpg" alt="anh" width={"30"} className="img-circle" /></Link>
-				<div class="dropdown-menu">
-					<Link to="#" class="dropdown-item"><i class="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
-					<Link to="/thongtincanhan" class="dropdown-item"><i class="fa-solid fa-user"></i> Thông tin cá nhân</Link>
-					<Link to="#" class="dropdown-item"><i class="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
-					<div class="dropdown-divider"></div>
-					<Link to="#" onClick={logoutSubmit} class="dropdown-item"><i class="fa-solid fa-power-off"></i> Đăng xuất</Link>
+            <div className="nav-item dropdown">
+				<Link to="#" data-toggle="dropdown" className="nav-link dropdown-toggle user-action"> <img src="assets/img/agent-4.jpg" alt="anh" width={"30"} className="img-circle" /></Link>
+				<div className="dropdown-menu">
+					<Link to="#" className="dropdown-item"><i className="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
+					<Link to="/thongtincanhan" className="dropdown-item"><i className="fa-solid fa-user"></i> Thông tin cá nhân</Link>
+					<Link to="#" className="dropdown-item"><i className="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
+					<div className="dropdown-divider"></div>
+					<Link to="#" onClick={logoutSubmit} className="dropdown-item"><i className="fa-solid fa-power-off"></i> Đăng xuất</Link>
 				</div>
 			</div>
         );

@@ -8,32 +8,35 @@ import swal from 'sweetalert';
 function UserInfor() {
     const [loading, setLoading] = useState(true);
     const history = useHistory();
-    const [inforInput, setUserInfor] = useState([]);
+    const [inforInput, setUserInfor] = useState({
+        name: '',
+        ngaySinh: '',
+        diaChi: '',
+        soDienThoai: '',
+        email: '',
+        cmnd: '',
+        facebook: '',
+        gioiTinh: ''
+    });
     const [error, setError] = useState([]);
-    const [picture, setPicture] = useState([]);
-    useEffect(() => {
-        mainJS()
-    }, []);
+    const [{ alt, src }, setPicture] = useState([]);
+    // useEffect(() => {
+    //     mainJS()
+    // }, []);
 
 
     const handleInput = (e) => {
         e.persist();
         setUserInfor({ ...inforInput, [e.target.name]: e.target.value });
     }
-
-    const handleImage = (e) => {
-        e.persist();
-        setPicture({ image: e.target.files[0] });
-        var file = picture;
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(file);
-    }
+   
 
     useEffect(() => {
         const userId = localStorage.getItem('user_id');
         axios.get(`/api/edit-thong-tin-ca-nhan/${userId}`).then(res => {
             if (res.data.status === 200) {
                 setUserInfor(res.data.nguoiDung);
+                setPicture({ src: "http://localhost:8000/" + res.data.nguoiDung.avatar })
             } else if (res.data.status === 404) {
                 swal("Lỗi", res.data.message, "error");
                 history.push('/');
@@ -41,11 +44,39 @@ function UserInfor() {
             setLoading(false);
         });
     }, []);
+    var gioiTinh = 0;
+
+    gioiTinh = (
+        <select name="gioiTinh" onChange={handleInput} value={inforInput.gioiTinh} className='form-control'>
+            <option value={1} >Nam</option>
+            <option value={0} >Nữ</option>
+        </select>
+
+    );
+    const handleImage = (e) => {
+        e.persist();
+        setPicture({
+            src: URL.createObjectURL(e.target.files[0]),
+            alt: e.target.files[0].name
+        });
+    }
 
     const updateInfoUser = (e) => {
         e.preventDefault();
         const user_id = localStorage.getItem('user_id');
+       
         const data = inforInput;
+        
+        const formData = new FormData();
+        formData.append('name', inforInput.name);
+        formData.append('ngaySinh', inforInput.ngaySinh);
+        formData.append('gioiTinh', gioiTinh);
+        formData.append('diaChi', inforInput.diaChi);
+        formData.append('soDienThoai', inforInput.soDienThoai);
+        formData.append('email', inforInput.email);
+        formData.append('cmnd', inforInput.cmnd);
+        formData.append('facebook', inforInput.facebook);
+        
         axios.put(`/api/update-thong-tin-canhan/${user_id}`, data).then(res => {
             if (res.data.status === 200) {
                 swal("Thành công", res.data.message, "success");
@@ -55,21 +86,11 @@ function UserInfor() {
                 setError(res.data.errors);
             } else if (res.data.status === 404) {
                 swal("Lỗi", res.data.message, "error");
-                history.push('/thongtincanhan');
+                
             }
         });
     }
-
-    var gioiTinh = '';
-
-    gioiTinh = (
-        <select name="gioiTinh" onChange={handleInput} value={inforInput.gioiTinh} className='form-control'>
-            <option value="1" >Nam</option>
-            <option value="0" >Nữ</option>
-        </select>
-
-    );
-
+   
 
     return (
         <div className='container'>
@@ -78,18 +99,21 @@ function UserInfor() {
             <br />
             <br />
             <br />
+            <form onSubmit={updateInfoUser} encType='multipart/form-data'>
             <div className='row'>
                 <div className='col-md-3'>
-                    <div class="card">
+                    <div className="card">
                         <div className="card-header text-white bg-primary text-center">
                             TRANG CÁ NHÂN
                         </div>
+                        
                         <div className="card-body">
-                            <img src="assets/img/agent-4.jpg" width={80} height={80} className="rounded mx-auto d-block mb-3" alt="..." />
-                            <input type="file" name="image" onChange={handleImage} className='form-control' />
-                            <p className='text-center'>{inforInput.name}</p>
+                            <img src={src} alt={alt} width={80} height={80} className="rounded mx-auto d-block mb-3" />
+
+                            <input type="file" name="avatar" onChange={handleImage} className='form-control' />
+                            <p className='text-center mt-3' style={{ fontWeight: "bold" }}>{inforInput.name}</p>
                             <div className='container' style={{ backgroundColor: "#E5E5E5" }}>
-                                <p>Số dư tài khoản: 1.000.000</p>
+                                <p className='text-center'>Số dư: {inforInput.soDuTaiKhoan} đ</p>
                             </div>
                             <div className="container">
                                 <div className="row">
@@ -229,16 +253,19 @@ function UserInfor() {
                                     <div className="container">
                                         <div className="row">
                                             <div className="col text-center">
-                                                <button onClick={updateInfoUser} className="btn btn-primary">Lưu lại</button>
+                                                <button type='submit' className="btn btn-primary">Lưu lại</button>
                                             </div>
                                         </div>
                                     </div>
+                                   
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
 
     );

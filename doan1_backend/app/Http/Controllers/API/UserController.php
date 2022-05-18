@@ -37,12 +37,12 @@ class UserController extends Controller
             'soDienThoai' => 'required|max:11',
             'email' => 'required|max:255',
             'cmnd' => 'required|max:255',
-            'facebook' => 'max:255',
+            'facebook' => 'required|max:255'   
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
-                'errors' => $validator->getMessageBag(),
+                'errors' => $validator->getMessageBag()
             ]);
         } else {
             $user = User::find($id);
@@ -55,6 +55,13 @@ class UserController extends Controller
                 $user->email = $request->input('email');
                 $user->cmnd = $request->input('cmnd');
                 $user->facebook = $request->input('facebook');
+                // if($request->hasFile('avatar')){
+                //     $file = $request->file('avatar');
+                //     $extension = $file->getClientOriginalExtension();
+                //     $filename = time().'.'.$extension;
+                //     $file->move('uploads/avatar/', $filename);
+                //     $user->avatar = 'uploads/avatar/'.$filename;
+                // }
                 $user->save();
                 return response()->json([
                     'status' => 200,
