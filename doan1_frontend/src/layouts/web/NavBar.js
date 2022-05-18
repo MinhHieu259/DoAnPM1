@@ -14,6 +14,7 @@ function NavBar() {
                 localStorage.removeItem('auth_token');
                 localStorage.removeItem('auth_name');
                 localStorage.removeItem('role');
+                localStorage.removeItem('user_id');
                 swal("Success", res.data.message, "success");
                 history.push('/');
             }
@@ -29,14 +30,13 @@ function NavBar() {
             </ul>
         );
     } else {
-        AuthButtons = (
-           
+        AuthButtons = ( 
             <div class="nav-item dropdown">
 				<Link to="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"> <img src="assets/img/agent-4.jpg" alt="anh" width={"30"} className="img-circle" /></Link>
 				<div class="dropdown-menu">
-					<Link to="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</Link>
-					<Link to="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</Link>
-					<Link to="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</Link>
+					<Link to="#" class="dropdown-item"><i class="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
+					<Link to="/thongtincanhan" class="dropdown-item"><i class="fa-solid fa-user"></i> Thông tin cá nhân</Link>
+					<Link to="#" class="dropdown-item"><i class="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
 					<div class="dropdown-divider"></div>
 					<Link to="#" onClick={logoutSubmit} class="dropdown-item"><i class="fa-solid fa-power-off"></i> Đăng xuất</Link>
 				</div>
@@ -170,20 +170,12 @@ function NavBar() {
                             <li className="nav-item">
                                 <Link className="nav-link " to="#">About</Link>
                             </li>
-
-
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</Link>
-                                <div className="dropdown-menu">
-                                    <Link className="dropdown-item " to="property-single.html">Property Single</Link>
-                                    <Link className="dropdown-item " to="blog-single.html">Blog Single</Link>
-                                    <Link className="dropdown-item " to="agents-grid.html">Agents Grid</Link>
-                                    <Link className="dropdown-item " to="agent-single.html">Agent Single</Link>
-                                </div>
-                            </li>
                             {AuthButtons}
 
                             {adminButton}
+                            <li>
+                                <button style={{backgroundColor:"white", borderColor:"gray"}} className='btn'>Đăng tin</button>
+                            </li>
                         </ul>
                     </div>
 

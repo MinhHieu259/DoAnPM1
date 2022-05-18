@@ -74,6 +74,7 @@ function Login() {
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('auth_name', res.data.username);
                     localStorage.setItem('role', res.data.role);
+                    localStorage.setItem('user_id', res.data.id);
                     swal("Success", res.data.message, "success");
                     if(res.data.role === 'admin'){
                         history.push('/admin/dashboard');
