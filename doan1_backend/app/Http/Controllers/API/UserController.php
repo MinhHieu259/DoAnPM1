@@ -55,14 +55,7 @@ class UserController extends Controller
                 $user->email = $request->input('email');
                 $user->cmnd = $request->input('cmnd');
                 $user->facebook = $request->input('facebook');
-                
-                if($request->hasFile('image')){
-                    $file = $request->file('image');
-                    $extension = $file->getClientOriginalExtension();
-                    $filename = time().'.'.$extension;
-                    $file->move('uploads/avatar/', $filename);
-                    $user->avatar = 'uploads/avatar/'.$filename; 
-                }
+                $user->avatar = $request->input('image');
                 $user->save();
                 return response()->json([
                     'status' => 200,

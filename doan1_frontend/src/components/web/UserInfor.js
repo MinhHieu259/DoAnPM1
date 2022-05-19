@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import swal from 'sweetalert'
@@ -33,7 +33,7 @@ function UserInfor() {
     }, []);
 
     const [{ alt, src }, setPicture] = useState([]);
-    const [pictureTmp, setPictureTmp] = useState([]);
+    const [pictureTmp, setPictureTmp] = useState(null);
     const [error, setError] = useState([]);
 
     const handleInput = (e) => {
@@ -46,7 +46,7 @@ function UserInfor() {
             src: URL.createObjectURL(e.target.files[0]),
             alt: e.target.files[0].name
         });
-        setPictureTmp({ image: e.target.files[0] })
+         setPictureTmp(e.target.files[0])
     }
     const updateInfoUser = (e) => {
         e.preventDefault();
@@ -59,7 +59,28 @@ function UserInfor() {
         formData.append('email', inforInput.email);
         formData.append('cmnd', inforInput.cmnd);
         formData.append('facebook', inforInput.facebook);
-        formData.append('image', pictureTmp.image);
+       
+
+        const formImage = new FormData();
+        formImage.append("file", pictureTmp);
+        formImage.append("upload_preset", "owzv3irh");
+
+        
+
+        const data =  fetch('https://api.cloudinary.com/v1_1/minh-hieuit/image/upload', {
+            method: 'POST',
+            body: formImage
+        }).then((r) => r.json());
+
+        const tokenImage = data.then(function(result) {
+            setPictureTmp(result.secure_url)
+         })
+         formData.append('image', pictureTmp);
+
+  
+
+       
+        
 
         console.log(Object.fromEntries(formData))
         // var object = {};
@@ -93,7 +114,6 @@ function UserInfor() {
             <br />
             <br />
             <br />
-            
             <form onSubmit={updateInfoUser}  encType='multipart/form-data'>
                 <div className='row'>
                     <div className='col-md-3'>
