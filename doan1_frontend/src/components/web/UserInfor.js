@@ -59,7 +59,7 @@ function UserInfor() {
 
     const updateInfoUser = (e) => {
         e.preventDefault();
-        const formData = new FormData();
+        var formData = new FormData();
         formData.append('name', inforInput.name);
         formData.append('ngaySinh', inforInput.ngaySinh);
         formData.append('gioiTinh', inforInput.gioiTinh);
@@ -70,18 +70,18 @@ function UserInfor() {
         formData.append('facebook', inforInput.facebook);
         formData.append('image', pictureTmp.image);
 
-        var object = {};
-        formData.forEach((value, key) => {
-            // key == 'gioiTinh' ? object['gioiTinh'] = gioiTinh.props.value : object[key] = value
-            object[key] = value
-        }
-        )
+        console.log(Object.fromEntries(formData))
+        // var object = {};
+        // formData.forEach((value, key) => {
+        //     object[key] = value
+        // }
+        // )
+        
 
-        if (object) {
-            axios.put(`/api/update-thong-tin-canhan/${localStorage.getItem('user_id')}`, object).then(res => {
+        // if (object) {
+            axios.put(`/api/update-thong-tin-canhan/${localStorage.getItem('user_id')}`, Object.fromEntries(formData)).then(res => {
                 if (res.data.status === 200) {
                     swal("Thành công", res.data.message, "success");
-                    console.log(res.data.avatar)
                     setError([]);
                 } else if (res.data.status === 422) {
                     swal("Chưa điền đầy đủ thông tin", "", "error");
@@ -90,7 +90,7 @@ function UserInfor() {
                     swal("Lỗi", res.data.message, "error");
                 }
             });
-        }
+        // }
     }
     console.log(error)
 

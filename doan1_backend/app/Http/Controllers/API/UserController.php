@@ -37,8 +37,7 @@ class UserController extends Controller
             'soDienThoai' => 'required|max:11',
             'email' => 'required|max:255',
             'cmnd' => 'required|max:255',
-            'facebook' => 'required|max:255',
-            'image' => 'required'
+            'facebook' => 'required|max:255'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -56,18 +55,18 @@ class UserController extends Controller
                 $user->email = $request->input('email');
                 $user->cmnd = $request->input('cmnd');
                 $user->facebook = $request->input('facebook');
+                
                 if($request->hasFile('image')){
                     $file = $request->file('image');
                     $extension = $file->getClientOriginalExtension();
                     $filename = time().'.'.$extension;
                     $file->move('uploads/avatar/', $filename);
-                    $user->avatar = 'uploads/avatar/'.$filename;
+                    $user->avatar = 'uploads/avatar/'.$filename; 
                 }
                 $user->save();
                 return response()->json([
                     'status' => 200,
                     'message' => 'Cập nhật thông tin cá nhân thành công',
-                    'avatar' => $request->input('avatar')
                 ]);
             } else {
                 return response()->json([
