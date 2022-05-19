@@ -38,7 +38,7 @@ class UserController extends Controller
             'email' => 'required|max:255',
             'cmnd' => 'required|max:255',
             'facebook' => 'required|max:255',
-            'avatar' => 'image|mimes:jpeg,png,jpg',   
+            'image' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -56,8 +56,8 @@ class UserController extends Controller
                 $user->email = $request->input('email');
                 $user->cmnd = $request->input('cmnd');
                 $user->facebook = $request->input('facebook');
-                if($request->input('avatar')){
-                    $file = $request->file('avatar.png');
+                if($request->hasFile('image')){
+                    $file = $request->file('image');
                     $extension = $file->getClientOriginalExtension();
                     $filename = time().'.'.$extension;
                     $file->move('uploads/avatar/', $filename);
@@ -67,6 +67,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Cập nhật thông tin cá nhân thành công',
+                    'avatar' => $request->input('avatar')
                 ]);
             } else {
                 return response()->json([

@@ -47,13 +47,6 @@ function UserInfor() {
         });
     }, []);
 
-    var gioiTinh = '';
-    gioiTinh = (
-        <select name="gioiTinh" onChange={handleInput} value={inforInput.gioiTinh} className='form-control'>
-            <option value="1" >Nam</option>
-            <option value="0" >Nữ</option>
-        </select>
-    );
 
     const handleImage = (e) => {
         e.persist();
@@ -66,45 +59,40 @@ function UserInfor() {
 
     const updateInfoUser = (e) => {
         e.preventDefault();
-        const user_id = localStorage.getItem('user_id');
-
-        const data = inforInput;
-
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append('name', inforInput.name);
         formData.append('ngaySinh', inforInput.ngaySinh);
-        formData.append('gioiTinh', gioiTinh);
+        formData.append('gioiTinh', inforInput.gioiTinh);
         formData.append('diaChi', inforInput.diaChi);
         formData.append('soDienThoai', inforInput.soDienThoai);
         formData.append('email', inforInput.email);
         formData.append('cmnd', inforInput.cmnd);
         formData.append('facebook', inforInput.facebook);
-        formData.append('avatar', pictureTmp.image);
-
+        formData.append('image', pictureTmp.image);
 
         var object = {};
         formData.forEach((value, key) => {
-            key == 'gioiTinh' ? object['gioiTinh'] = gioiTinh.props.value : object[key] = value
+            // key == 'gioiTinh' ? object['gioiTinh'] = gioiTinh.props.value : object[key] = value
+            object[key] = value
         }
         )
-        console.log(object)
 
         if (object) {
-            axios.put(`/api/update-thong-tin-canhan/${user_id}`, object).then(res => {
+            axios.put(`/api/update-thong-tin-canhan/${localStorage.getItem('user_id')}`, object).then(res => {
                 if (res.data.status === 200) {
                     swal("Thành công", res.data.message, "success");
+                    console.log(res.data.avatar)
                     setError([]);
                 } else if (res.data.status === 422) {
                     swal("Chưa điền đầy đủ thông tin", "", "error");
                     setError(res.data.errors);
                 } else if (res.data.status === 404) {
                     swal("Lỗi", res.data.message, "error");
-
                 }
             });
-            console.log(error)
         }
     }
+    console.log(error)
 
 
     return (
@@ -125,7 +113,7 @@ function UserInfor() {
                             <div className="card-body">
                                 <img src={src} alt={alt} width={80} height={80} className="rounded mx-auto d-block mb-3" />
 
-                                <input type="file" name="avatar" onChange={handleImage} className='form-control' />
+                                <input type="file" name="image" onChange={handleImage} className='form-control' />
                                 <p className='text-center mt-3' style={{ fontWeight: "bold" }}>{inforInput.name}</p>
                                 <div className='container' style={{ backgroundColor: "#E5E5E5" }}>
                                     <p className='text-center'>Số dư: {inforInput.soDuTaiKhoan} đ</p>
@@ -133,7 +121,7 @@ function UserInfor() {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col text-center">
-                                            <button className="btn btn-danger">Nạp tiền</button>
+                                            <button type='button' className="btn btn-danger">Nạp tiền</button>
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +170,7 @@ function UserInfor() {
                                             </div>
 
                                             <div className='col-md-6'>
-                                                <input name='name' onChange={handleInput} value={inforInput.name} className='form-control' />
+                                                <input type='text' name='name' onChange={handleInput} value={inforInput.name} className='form-control' />
                                             </div>
                                         </div>
 
@@ -202,7 +190,10 @@ function UserInfor() {
                                             </div>
 
                                             <div className='col-md-2'>
-                                                {gioiTinh}
+                                                <select name="gioiTinh" onChange={handleInput} value={inforInput.gioiTinh} className='form-control'>
+                                                    <option value={1} >Nam</option>
+                                                    <option value={0} >Nữ</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -268,7 +259,7 @@ function UserInfor() {
                                         <div className="container">
                                             <div className="row">
                                                 <div className="col text-center">
-                                                    <button type='submit' className="btn btn-primary">Lưu lại</button>
+                                                    <button type='submit' className="btn btn-primary">Cập nhật</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,10 +268,15 @@ function UserInfor() {
 
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
             </form>
+
+
         </div>
 
     );
