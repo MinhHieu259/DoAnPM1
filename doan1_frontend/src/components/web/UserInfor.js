@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { mainJS } from '../../js/main';
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
-import swal from 'sweetalert';
-
-
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import swal from 'sweetalert'
+import { mainJS } from '../../js/main';
 function UserInfor() {
+
     const history = useHistory();
     const [loading, setLoading] = useState(true);
     const [inforInput, setUserInfor] = useState({
@@ -18,20 +17,6 @@ function UserInfor() {
         facebook: '',
         gioiTinh: ''
     });
-    const [error, setError] = useState([]);
-    const [{ alt, src }, setPicture] = useState([]);
-    const [pictureTmp, setPictureTmp] = useState([]);
-    // useEffect(() => {
-    //     mainJS()
-    // }, []);
-
-
-    const handleInput = (e) => {
-        e.persist();
-        setUserInfor({ ...inforInput, [e.target.name]: e.target.value });
-    }
-
-
     useEffect(() => {
         mainJS()
         let userId = localStorage.getItem('user_id');
@@ -47,7 +32,14 @@ function UserInfor() {
         });
     }, []);
 
+    const [{ alt, src }, setPicture] = useState([]);
+    const [pictureTmp, setPictureTmp] = useState([]);
+    const [error, setError] = useState([]);
 
+    const handleInput = (e) => {
+        e.persist();
+        setUserInfor({ ...inforInput, [e.target.name]: e.target.value });
+    }
     const handleImage = (e) => {
         e.persist();
         setPicture({
@@ -56,7 +48,6 @@ function UserInfor() {
         });
         setPictureTmp({ image: e.target.files[0] })
     }
-
     const updateInfoUser = (e) => {
         e.preventDefault();
         var formData = new FormData();
@@ -94,7 +85,7 @@ function UserInfor() {
     }
     console.log(error)
 
-
+ 
     return (
         <div className='container'>
             <br />
@@ -102,7 +93,8 @@ function UserInfor() {
             <br />
             <br />
             <br />
-            <form onSubmit={updateInfoUser} encType='multipart/form-data'>
+            
+            <form onSubmit={updateInfoUser}  encType='multipart/form-data'>
                 <div className='row'>
                     <div className='col-md-3'>
                         <div className="card">
