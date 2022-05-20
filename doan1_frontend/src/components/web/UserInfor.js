@@ -33,7 +33,7 @@ function UserInfor() {
     }, []);
 
     const [{ alt, src }, setPicture] = useState([]);
-    const [pictureTmp, setPictureTmp] = useState(null);
+    const [pictureTmp, setPictureTmp] = useState([]);
     const [error, setError] = useState([]);
 
     const handleInput = (e) => {
@@ -46,11 +46,11 @@ function UserInfor() {
             src: URL.createObjectURL(e.target.files[0]),
             alt: e.target.files[0].name
         });
-         setPictureTmp(e.target.files[0])
+         setPictureTmp({image:e.target.files[0]})
     }
     const updateInfoUser = (e) => {
         e.preventDefault();
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append('name', inforInput.name);
         formData.append('ngaySinh', inforInput.ngaySinh);
         formData.append('gioiTinh', inforInput.gioiTinh);
@@ -59,39 +59,10 @@ function UserInfor() {
         formData.append('email', inforInput.email);
         formData.append('cmnd', inforInput.cmnd);
         formData.append('facebook', inforInput.facebook);
-       
-
-        const formImage = new FormData();
-        formImage.append("file", pictureTmp);
-        formImage.append("upload_preset", "owzv3irh");
+        formData.append('image', pictureTmp.image);
 
         
-
-        const data =  fetch('https://api.cloudinary.com/v1_1/minh-hieuit/image/upload', {
-            method: 'POST',
-            body: formImage
-        }).then((r) => r.json());
-
-        const tokenImage = data.then(function(result) {
-            setPictureTmp(result.secure_url)
-         })
-         formData.append('image', pictureTmp);
-
-  
-
-       
-        
-
-        console.log(Object.fromEntries(formData))
-        // var object = {};
-        // formData.forEach((value, key) => {
-        //     object[key] = value
-        // }
-        // )
-        
-
-        // if (object) {
-            axios.put(`/api/update-thong-tin-canhan/${localStorage.getItem('user_id')}`, Object.fromEntries(formData)).then(res => {
+            axios.post(`/api/update-thong-tin-canhan/${localStorage.getItem('user_id')}`, formData).then(res => {
                 if (res.data.status === 200) {
                     swal("Thành công", res.data.message, "success");
                     setError([]);
@@ -102,9 +73,7 @@ function UserInfor() {
                     swal("Lỗi", res.data.message, "error");
                 }
             });
-        // }
     }
-    console.log(error)
 
  
     return (
@@ -114,7 +83,7 @@ function UserInfor() {
             <br />
             <br />
             <br />
-            <form onSubmit={updateInfoUser}  encType='multipart/form-data'>
+            <form onSubmit={updateInfoUser} encType='multipart/form-data'>
                 <div className='row'>
                     <div className='col-md-3'>
                         <div className="card">
@@ -124,7 +93,6 @@ function UserInfor() {
 
                             <div className="card-body">
                                 <img src={src} alt={alt} width={80} height={80} className="rounded mx-auto d-block mb-3" />
-
                                 <input type="file" name="image" onChange={handleImage} className='form-control' />
                                 <p className='text-center mt-3' style={{ fontWeight: "bold" }}>{inforInput.name}</p>
                                 <div className='container' style={{ backgroundColor: "#E5E5E5" }}>

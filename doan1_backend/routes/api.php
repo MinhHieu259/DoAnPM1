@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
      // Người dùng
      Route::get('edit-thong-tin-ca-nhan/{id}', [UserController::class, 'editThongTin']);
-     Route::put('update-thong-tin-canhan/{id}', [UserController::class, 'updateThongTin']);
+     Route::post('update-thong-tin-canhan/{id}', [UserController::class, 'updateThongTin']);
      Route::put('doimatkhau/{id}', [UserController::class, 'doiMatKhau']);
 
      //Đăng tin

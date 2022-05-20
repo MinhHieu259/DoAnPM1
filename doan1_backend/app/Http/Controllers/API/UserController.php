@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -37,12 +38,12 @@ class UserController extends Controller
             'soDienThoai' => 'required|max:11',
             'email' => 'required|max:255',
             'cmnd' => 'required|max:255',
-            'facebook' => 'required|max:255'
+            'facebook' => 'required|max:255',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
-                'errors' => $validator->getMessageBag()
+                'errors' => $validator->getMessageBag(),
             ]);
         } else {
             $user = User::find($id);
@@ -55,7 +56,19 @@ class UserController extends Controller
                 $user->email = $request->input('email');
                 $user->cmnd = $request->input('cmnd');
                 $user->facebook = $request->input('facebook');
-                $user->avatar = $request->input('image');
+
+                if ($request->hasFile('image')) {
+                    $path = $user->avatar;
+                    if (File::exists($path)) {
+                        File::delete($path);
+                    }
+                    $file = $request->file('image');
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = time() . '.' . $extension;
+                    $file->move('uploads/avatar/', $filename);
+                    $user->avatar = 'uploads/avatar/' . $filename;
+                }
+
                 $user->save();
                 return response()->json([
                     'status' => 200,
@@ -78,7 +91,7 @@ class UserController extends Controller
         ], [
             'matKhauMoi.required' => 'Chưa nhập mật khẩu',
             'xacNhanMatKhau.required' => 'Chưa nhập xác nhận mật khẩu',
-            'xacNhanMatKhau.same' => 'Mật khẩu xác nhận không trùng khớp'
+            'xacNhanMatKhau.same' => 'Mật khẩu xác nhận không trùng khớp',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -86,7 +99,7 @@ class UserController extends Controller
                 'errors' => $validator->getMessageBag(),
             ]);
         } else {
-             $user = User::find($id);
+            $user = User::find($id);
             if ($user) {
                 $hashedPassword = Auth::user()->password;
                 if (Hash::check($request->matKhauCu, $hashedPassword)) {
