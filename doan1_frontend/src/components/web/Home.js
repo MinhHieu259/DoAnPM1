@@ -11,7 +11,6 @@ function Home() {
         <div>
             <div className="click-closed"></div>
             <div className="intro intro-carousel swiper position-relative">
-
                 <div className="swiper-wrapper">
                     <div className="swiper-slide carousel-item-a intro-item bg-image"  style={{backgroundImage: `url(assets/img/slide-1.jpg)`}}>
                         <div className="overlay overlay-a"></div>

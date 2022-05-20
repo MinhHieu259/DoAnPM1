@@ -51,6 +51,8 @@ class AuthController extends Controller
                 'status' => 200,
                 'username' => $user->name,
                 'token' => $token,
+                'role' => $user->maPhanQuyen,
+                'id' => $user->id,
                 'message' => 'Đăng ký thành công'
             ]);
         }
