@@ -314,7 +314,7 @@ function NavBar() {
                                 </div>
                                 <div className="md-form mb-2">
                                     <i className="fa-solid fa-phone"></i>
-                                    <input type="text" onChange={handleInput} value={registerInput.signupphone} name="signupphone" id="signupphone" className={`form-control ${registerInput.error_list.signupphone != null || registerInput.signupphone.length <= 10 ? 'is-invalid' : 'is-valid'}`} placeholder="Nhập số điện thoại..." />
+                                    <input type="text" onChange={handleInput} value={registerInput.signupphone} name="signupphone" id="signupphone" className={`form-control ${registerInput.error_list.signupphone != null || registerInput.signupphone.length < 10 ? 'is-invalid' : 'is-valid'}`} placeholder="Nhập số điện thoại..." />
                                     <span style={styleError}>{registerInput.error_list.signupphone}</span>
                                 </div>
 
@@ -322,12 +322,15 @@ function NavBar() {
                                     <div className='row'>
                                         <div className='col-md-6'>
                                             <i className="fa-solid fa-unlock"></i>
-                                            <input type="password" onChange={handleInput} value={registerInput.signuppassword} name="signuppassword" id="signuppassword" className="form-control" placeholder="Nhập mật khẩu..." />
+                                            <input type="password" onChange={handleInput} value={registerInput.signuppassword} name="signuppassword" id="signuppassword" className={`form-control ${registerInput.error_list.signuppassword != null || registerInput.signuppassword.length < 8 ? 'is-invalid' : 'is-valid'}`} placeholder="Nhập mật khẩu..." 
+                                         />
+                                    <span style={styleError}>{registerInput.error_list.signuppassword}</span>
                                         </div>
 
                                         <div className='col-md-6'>
                                             <i className="fa-solid fa-lock"></i>
-                                            <input type="password" onChange={handleInput} value={registerInput.signupcpassword} name="signupcpassword" id="signupcpassword" className="form-control" placeholder="Xác nhận mật khẩu..." />
+                                            <input type="password"  onChange={handleInput} value={registerInput.signupcpassword} name="signupcpassword" id="signupcpassword" className={`form-control ${registerInput.error_list.signupcpassword != null || registerInput.signupcpassword.length < 8 ? 'is-invalid' : registerInput.signupcpassword == registerInput.signuppassword ? 'is-valid' : 'is-invalid'}`}  placeholder="Xác nhận mật khẩu..."  />
+                                    <span style={styleError}>{registerInput.error_list.signupcpassword}</span>
                                         </div>
                                     </div>
                                 </div>
