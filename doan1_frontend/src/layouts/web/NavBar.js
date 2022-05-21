@@ -52,6 +52,15 @@ function NavBar() {
         });
     }
 
+    const loginFaceBook = (e) => {
+        e.preventDefault();
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.get(`/api/login-facebook`).then(res => {
+               
+            });
+        });
+    }
+
     const [loginInput, setLogin] = useState({
         email: '',
         password: '',
@@ -377,7 +386,7 @@ function NavBar() {
                             <div className='container mb-5'>
                                 <div className='row text-center'>
                                     <div className='col-md-12'>
-                                        <button className='btn' style={{borderColor: "GrayText"}} type='button'><img width={20} src='facebook.png' alt='Anh' /> Facebook</button>
+                                        <button onClick={loginFaceBook} className='btn' style={{borderColor: "GrayText"}} type='button'><img width={20} src='facebook.png' alt='Anh' /> Facebook</button>
                                     </div>
                                 </div>
                             </div>

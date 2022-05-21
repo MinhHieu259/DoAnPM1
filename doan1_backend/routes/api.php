@@ -23,6 +23,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+//Login facebook
+Route::get('/login-facebook',[AuthController::class, 'login_facebook']);
+Route::get('/callback-facebook',[AuthController::class, 'callback_facebook']);
+
+
 
 Route::middleware(['auth:sanctum', 'isApiAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {

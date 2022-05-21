@@ -75,7 +75,6 @@ function UserInfor() {
             });
     }
 
- 
     return (
         <div className='container'>
             <br />

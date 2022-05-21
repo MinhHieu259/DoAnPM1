@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {mainJS} from '../../js/main';
+import { mainJS } from '../../js/main';
 
 function Home() {
     useEffect(() => {
         mainJS()
-      }, []);
-      
+    }, []);
+
     return (
         <div>
             <div className="click-closed"></div>
             <div className="intro intro-carousel swiper position-relative">
                 <div className="swiper-wrapper">
-                    <div className="swiper-slide carousel-item-a intro-item bg-image"  style={{backgroundImage: `url(assets/img/slide-1.jpg)`}}>
+                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{ backgroundImage: `url(assets/img/slide-1.jpg)` }}>
                         <div className="overlay overlay-a"></div>
                         <div className="intro-content display-table">
                             <div className="table-cell">
@@ -37,7 +37,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{backgroundImage: `url(assets/img/slide-2.jpg)`}}>
+                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{ backgroundImage: `url(assets/img/slide-2.jpg)` }}>
                         <div className="overlay overlay-a"></div>
                         <div className="intro-content display-table">
                             <div className="table-cell">
@@ -62,7 +62,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{backgroundImage: `url(assets/img/slide-3.jpg)`}}>
+                    <div className="swiper-slide carousel-item-a intro-item bg-image" style={{ backgroundImage: `url(assets/img/slide-3.jpg)` }}>
                         <div className="overlay overlay-a"></div>
                         <div className="intro-content display-table">
                             <div className="table-cell">
@@ -794,7 +794,7 @@ function Home() {
             </main>
 
 
-           
+
         </div>
 
     );

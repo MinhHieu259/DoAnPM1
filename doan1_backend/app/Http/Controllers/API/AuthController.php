@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Social;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -18,7 +20,7 @@ class AuthController extends Controller
             'signupemail' => 'required|email|max:191|unique:users,email',
             'signuppassword' => 'required|min:8',
             'signupphone' => 'required|min:10',
-            'signupcpassword' => 'required|same:signuppassword'
+            'signupcpassword' => 'required|same:signuppassword',
         ], [
             'signupusername.required' => 'Bạn phải nhập Họ Tên',
             'signupusername.max' => 'Tối đa 191 ký tự',
@@ -31,7 +33,7 @@ class AuthController extends Controller
             'signupphone.required' => 'Bạn chưa nhập số điện thoại',
             'signupphone.min' => 'Số điện thoại ít nhất 10 ký tự',
             'signupcpassword.required' => 'Bạn chưa xác nhận mật khẩu',
-            'signupcpassword.same' => 'Mật khẩu không trùng khớp'
+            'signupcpassword.same' => 'Mật khẩu không trùng khớp',
         ]);
 
         if ($validator->fails()) {
@@ -43,7 +45,7 @@ class AuthController extends Controller
                 'name' => $request->signupusername,
                 'email' => $request->signupemail,
                 'password' => Hash::make($request->signuppassword),
-                'soDienThoai' => $request->signupphone
+                'soDienThoai' => $request->signupphone,
             ]);
 
             $token = $user->createToken($user->email . '_Token')->plainTextToken;
@@ -53,7 +55,7 @@ class AuthController extends Controller
                 'token' => $token,
                 'role' => $user->maPhanQuyen,
                 'id' => $user->id,
-                'message' => 'Đăng ký thành công'
+                'message' => 'Đăng ký thành công',
             ]);
         }
     }
@@ -65,7 +67,7 @@ class AuthController extends Controller
             'password' => 'required',
         ], [
             'email.required' => 'Email không được để trống',
-            'password.required' => 'Mật khẩu không được để trống'
+            'password.required' => 'Mật khẩu không được để trống',
         ]);
 
         if ($validator->fails()) {
@@ -77,15 +79,15 @@ class AuthController extends Controller
             if (!$user) {
                 return response()->json([
                     'status' => 401,
-                    'message' => 'Email không tồn tại trong hệ thống'
+                    'message' => 'Email không tồn tại trong hệ thống',
                 ]);
-            }else
+            } else
             if (!Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'status' => 401,
-                    'message' => 'Sai mật khẩu'
+                    'message' => 'Sai mật khẩu',
                 ]);
-            }else {
+            } else {
                 if ($user->maPhanQuyen == 1) { // Admin
                     $role = 'admin';
                     $token = $user->createToken($user->email . '_AdminToken', ['server:admin'])->plainTextToken;
@@ -93,7 +95,6 @@ class AuthController extends Controller
                     $role = '';
                     $token = $user->createToken($user->email . '_Token', [''])->plainTextToken;
                 }
-
 
                 return response()->json([
                     'status' => 200,
@@ -109,12 +110,82 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::user()->tokens->each(function($token, $key) {
+        Auth::user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
         return response()->json([
             'status' => 200,
-            'message' => 'Đăng xuất thành công'
+            'message' => 'Đăng xuất thành công',
         ]);
     }
+
+    public function login_facebook()
+    {
+       return Socialite::driver('facebook')->stateless()->redirect();
+    }
+
+    public function callback_facebook()
+    {
+        $provider = Socialite::driver('facebook')->stateless()->user();
+        $account = Social::where('provider', 'facebook')->where('provider_user_id', $provider->getId())->first();
+        if ($account) {
+            //login in vao trang quan tri
+            $account_name = User::where('id', $account->user)->first();
+
+            if ($account_name->maPhanQuyen == 1) { // Admin
+                $role = 'admin';
+                $token = $account_name->createToken($account_name->email . '_AdminToken', ['server:admin'])->plainTextToken;
+            } else {
+                $role = '';
+                $token = $account_name->createToken($account_name->email . '_Token', [''])->plainTextToken;
+            }
+            return response()->json([
+                'status' => 200,
+                'id' => $account_name->id,
+                'username' => $account_name->name,
+                'token' => $token,
+                'message' => 'Đăng nhập thành công',
+                'role' => $role,
+            ]);
+        } else {
+
+            $hieu = new Social([
+                'provider_user_id' => $provider->getId(),
+                'provider' => 'facebook',
+            ]);
+
+            $orang = User::where('email', $provider->getEmail())->first();
+
+            if (!$orang) {
+                $orang = User::create([
+                    'name' => $provider->getName(),
+                    'email' => $provider->getEmail(),
+                    'password' => '',
+                    'soDienThoai' => '',
+
+                ]);
+            }
+            $hieu->user()->associate($orang);
+            $hieu->save();
+
+            $account_name = User::where('id', $account->user)->first();
+
+            if ($account_name->maPhanQuyen == 1) { // Admin
+                $role = 'admin';
+                $token = $account_name->createToken($account_name->email . '_AdminToken', ['server:admin'])->plainTextToken;
+            } else {
+                $role = '';
+                $token = $account_name->createToken($account_name->email . '_Token', [''])->plainTextToken;
+            }
+            return response()->json([
+                'status' => 200,
+                'id' => $account_name->id,
+                'username' => $account_name->name,
+                'token' => $token,
+                'message' => 'Đăng nhập thành công',
+                'role' => $role,
+            ]);
+        }
+    }
+
 }
