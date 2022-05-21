@@ -10,6 +10,7 @@ function NavBar() {
         color: "red",
         fontStyle: "italic"
     };
+
     // Khai báo các trường dl
     const [registerInput, setRegister] = useState({
         signupusername: '',
@@ -308,7 +309,7 @@ function NavBar() {
                                 </div>
                                 <div className="md-form mb-2">
                                     <i className="fas fa-envelope prefix grey-text"></i>
-                                    <input type="" onChange={handleInput} value={registerInput.signupemail} name="signupemail" id="signupemail" className={`form-control ${registerInput.error_list.signupusername != null  ? 'is-invalid' : /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(registerInput.signupemail) ? 'is-valid' : 'is-invalid'}`} placeholder="Nhập email..." />
+                                    <input type="" onChange={handleInput} value={registerInput.signupemail} name="signupemail" id="signupemail" className={`form-control ${registerInput.error_list.signupusername != null ? 'is-invalid' : /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(registerInput.signupemail) ? 'is-valid' : 'is-invalid'}`} placeholder="Nhập email..." />
                                     <div className='text-success' style={{ fontStyle: 'italic' }}>* Email này dùng để đăng nhập tài khoản</div>
                                     <span style={styleError}>{registerInput.error_list.signupemail}</span>
                                 </div>
@@ -322,15 +323,15 @@ function NavBar() {
                                     <div className='row'>
                                         <div className='col-md-6'>
                                             <i className="fa-solid fa-unlock"></i>
-                                            <input type="password" onChange={handleInput} value={registerInput.signuppassword} name="signuppassword" id="signuppassword" className={`form-control ${registerInput.error_list.signuppassword != null || registerInput.signuppassword.length < 8 ? 'is-invalid' : 'is-valid'}`} placeholder="Nhập mật khẩu..." 
-                                         />
-                                    <span style={styleError}>{registerInput.error_list.signuppassword}</span>
+                                            <input type="password" onChange={handleInput} value={registerInput.signuppassword} name="signuppassword" id="signuppassword" className={`form-control ${registerInput.error_list.signuppassword != null || registerInput.signuppassword.length < 8 ? 'is-invalid' : 'is-valid'}`} placeholder="Nhập mật khẩu..."
+                                            />
+                                            <span style={styleError}>{registerInput.error_list.signuppassword}</span>
                                         </div>
 
                                         <div className='col-md-6'>
                                             <i className="fa-solid fa-lock"></i>
-                                            <input type="password"  onChange={handleInput} value={registerInput.signupcpassword} name="signupcpassword" id="signupcpassword" className={`form-control ${registerInput.error_list.signupcpassword != null || registerInput.signupcpassword.length < 8 ? 'is-invalid' : registerInput.signupcpassword == registerInput.signuppassword ? 'is-valid' : 'is-invalid'}`}  placeholder="Xác nhận mật khẩu..."  />
-                                    <span style={styleError}>{registerInput.error_list.signupcpassword}</span>
+                                            <input type="password" onChange={handleInput} value={registerInput.signupcpassword} name="signupcpassword" id="signupcpassword" className={`form-control ${registerInput.error_list.signupcpassword != null || registerInput.signupcpassword.length < 8 ? 'is-invalid' : registerInput.signupcpassword == registerInput.signuppassword ? 'is-valid' : 'is-invalid'}`} placeholder="Xác nhận mật khẩu..." />
+                                            <span style={styleError}>{registerInput.error_list.signupcpassword}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -370,8 +371,17 @@ function NavBar() {
 
                             </div>
                             <div className="modal-footer d-flex justify-content-center">
-                                <input type="submit" name="submit" value="Đăng nhập" className="btn btn-block btn-primary" />
+                                <input type="submit" name="submit" value="Đăng nhập" className="btn btn-danger" />
                             </div>
+                            <hr class="hr-text" data-content="Hoặc" />
+                            <div className='container mb-5'>
+                                <div className='row text-center'>
+                                    <div className='col-md-12'>
+                                        <button className='btn' style={{borderColor: "GrayText"}} type='button'><img width={20} src='facebook.png' alt='Anh' /> Facebook</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className='text-center'>Chưa là thành viên ? <Link className='text-danger' to='#'>Đăng ký</Link> tại đây</p>
                         </div>
                     </form>
                 </div>
