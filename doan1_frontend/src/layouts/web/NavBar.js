@@ -84,9 +84,10 @@ function NavBar() {
                     localStorage.setItem('auth_name', res.data.username);
                     localStorage.setItem('role', res.data.role);
                     localStorage.setItem('user_id', res.data.id);
-                    swal("Success", res.data.message, "success");
+                    window.location.reload();
                     if (res.data.role === 'admin') {
                         history.push('/admin/dashboard');
+                        window.location.reload();
                     } else {
                         history.push('/');
                     }

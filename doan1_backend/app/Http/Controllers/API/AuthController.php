@@ -121,12 +121,12 @@ class AuthController extends Controller
 
     public function login_facebook()
     {
-       return Socialite::driver('facebook')->stateless()->redirect();
+       return Socialite::driver('facebook')->redirect();
     }
 
     public function callback_facebook()
     {
-        $provider = Socialite::driver('facebook')->stateless()->user();
+        $provider = Socialite::driver('facebook')->user();
         $account = Social::where('provider', 'facebook')->where('provider_user_id', $provider->getId())->first();
         if ($account) {
             //login in vao trang quan tri
@@ -161,8 +161,7 @@ class AuthController extends Controller
                     'name' => $provider->getName(),
                     'email' => $provider->getEmail(),
                     'password' => '',
-                    'soDienThoai' => '',
-
+                    'soDienThoai' => ''
                 ]);
             }
             $hieu->user()->associate($orang);

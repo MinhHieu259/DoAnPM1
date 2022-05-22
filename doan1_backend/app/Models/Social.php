@@ -16,7 +16,7 @@ class Social extends Model
  	protected $table = 'social';
 
  	public function user(){
- 		return $this->belongsTo(User::class, 'user');
+ 	      return $this->belongsTo(User::class, 'user');
  	}
 
 }
