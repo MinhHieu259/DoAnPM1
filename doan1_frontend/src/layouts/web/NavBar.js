@@ -56,7 +56,7 @@ function NavBar() {
         e.preventDefault();
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.get(`/api/login-facebook`).then(res => {
-               
+
             });
         });
     }
@@ -144,16 +144,20 @@ function NavBar() {
         );
     } else {
         AuthButtons = (
-            <div className="nav-item dropdown">
-                <Link to="#" data-toggle="dropdown" className="nav-link dropdown-toggle user-action"> <img src={src} alt="anh" width={"30"} className="img-circle" /></Link>
-                <div className="dropdown-menu">
-                    <Link to="#" className="dropdown-item"><i className="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
-                    <Link to="/thongtincanhan" className="dropdown-item"><i className="fa-solid fa-user"></i> Thông tin cá nhân</Link>
-                    <Link to="#" className="dropdown-item"><i className="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
-                    <div className="dropdown-divider"></div>
-                    <Link to="#" onClick={logoutSubmit} className="dropdown-item"><i className="fa-solid fa-power-off"></i> Đăng xuất</Link>
-                </div>
-            </div>
+            <ul className='navbar-nav'>
+                <li className='nav-item'>
+                    <div className="nav-item dropdown">
+                        <Link to="#" data-toggle="dropdown" className="nav-link dropdown-toggle user-action"> <img src={src} alt="anh" width={"30"} className="img-circle" /></Link>
+                        <div className="dropdown-menu">
+                            <Link to="#" className="dropdown-item"><i className="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
+                            <Link to="/thongtincanhan" className="dropdown-item"><i className="fa-solid fa-user"></i> Thông tin cá nhân</Link>
+                            <Link to="#" className="dropdown-item"><i className="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
+                            <div className="dropdown-divider"></div>
+                            <Link to="#" onClick={logoutSubmit} className="dropdown-item"><i className="fa-solid fa-power-off"></i> Đăng xuất</Link>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         );
     }
 
@@ -271,30 +275,37 @@ function NavBar() {
                         <span></span>
                         <span></span>
                     </button>
-                    <Link className="navbar-brand text-brand" to="/">Estate<span className="color-b">Agency</span></Link>
 
-                    <div className="navbar-collapse collapse justify-content-center" id="navbarDefault">
-                        <ul className="navbar-nav">
 
+                    <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarDefault">
+                        <ul className="navbar-nav mr-auto">
+                            <li className='nav-item'>
+                                <Link className="navbar-brand text-brand" to="/">Bất<span className="text-danger"> Động Sản</span></Link>
+                            </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/">Trang chủ</Link>
+                                <Link className="nav-link " to="#">Nhà đất bán</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link " to="#">Nhà đất cho thuê</Link>
                             </li>
 
-                            <li className="nav-item">
-                                <Link className="nav-link " to="#">About</Link>
-                            </li>
+                        </ul>
+                        <ul className='navbar-nav ml-auto'>
                             {AuthButtons}
 
                             {adminButton}
                             <li>
-                                <button style={{ backgroundColor: "white", borderColor: "gray" }} className='btn'>Đăng tin</button>
+                                <Link to="/dang-tin-mua-ban-nha-dat" style={{ backgroundColor: "white", borderColor: "gray" }} className='btn'>Đăng tin</Link>
+                            </li>
+                            <li style={{ marginLeft: "25px" }}>
+                                <button type="button" className="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
+                                    <i className="bi bi-search"></i>
+                                </button>
                             </li>
                         </ul>
                     </div>
 
-                    <button type="button" className="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
-                        <i className="bi bi-search"></i>
-                    </button>
+
 
                 </div>
             </nav>
@@ -387,7 +398,7 @@ function NavBar() {
                             <div className='container mb-5'>
                                 <div className='row text-center'>
                                     <div className='col-md-12'>
-                                        <button onClick={loginFaceBook} className='btn' style={{borderColor: "GrayText"}} type='button'><img width={20} src='facebook.png' alt='Anh' /> Facebook</button>
+                                        <button onClick={loginFaceBook} className='btn' style={{ borderColor: "GrayText" }} type='button'><img width={20} src='facebook.png' alt='Anh' /> Facebook</button>
                                     </div>
                                 </div>
                             </div>
