@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('facebook', 255)->nullable();
+        Schema::create('quanHuyen', function (Blueprint $table) {
+            $table->id();
+            $table->string('tenQuanHuyen');
+            $table->unsignedBigInteger('maTinhThanh');
+            $table->timestamps();
+            $table->foreign('maTinhThanh')->references('id')->on('tinhThanh')->onDelete('cascade');
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('facebook');
-        });
+        Schema::dropIfExists('quanHuyen');
     }
 };

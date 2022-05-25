@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('giaodich', function (Blueprint $table) {
+        Schema::create('xaPhuong', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("maTkKhachHang");
-            $table->double("donGia");
-            $table->string("noiDung", 255)->default("noi dung giao dich");
+            $table->string('tenXaPhuong');
+            $table->unsignedBigInteger('maQuanHuyen');
             $table->timestamps();
-            $table->tinyInteger("trangThai")->default(1);   
-            $table->foreign('maTkKhachHang')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('maQuanHuyen')->references('id')->on('quanHuyen')->onDelete('cascade');
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('giaodich');
+        Schema::dropIfExists('xaPhuong');
     }
 };
