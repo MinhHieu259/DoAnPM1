@@ -394,7 +394,7 @@ function NavBar() {
                             <div className="modal-footer d-flex justify-content-center">
                                 <input type="submit" name="submit" value="Đăng nhập" className="btn btn-danger" />
                             </div>
-                            <hr class="hr-text" data-content="Hoặc" />
+                            <hr className="hr-text" data-content="Hoặc" />
                             <div className='container mb-5'>
                                 <div className='row text-center'>
                                     <div className='col-md-12'>

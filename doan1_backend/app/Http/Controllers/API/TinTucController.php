@@ -65,7 +65,8 @@ class TinTucController extends Controller
 
             $batDongSan->hinhanh()->createMany([
                 [
-                    'hinhAnh' => $request->input('hinhAnh')
+                    'maBatDongSan' => $batDongSan->id,
+                    'hinhAnh' => 'hinhanh123'
                 ]
             ]);
            

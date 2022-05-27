@@ -96,4 +96,13 @@ class HinhThucController extends Controller
             ]);
         }
     }
+
+    public function get_all_hinhthuc()
+    {
+        $hinhThuc = HinhThuc::all();
+        return response()->json([
+            'status' => 200,
+            'hinhThuc' => $hinhThuc
+        ]);
+    }
 }

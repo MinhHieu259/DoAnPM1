@@ -40,6 +40,7 @@ function UserInfor() {
         e.persist();
         setUserInfor({ ...inforInput, [e.target.name]: e.target.value });
     }
+
     const handleImage = (e) => {
         e.persist();
         setPicture({

@@ -23,8 +23,8 @@ return new class extends Migration
             $table->date("ngayBatDau")->nullable();
             $table->date("ngayKetThuc")->nullable();
             $table->string("diaChi", 255);
-            $table->double("dienTich")->default(0);
-            $table->string("maDonViDt", 10)->default("m2");
+            $table->double("dienTich")->default(0)->nullable();
+            $table->string("maDonViDt", 10)->default("m2")->nullable();
             $table->double("giaTien");
             $table->string("maDonViGiaTien", 10)->default('VND');
             $table->text("moTa")->default('')->nullable();

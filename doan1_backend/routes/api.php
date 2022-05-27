@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DiaChiController;
+use App\Http\Controllers\API\HangMucController;
 use App\Http\Controllers\API\HinhThucController;
 use App\Http\Controllers\API\LoaiTinController;
 use App\Http\Controllers\API\TinTucController;
@@ -27,7 +29,24 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('/login-facebook',[AuthController::class, 'login_facebook']);
 Route::get('/callback-facebook',[AuthController::class, 'callback_facebook']);
 
+// get Hình thức
+Route::get('/get-all-hinhthuc',[HinhThucController::class, 'get_all_hinhthuc']);
 
+// get Hạng mục
+Route::get('/get-all-hangmuc',[HangMucController::class, 'get_all_hangmuc']);
+
+// get all tỉnh thành
+Route::get('/get-all-tinhthanh',[DiaChiController::class, 'get_all_tinh']);
+Route::get('/get-ten-tinh/{id_tinh}',[DiaChiController::class, 'get_ten_tinh']);
+
+
+//get quận huyện theo tỉnh
+Route::get('/get-quanhuyen/{id_tinh}',[DiaChiController::class, 'get_quanhuyenFromTinh']);
+Route::get('/get-ten-quan/{id_quan}',[DiaChiController::class, 'get_ten_quan']);
+
+//get phường xã theo quận huyện
+Route::get('/get-phuongxa/{id_quan}',[DiaChiController::class, 'get_phuongXaFromQuan']);
+Route::get('/get-ten-xa/{id_xa}',[DiaChiController::class, 'get_ten_xa']);
 
 Route::middleware(['auth:sanctum', 'isApiAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {
