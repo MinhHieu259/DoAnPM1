@@ -35,4 +35,8 @@ class BatDongSan extends Model
         'noiThat',
         'trangThai'
     ];
+
+    public function hinhanh(){
+        return $this->hasMany(HinhAnh::class, 'id');
+    }
 }

@@ -14,4 +14,8 @@ class HinhAnh extends Model
         'maBatDongSan',
         'hinhAnh'
     ];
+
+    public function batDongSan(){
+        return $this->belongsTo(BatDongSan::class, 'id');
+    }
 }
