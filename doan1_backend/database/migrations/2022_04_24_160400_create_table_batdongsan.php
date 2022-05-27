@@ -16,16 +16,15 @@ return new class extends Migration
         Schema::create('batdongsan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("maTkKhachHang");
-            $table->unsignedBigInteger("maTkNguoiDuyet");
+            $table->unsignedBigInteger("maTkNguoiDuyet")->nullable();
             $table->unsignedBigInteger("maHangMuc");
             $table->unsignedBigInteger("maHinhThuc");
-            $table->unsignedBigInteger("maLoaiTinDang");
             $table->string("tieuDe", 255);
             $table->date("ngayBatDau")->nullable();
             $table->date("ngayKetThuc")->nullable();
             $table->string("diaChi", 255);
             $table->double("dienTich")->default(0);
-            $table->string("maDonViDt", 10)->default("m3");
+            $table->string("maDonViDt", 10)->default("m2");
             $table->double("giaTien");
             $table->string("maDonViGiaTien", 10)->default('VND');
             $table->text("moTa")->default('');
@@ -34,15 +33,19 @@ return new class extends Migration
             $table->integer("soPhongVeSinh")->default(0);
             $table->integer("soTang")->default(1);
             $table->string("huongNha", 255)->nullable();
+            $table->string("huongBanCong", 255)->nullable();
+            $table->string("duongVao", 255)->nullable();
             $table->string("matTien", 255)->nullable();
             $table->string("noiThat", 255)->default('');
             $table->tinyInteger("trangThai")->default(1);
+            $table->string('tenLienHe')->nullable();
+            $table->string('soDienThoai');
+            $table->string('diaChiLienHe')->nullable();
+            $table->string('emailLienHe')->nullable();
             $table->timestamps();
             $table->foreign('maTkKhachHang')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('maTkNguoiDuyet')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('maHangMuc')->references('id')->on('hangmuc')->onDelete('cascade');
             $table->foreign('maHinhThuc')->references('id')->on('hinhthuc')->onDelete('cascade');
-            $table->foreign('maLoaiTinDang')->references('id')->on('loaitindang')->onDelete('cascade');
         });
     }
 

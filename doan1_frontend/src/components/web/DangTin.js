@@ -25,7 +25,7 @@ function DangTin() {
 
   
     const handleRadio = (e) => {
-        e.preventDefault();
+        e.persist();
         setSelectPhapLy(e.currentTarget.value);
     }
 
@@ -107,29 +107,31 @@ function DangTin() {
                                                     <div className="row">
                                                         <div className="col-md-6">
                                                             <p>Tỉnh thành phố <span className="text-danger">*</span></p>
-                                                            <select className="form-control">
+                                                            <select name="tinh" className="form-control">
                                                                 <option>Chọn</option>
+                                                                <option>Đà nẵng</option>
+                                                                <option>Thừa Thiên Huế</option>
                                                             </select>
                                                         </div>
 
                                                         <div className="col-md-6">
                                                             <p>Quận huyện <span className="text-danger">*</span></p>
-                                                            <select className="form-control">
+                                                            <select name="quan" className="form-control">
                                                                 <option>Chọn</option>
+                                                                <option>Hải Châu</option>
+                                                                <option>Phong Điền</option>
                                                             </select>
                                                         </div>
 
                                                         <div className="col-md-12">
                                                             <p>Phường / Xã</p>
-                                                            <select className="form-control">
+                                                            <select name="phuong" className="form-control">
                                                                 <option>Chọn</option>
+                                                                <option>Thanh Bình</option>
+                                                                <option>Phong Thu</option>
                                                             </select>
                                                         </div>
-
-                                                        <div className="col-md-12">
-                                                            <p>Dự án</p>
-                                                            <input type="text" className="form-control" />
-                                                        </div>
+        
 
                                                         <div className="col-md-12">
                                                             <p>Địa chỉ hiển thị trên tin đăng</p>
