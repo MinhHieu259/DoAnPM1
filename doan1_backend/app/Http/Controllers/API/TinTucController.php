@@ -20,7 +20,8 @@ class TinTucController extends Controller
             'dienTich' => 'required',
             'giaTien' => 'required',
             'thongTinPhapLy' => 'required',
-            'huongNha' => 'required'
+            'huongNha' => 'required',
+            'images' => 'required'
         ], [
             'tenHinhThuc.required' => 'Tên hình thức không được để trống',
             'loaiBatDongSan.required' => 'Loại bất động sản không được để trống',
@@ -30,7 +31,8 @@ class TinTucController extends Controller
             'dienTich.required' => 'Diện tích không được để trống',
             'giaTien.required' => 'Giá tiền không được để trống',
             'thongTinPhapLy.required' => 'Thông tin pháp lý không được để trống',
-            'huongNha.required' => 'Hướng nhà không được để trống'
+            'huongNha.required' => 'Hướng nhà không được để trống',
+            'images.required' => 'Hình ảnh không được để trống'
         ]);
 
         if($validator->fails()){
@@ -63,14 +65,23 @@ class TinTucController extends Controller
             $batDongSan->emailLienHe = $request->input('emailLienHe');
             $batDongSan->save();
 
-            $batDongSan->hinhanh()->createMany([
-                [
-                    'maBatDongSan' => $batDongSan->id,
-                    'hinhAnh' => 'hinhanh123'
-                ]
-            ]);
-           
-
+            if($request->hasFile('images'))
+            {
+            //    foreach($request->file('images') as $image)
+            //    {
+                $file = $request->file('images');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time().'.'.$extension;
+                $file->move('uploads/batdongsan/', $filename);
+                
+                   $batDongSan->hinhanh()->createMany([
+                    [
+                        'maBatDongSan' => $batDongSan->id,
+                        'hinhAnh' => 'uploads/batdongsan/'.$filename
+                    ]
+                ]);
+            //    }
+            }
 
             return response()->json([
                 'status' => 200,

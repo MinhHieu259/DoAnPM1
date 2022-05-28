@@ -175,6 +175,20 @@ function NavBar() {
         );
     }
 
+    var dangTinButton = '';
+    if (localStorage.getItem('auth_token')) {
+        dangTinButton = (
+            <li>
+            <Link to="/dang-tin-mua-ban-nha-dat" style={{ backgroundColor: "white", borderColor: "gray" }} className='btn'>Đăng tin</Link>
+        </li>
+        );
+    } else if (localStorage.getItem('role') === '' || localStorage.getItem('role') == null) {
+        dangTinButton = (
+            <li className="nav-item">
+            </li>
+        );
+    }
+
     return (
         <div>
             <div className="box-collapse">
@@ -294,9 +308,8 @@ function NavBar() {
                             {AuthButtons}
 
                             {adminButton}
-                            <li>
-                                <Link to="/dang-tin-mua-ban-nha-dat" style={{ backgroundColor: "white", borderColor: "gray" }} className='btn'>Đăng tin</Link>
-                            </li>
+                            {dangTinButton}
+                            
                             <li style={{ marginLeft: "25px" }}>
                                 <button type="button" className="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
                                     <i className="bi bi-search"></i>
