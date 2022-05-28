@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\BatDongSan;
+use App\Models\HinhAnh;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -67,20 +68,19 @@ class TinTucController extends Controller
 
             if($request->hasFile('images'))
             {
-            //    foreach($request->file('images') as $image)
-            //    {
-                $file = $request->file('images');
+               foreach($request->file('images') as  $image)
+               {
+                $file = $image;
                 $extension = $file->getClientOriginalExtension();
-                $filename = time().'.'.$extension;
+                $filename = $file->getClientOriginalName().time().'.'.$extension;
                 $file->move('uploads/batdongsan/', $filename);
                 
-                   $batDongSan->hinhanh()->createMany([
-                    [
-                        'maBatDongSan' => $batDongSan->id,
-                        'hinhAnh' => 'uploads/batdongsan/'.$filename
-                    ]
-                ]);
-            //    }
+                $hinhAnh = new HinhAnh();
+                $hinhAnh->maBatDongSan = $batDongSan->id;
+                $hinhAnh->hinhAnh = 'uploads/batdongsan/'.$filename;
+                $hinhAnh->save();
+                   
+               }
             }
 
             return response()->json([

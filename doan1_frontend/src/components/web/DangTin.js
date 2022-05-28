@@ -51,12 +51,12 @@ function DangTin() {
     const [imagesList, setImagesList] = useState([]);
 
     const handleImage = (e) => {
-        if (e.target.files) {
-            setImagesList({images: e.target.files[0] });
+        if (e.target.files) {  
+            setImagesList([...e.target.files])   
         }
-        console.log("Update slider images", imagesList.images);
       };
 
+      console.log(imagesList);
     const [inforUser, setUserInfor] = useState({
         name: '',
         ngaySinh: '',
@@ -208,7 +208,12 @@ function DangTin() {
         formData.append('soDienThoai', batDongSanInput.sdt);
         formData.append('diaChiLienHe', batDongSanInput.diachilienhe);
         formData.append('emailLienHe', batDongSanInput.email);
-        formData.append('images', imagesList.images);
+        imagesList.forEach((image_file) => {
+            formData.append('images[]', image_file);
+        })
+       
+      
+       
 
         axios.post(`/api/dang-tin-ban`, formData).then(res => {
             if(res.data.status === 200){
@@ -522,7 +527,7 @@ function DangTin() {
                                                 <div className="card-body">
                                                     <h3>Hình ảnh & Video</h3>
                                                     <p>Mỗi hình ảnh kích thước tối thiểu 400x400, tối đa 15MB</p>
-                                                    <input multiple type='file' onChange={handleImage} />
+                                                    <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
                                                 </div>
                                             </div>
 
