@@ -34,6 +34,7 @@ Route::get('/get-all-hinhthuc',[HinhThucController::class, 'get_all_hinhthuc']);
 
 // get Hạng mục
 Route::get('/get-all-hangmuc',[HangMucController::class, 'get_all_hangmuc']);
+Route::get('/get-hangmuc-by-id/{id}',[HangMucController::class, 'get_hangmuc_byId']);
 
 // get all tỉnh thành
 Route::get('/get-all-tinhthanh',[DiaChiController::class, 'get_all_tinh']);

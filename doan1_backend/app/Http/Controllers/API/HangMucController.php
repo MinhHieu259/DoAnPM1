@@ -16,4 +16,13 @@ class HangMucController extends Controller
             'hangMuc' => $hangMuc
         ]);
     }
+
+    public function get_hangmuc_byId($id)
+    {
+        $hangMuc = HangMuc::find($id);
+        return response()->json([
+            'status' => 200,
+            'hangMuc' => $hangMuc
+        ]);
+    }
 }

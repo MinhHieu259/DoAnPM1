@@ -9,33 +9,6 @@ function DangTin() {
         'Hợp đồng mua bán',
         'Đang chờ sổ'
     ]);
-
-    const [batDongSanInput, setBatDongSan] = useState({
-        phaply: '',
-        hinhthuc: '',
-        hangmuc: '',
-        tinh: '',
-        quan: '',
-        phuong: '',
-        diaChiTmp: '',
-        tieude : '',
-        mota: '',
-        dientich: '',
-        gia : '',
-        phongngu : '',
-        phongtam : '',
-        sotang : '',
-        huongnha : '',
-        bancong : '',
-        duongvao : '',
-        mattien : '',
-        noithat : '',
-        tenlienhe : '',
-        sdt : '',
-        diachilienhe : '',
-        email : ''
-    });
-
     const [hinhThucList, setHinhThucList] = useState([])
 
     const [hangMucList, setHangMucList] = useState([])
@@ -50,24 +23,11 @@ function DangTin() {
 
     const [imagesList, setImagesList] = useState([]);
 
-    const handleImage = (e) => {
-        if (e.target.files) {  
-            setImagesList([...e.target.files])   
-        }
-      };
-
-      console.log(imagesList);
-    const [inforUser, setUserInfor] = useState({
-        name: '',
-        ngaySinh: '',
-        diaChi: '',
-        soDienThoai: '',
-        email: '',
-        cmnd: '',
-        facebook: '',
-        gioiTinh: ''
+    const [loaiBDS, setLoaiBDS] = useState({
+        hangmuc: '1'
     });
-    const [{ alt, src }, setPicture] = useState([]);
+
+    const [nhaHayDat, setNhaHayDat] = useState();
 
     useEffect(() => {
         axios.get(`api/get-all-hinhthuc`).then(res => {
@@ -104,6 +64,67 @@ function DangTin() {
         setdiaChiTmp(diaChiTmp)
     }, []);
 
+
+    const [batDongSanInput, setBatDongSan] = useState({
+        phaply: '',
+        hinhthuc: '',
+        tinh: '',
+        quan: '',
+        phuong: '',
+        diaChiTmp: '',
+        tieude: '',
+        mota: '',
+        dientich: '',
+        gia: '',
+        phongngu: '',
+        phongtam: '',
+        sotang: '',
+        huongnha: '',
+        bancong: '',
+        duongvao: '',
+        mattien: '',
+        noithat: '',
+        tenlienhe: '',
+        sdt: '',
+        diachilienhe: '',
+        email: ''
+    });
+
+
+    const [imagePreview, setImagePreview] = useState([])
+    const handleImage = (e) => {
+        if (e.target.files) {
+            setImagesList([...e.target.files])
+        }
+    };
+    console.log("list "+ imagesList)
+
+   
+
+    useEffect(() => {
+        setImagePreview([]);
+        imagesList.forEach((image_file) => {
+            setImagePreview(arr => [...arr, URL.createObjectURL(image_file)])
+        })
+    }, [imagesList])
+    console.log("preview "+ imagePreview)
+  
+
+
+    const [inforUser, setUserInfor] = useState({
+        name: '',
+        ngaySinh: '',
+        diaChi: '',
+        soDienThoai: '',
+        email: '',
+        cmnd: '',
+        facebook: '',
+        gioiTinh: ''
+    });
+    const [{ alt, src }, setPicture] = useState([]);
+
+
+
     useEffect(() => {
         if (batDongSanInput.tinh != '') {
             axios.get(`api/get-quanhuyen/${batDongSanInput.tinh}`).then(res => {
@@ -137,7 +158,7 @@ function DangTin() {
                     }
                 });
             }
-    
+
         }
     }, [batDongSanInput.quan]);
 
@@ -150,7 +171,7 @@ function DangTin() {
             });
         }
     }, [batDongSanInput.phuong]);
-    
+
 
     const [phapLyInput, setInsertPhapLy] = useState([])
     const [diaChi, setDiaChi] = useState()
@@ -165,17 +186,34 @@ function DangTin() {
     }
 
     const handleDiaChi = (e) => {
-       e.persist();
-       setdiaChiTmp(e.currentTarget.value)
-       setDiaChi(diaChiTmp + ', ' + tenXa + ', ' + tenQuan + ', ' + tenTinh)
+        e.persist();
+        setdiaChiTmp(e.currentTarget.value)
+        setDiaChi(diaChiTmp + ', ' + tenXa + ', ' + tenQuan + ', ' + tenTinh)
     }
 
 
     const handleInputBDS = (e) => {
         e.persist();
-        setBatDongSan({ ...batDongSanInput, [e.target.name]: e.target.value }); 
+        setBatDongSan({ ...batDongSanInput, [e.target.name]: e.target.value });
         setDiaChi(diaChiTmp + ', ' + tenXa + ', ' + tenQuan + ', ' + tenTinh)
     }
+
+    const handleInputLoaiBDS = (e) => {
+        e.persist();
+        setLoaiBDS({ ...loaiBDS, [e.target.name]: e.target.value });
+    }
+    
+
+    useEffect(() => {
+        axios.get(`api/get-hangmuc-by-id/${loaiBDS.hangmuc}`).then(res => {
+            if (res.data.status === 200) {
+                setNhaHayDat(res.data.hangMuc.maLoaiHangMuc);
+            }
+        });
+    }, [loaiBDS.hangmuc])
+
+   
+
 
 
     // Xử lý thêm pháp lý vào mảng
@@ -189,7 +227,7 @@ function DangTin() {
         const formData = new FormData();
         formData.append('maTkKhachHang', localStorage.getItem('user_id'));
         formData.append('tenHinhThuc', batDongSanInput.hinhthuc);
-        formData.append('loaiBatDongSan', batDongSanInput.hangmuc);
+        formData.append('loaiBatDongSan', loaiBDS.hangmuc);
         formData.append('diaChi', diaChi);
         formData.append('tieuDe', batDongSanInput.tieude);
         formData.append('moTa', batDongSanInput.mota);
@@ -211,14 +249,15 @@ function DangTin() {
         imagesList.forEach((image_file) => {
             formData.append('images[]', image_file);
         })
-       
-      
-       
+
+
+
 
         axios.post(`/api/dang-tin-ban`, formData).then(res => {
-            if(res.data.status === 200){
+            if (res.data.status === 200) {
                 swal("Thành công", res.data.message, "success");
-                setBatDongSan({...batDongSanInput,
+                setBatDongSan({
+                    ...batDongSanInput,
                     phaply: '',
                     hinhthuc: '',
                     hangmuc: '',
@@ -226,31 +265,558 @@ function DangTin() {
                     quan: '',
                     phuong: '',
                     diaChiTmp: '',
-                    tieude : '',
+                    tieude: '',
                     mota: '',
                     dientich: '',
-                    gia : '',
-                    phongngu : '',
-                    phongtam : '',
-                    sotang : '',
-                    huongnha : '',
-                    bancong : '',
-                    duongvao : '',
-                    mattien : '',
-                    noithat : '',
-                    tenlienhe : '',
-                    sdt : '',
-                    diachilienhe : '',
-                    email : ''
+                    gia: '',
+                    phongngu: '',
+                    phongtam: '',
+                    sotang: '',
+                    huongnha: '',
+                    bancong: '',
+                    duongvao: '',
+                    mattien: '',
+                    noithat: '',
+                    tenlienhe: '',
+                    sdt: '',
+                    diachilienhe: '',
+                    email: ''
                 });
+                setdiaChiTmp('');
+                setImagesList([]);
                 //setError([]);
-            } else if(res.data.status === 422) {
+            } else if (res.data.status === 422) {
                 swal("Dữ liệu không được để trống", "error");
                 //setError(res.data.errors);
             }
         });
     }
-    
+
+    var areaInputChange = '';
+    if (nhaHayDat == '1') {
+        areaInputChange = (
+            <div>
+                <form onSubmit={subMitBDS} encType='multipart/form-data'>
+                    <div className="tab-content">
+                        <div className="tab-pane fade show active" id="ban">
+                            <div className="container">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <p className="font-weight-bold">Chọn hình thức <span className="text-danger">*</span></p>
+                                        <div className="row">
+                                            {hinhThucList.map((hinhThuc) => {
+                                                return (
+                                                    <div className="col-md-6" key={hinhThuc.id}>
+                                                        <input checked={batDongSanInput.hinhthuc == hinhThuc.id} onChange={handleInputBDS} type="radio" id="html" name="hinhthuc" value={hinhThuc.id} />
+                                                        <label htmlFor="html"> {hinhThuc.tenHinhThuc}</label>
+                                                    </div>
+                                                )
+                                            })}
+
+                                        </div>
+                                        <p className="font-weight-bold">Thông tin cơ bản</p>
+                                        <p>Loại bất động sản <span className="text-danger">*</span></p>
+                                        <select name="hangmuc" value={loaiBDS.hangmuc} className="form-control mb-3" onChange={handleInputLoaiBDS}>
+                                            {hangMucList.map((hangMuc) => {
+                                                return (
+                                                    <option key={hangMuc.id} value={hangMuc.id}>{hangMuc.tieuDe}</option>
+                                                )
+                                            })}
+
+                                        </select>
+                                        <p className="font-weight-bold">Địa chỉ</p>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <p>Tỉnh thành phố <span className="text-danger">*</span></p>
+                                                <select onChange={handleInputBDS} value={batDongSanInput.tinh} name="tinh" className="form-control">
+                                                    <option>--- Chọn tỉnh thành ---</option>
+                                                    {tinhThanhList.map((tinhThanh) => {
+                                                        return (
+                                                            <option key={tinhThanh.id} value={tinhThanh.id}>{tinhThanh.tenTinhThanh}</option>
+                                                        );
+                                                    })}
+
+
+                                                </select>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <p>Quận huyện <span className="text-danger">*</span></p>
+                                                <select onChange={handleInputBDS} name="quan" value={batDongSanInput.quan} className="form-control">
+                                                    <option>--- Chọn quận huyện ---</option>
+                                                    {quanHuyenList.map((quanHuyen) => {
+                                                        return (
+                                                            <option key={quanHuyen.id} value={quanHuyen.id}>{quanHuyen.tenQuanHuyen}</option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            </div>
+
+                                            <div className="col-md-12">
+                                                <p>Phường / Xã</p>
+                                                <select onChange={handleInputBDS} value={batDongSanInput.phuong} name="phuong" className="form-control">
+                                                    <option>-- Chọn phường xã ---</option>
+                                                    {xaPhuongList.map((xaPhuong) => {
+                                                        return (
+                                                            <option key={xaPhuong.id} value={xaPhuong.id}>{xaPhuong.tenXaPhuong}</option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            </div>
+
+
+                                            <div className="col-md-12">
+                                                <p>Địa chỉ hiển thị trên tin đăng</p>
+                                                <input type="text" onChange={handleDiaChi} value={diaChiTmp} className="form-control" placeholder="Nhập địa chỉ" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div className="card">
+                                    <div className="card-body">
+                                        <p className="font-weight-bold">Thông tin bài viết</p>
+                                        <p>Tiêu đề <span className="text-danger">*</span></p>
+                                        <input type="text" name="tieude" onChange={handleInputBDS} value={batDongSanInput.tieude} className="form-control" />
+
+                                        <p>Mô tả <span className="text-danger">*</span></p>
+                                        <input type="text" name="mota" onChange={handleInputBDS} value={batDongSanInput.mota} className="form-control" />
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div className="card">
+                                    <div className="card-body">
+                                        <p className="font-weight-bold">Thông tin bất động sản</p>
+                                        <p>Diện tích <span className="text-danger">*</span></p>
+                                        <input type="text" name="dientich" onChange={handleInputBDS} value={batDongSanInput.dientich} className="form-control" />
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <p>Mức giá <span className="text-danger">*</span></p>
+                                                <input type="text" name="gia" onChange={handleInputBDS} value={batDongSanInput.gia} className="form-control" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <p>Đơn vị <span className="text-danger">*</span></p>
+                                                <select className="form-control">
+                                                    <option>VND</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <p className="font-weight-bold">Giấy tờ pháp lý</p>
+                                        <div className="row">
+
+                                            {
+                                                phapLy.map((item, idx) => {
+                                                    return (<div className="col-md-6" key={idx}>
+                                                        <input checked={batDongSanInput.phaply == item} onChange={handleInputBDS} type="radio" name="phaply" value={item} />
+                                                        <label htmlFor="html">{item}</label>
+                                                    </div>)
+                                                })
+                                            }
+
+                                            <div className="col-md-3">
+                                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                    Thêm
+                                                </button>
+                                            </div>
+
+                                            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div className="modal-dialog" role="document">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title" id="exampleModalLabel">Thêm giấy tờ pháp lý</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            <p className="font-weight-bold">Giấy tờ pháp lý <span className="text-danger">*</span></p>
+                                                            <input type="text" onChange={handleInputPhapLy} value={phapLyInput} className="form-control" placeholder="Nhập giấy tờ pháp lý" />
+                                                        </div>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                                                            <button onClick={submitPhapLy} type="button" className="btn btn-primary">Thêm</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <br />
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <span>Số phòng ngủ</span>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <input className="form-control" type='number' name="phongngu" onChange={handleInputBDS} value={batDongSanInput.phongngu} />
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <span>Số phòng tắm, vệ sinh</span>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <input className="form-control" type='number' name="phongtam" onChange={handleInputBDS} value={batDongSanInput.phongtam} />
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <span>Số tầng</span>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <input className="form-control" type='number' name="sotang" onChange={handleInputBDS} value={batDongSanInput.sotang} />
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <span className="font-weight-bold">Mô tả bổ sung</span>
+                                            </div>
+                                            <div className="col-md-9">
+                                                <hr />
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <p>Hướng nhà</p>
+                                                <input placeholder="Chọn hướng" className="form-control" type='text' name="huongnha" onChange={handleInputBDS} value={batDongSanInput.huongnha} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <p>Hướng ban công</p>
+                                                <input className="form-control" placeholder="Chọn hướng" type='text' name="bancong" onChange={handleInputBDS} value={batDongSanInput.bancong} />
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <p>Đường vào</p>
+                                                <input placeholder="Nhập số mét" className="form-control" type='text' name="duongvao" onChange={handleInputBDS} value={batDongSanInput.duongvao} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <p>Mặt tiền</p>
+                                                <input placeholder="Nhập số mét" className="form-control" type='text' name="mattien" onChange={handleInputBDS} value={batDongSanInput.mattien} />
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <p>Nội thất</p>
+                                                <input type="text" className="form-control" name="noithat" onChange={handleInputBDS} value={batDongSanInput.noithat} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h3>Hình ảnh & Video</h3>
+                                        <p>Mỗi hình ảnh kích thước tối thiểu 400x400, tối đa 15MB</p>
+                                        <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
+                                        {imagePreview.map((imageSrc, idx) => {
+                                            return (
+                                                <img key={idx} src={imageSrc} width={150} height={100} />
+                                            )
+                                        })}
+                                        
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h3>Thông tin liên hệ</h3>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <p>Tên liên hệ <span style={{ color: "red" }}>*</span></p>
+                                                <input type='text' className="form-control" name="tenlienhe" onChange={handleInputBDS} value={batDongSanInput.tenlienhe} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <p>Số điện thoại <span style={{ color: "red" }}>*</span></p>
+                                                <input type='text' className="form-control" name="sdt" onChange={handleInputBDS} value={batDongSanInput.sdt} />
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <p>Địa chỉ</p>
+                                                <input type='text' className="form-control" name="diachilienhe" onChange={handleInputBDS} value={batDongSanInput.diachilienhe} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <p>Email</p>
+                                                <input type='text' className="form-control" name="email" onChange={handleInputBDS} value={batDongSanInput.email} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="container text-center" style={{ backgroundColor: "white" }}>
+                                    <button type="submit" className="btn btn-danger">Đăng tin</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        );
+
+    } else {
+        areaInputChange = (
+            <form onSubmit={subMitBDS} encType='multipart/form-data'>
+                <div className="tab-content">
+                    <div className="tab-pane fade show active" id="ban">
+                        <div className="container">
+                            <div className="card">
+                                <div className="card-body">
+                                    <p className="font-weight-bold">Chọn hình thức <span className="text-danger">*</span></p>
+                                    <div className="row">
+                                        {hinhThucList.map((hinhThuc) => {
+                                            return (
+                                                <div className="col-md-6" key={hinhThuc.id}>
+                                                    <input checked={batDongSanInput.hinhthuc == hinhThuc.id} onChange={handleInputBDS} type="radio" id="html" name="hinhthuc" value={hinhThuc.id} />
+                                                    <label htmlFor="html"> {hinhThuc.tenHinhThuc}</label>
+                                                </div>
+                                            )
+                                        })}
+
+                                    </div>
+                                    <p className="font-weight-bold">Thông tin cơ bản</p>
+                                    <p>Loại bất động sản <span className="text-danger">*</span></p>
+                                    <select name="hangmuc" value={loaiBDS.hangmuc} className="form-control mb-3" onChange={handleInputLoaiBDS}>
+                                        {hangMucList.map((hangMuc) => {
+                                            return (
+                                                <option key={hangMuc.id} value={hangMuc.id}>{hangMuc.tieuDe}</option>
+                                            )
+                                        })}
+
+                                    </select>
+                                    <p className="font-weight-bold">Địa chỉ</p>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <p>Tỉnh thành phố <span className="text-danger">*</span></p>
+                                            <select onChange={handleInputBDS} value={batDongSanInput.tinh} name="tinh" className="form-control">
+                                                <option>--- Chọn tỉnh thành ---</option>
+                                                {tinhThanhList.map((tinhThanh) => {
+                                                    return (
+                                                        <option key={tinhThanh.id} value={tinhThanh.id}>{tinhThanh.tenTinhThanh}</option>
+                                                    );
+                                                })}
+
+
+                                            </select>
+                                        </div>
+
+                                        <div className="col-md-6">
+                                            <p>Quận huyện <span className="text-danger">*</span></p>
+                                            <select onChange={handleInputBDS} name="quan" value={batDongSanInput.quan} className="form-control">
+                                                <option>--- Chọn quận huyện ---</option>
+                                                {quanHuyenList.map((quanHuyen) => {
+                                                    return (
+                                                        <option key={quanHuyen.id} value={quanHuyen.id}>{quanHuyen.tenQuanHuyen}</option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
+
+                                        <div className="col-md-12">
+                                            <p>Phường / Xã</p>
+                                            <select onChange={handleInputBDS} value={batDongSanInput.phuong} name="phuong" className="form-control">
+                                                <option>-- Chọn phường xã ---</option>
+                                                {xaPhuongList.map((xaPhuong) => {
+                                                    return (
+                                                        <option key={xaPhuong.id} value={xaPhuong.id}>{xaPhuong.tenXaPhuong}</option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
+
+
+                                        <div className="col-md-12">
+                                            <p>Địa chỉ hiển thị trên tin đăng</p>
+                                            <input type="text" onChange={handleDiaChi} value={diaChiTmp} className="form-control" placeholder="Nhập địa chỉ" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div className="card">
+                                <div className="card-body">
+                                    <p className="font-weight-bold">Thông tin bài viết</p>
+                                    <p>Tiêu đề <span className="text-danger">*</span></p>
+                                    <input type="text" name="tieude" onChange={handleInputBDS} value={batDongSanInput.tieude} className="form-control" />
+
+                                    <p>Mô tả <span className="text-danger">*</span></p>
+                                    <input type="text" name="mota" onChange={handleInputBDS} value={batDongSanInput.mota} className="form-control" />
+                                </div>
+                            </div>
+
+                            <br />
+                            <div className="card">
+                                <div className="card-body">
+                                    <p className="font-weight-bold">Thông tin bất động sản</p>
+                                    <p>Diện tích <span className="text-danger">*</span></p>
+                                    <input type="text" name="dientich" onChange={handleInputBDS} value={batDongSanInput.dientich} className="form-control" />
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <p>Mức giá <span className="text-danger">*</span></p>
+                                            <input type="text" name="gia" onChange={handleInputBDS} value={batDongSanInput.gia} className="form-control" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <p>Đơn vị <span className="text-danger">*</span></p>
+                                            <select className="form-control">
+                                                <option>VND</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <p className="font-weight-bold">Giấy tờ pháp lý</p>
+                                    <div className="row">
+
+                                        {
+                                            phapLy.map((item, idx) => {
+                                                return (<div className="col-md-6" key={idx}>
+                                                    <input checked={batDongSanInput.phaply == item} onChange={handleInputBDS} type="radio" name="phaply" value={item} />
+                                                    <label htmlFor="html">{item}</label>
+                                                </div>)
+                                            })
+                                        }
+
+                                        <div className="col-md-3">
+                                            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                Thêm
+                                            </button>
+                                        </div>
+
+                                        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div className="modal-dialog" role="document">
+                                                <div className="modal-content">
+                                                    <div className="modal-header">
+                                                        <h5 className="modal-title" id="exampleModalLabel">Thêm giấy tờ pháp lý</h5>
+                                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                        <p className="font-weight-bold">Giấy tờ pháp lý <span className="text-danger">*</span></p>
+                                                        <input type="text" onChange={handleInputPhapLy} value={phapLyInput} className="form-control" placeholder="Nhập giấy tờ pháp lý" />
+                                                    </div>
+                                                    <div className="modal-footer">
+                                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                                                        <button onClick={submitPhapLy} type="button" className="btn btn-primary">Thêm</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                   
+                                   
+
+                                    <br />
+                                   
+
+                                    <div className="row">
+                                        <div className="col-md-3">
+                                            <span className="font-weight-bold">Mô tả bổ sung</span>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <hr />
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <p>Hướng nhà</p>
+                                            <input placeholder="Chọn hướng" className="form-control" type='text' name="huongnha" onChange={handleInputBDS} value={batDongSanInput.huongnha} />
+                                        </div>
+                                      
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <p>Đường vào</p>
+                                            <input placeholder="Nhập số mét" className="form-control" type='text' name="duongvao" onChange={handleInputBDS} value={batDongSanInput.duongvao} />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <p>Mặt tiền</p>
+                                            <input placeholder="Nhập số mét" className="form-control" type='text' name="mattien" onChange={handleInputBDS} value={batDongSanInput.mattien} />
+                                        </div>
+                                    </div>
+
+                                  
+                                </div>
+                            </div>
+
+                            <br />
+                            <div className="card">
+                                <div className="card-body">
+                                    <h3>Hình ảnh & Video</h3>
+                                    <p>Mỗi hình ảnh kích thước tối thiểu 400x400, tối đa 15MB</p>
+                                    <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
+                                    {imagePreview.map((imageSrc, idx) => {
+                                            return (
+                                                <img key={idx} src={imageSrc} width={150} height={100} />
+                                            )
+                                        })}
+                                </div>
+                            </div>
+
+                            <br />
+                            <div className="card">
+                                <div className="card-body">
+                                    <h3>Thông tin liên hệ</h3>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <p>Tên liên hệ <span style={{ color: "red" }}>*</span></p>
+                                            <input type='text' className="form-control" name="tenlienhe" onChange={handleInputBDS} value={batDongSanInput.tenlienhe} />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <p>Số điện thoại <span style={{ color: "red" }}>*</span></p>
+                                            <input type='text' className="form-control" name="sdt" onChange={handleInputBDS} value={batDongSanInput.sdt} />
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <p>Địa chỉ</p>
+                                            <input type='text' className="form-control" name="diachilienhe" onChange={handleInputBDS} value={batDongSanInput.diachilienhe} />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <p>Email</p>
+                                            <input type='text' className="form-control" name="email" onChange={handleInputBDS} value={batDongSanInput.email} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div className="container text-center" style={{ backgroundColor: "white" }}>
+                                <button type="submit" className="btn btn-danger">Đăng tin</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </form>
+        )
+    }
+
 
 
     return (
@@ -295,281 +861,8 @@ function DangTin() {
                                     <li className="nav-item">
                                         <a href="#ban" className="nav-link active" data-bs-toggle="tab">Bán / Cho thuê</a>
                                     </li>
-                                    <li className="nav-item">
-                                        <a href="#mua" className="nav-link" data-bs-toggle="tab">Mua / Cần thuê</a>
-                                    </li>
-
                                 </ul>
-                                <form onSubmit={subMitBDS} encType='multipart/form-data'>
-                                <div className="tab-content">
-                                    <div className="tab-pane fade show active" id="ban">
-                                        <div className="container">
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <p className="font-weight-bold">Chọn hình thức <span className="text-danger">*</span></p>
-                                                    <div className="row">
-                                                        {hinhThucList.map((hinhThuc) => {
-                                                            return (
-                                                                <div className="col-md-6" key={hinhThuc.id}>
-                                                                    <input checked={batDongSanInput.hinhthuc == hinhThuc.id} onChange={handleInputBDS} type="radio" id="html" name="hinhthuc" value={hinhThuc.id} />
-                                                                    <label htmlFor="html"> {hinhThuc.tenHinhThuc}</label>
-                                                                </div>
-                                                            )
-                                                        })}
-
-                                                    </div>
-                                                    <p className="font-weight-bold">Thông tin cơ bản</p>
-                                                    <p>Loại bất động sản <span className="text-danger">*</span></p>
-                                                    <select name="hangmuc" value={batDongSanInput.hangmuc} className="form-control mb-3" onChange={handleInputBDS}>
-                                                        {hangMucList.map((hangMuc) => {
-                                                            return (
-                                                                <option key={hangMuc.id} value={hangMuc.id}>{hangMuc.tieuDe}</option>
-                                                            )
-                                                        })}
-
-                                                    </select>
-                                                    <p className="font-weight-bold">Địa chỉ</p>
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p>Tỉnh thành phố <span className="text-danger">*</span></p>
-                                                            <select onChange={handleInputBDS} value={batDongSanInput.tinh} name="tinh" className="form-control">
-                                                                <option>--- Chọn tỉnh thành ---</option>
-                                                                {tinhThanhList.map((tinhThanh) => {
-                                                                    return (
-                                                                        <option key={tinhThanh.id} value={tinhThanh.id}>{tinhThanh.tenTinhThanh}</option>
-                                                                    );
-                                                                })}
-
-
-                                                            </select>
-                                                        </div>
-
-                                                        <div className="col-md-6">
-                                                            <p>Quận huyện <span className="text-danger">*</span></p>
-                                                            <select onChange={handleInputBDS} name="quan" value={batDongSanInput.quan} className="form-control">
-                                                                <option>--- Chọn quận huyện ---</option>
-                                                                {quanHuyenList.map((quanHuyen) => {
-                                                                    return (
-                                                                        <option key={quanHuyen.id} value={quanHuyen.id}>{quanHuyen.tenQuanHuyen}</option>
-                                                                    );
-                                                                })}
-                                                            </select>
-                                                        </div>
-
-                                                        <div className="col-md-12">
-                                                            <p>Phường / Xã</p>
-                                                            <select onChange={handleInputBDS} value={batDongSanInput.phuong} name="phuong" className="form-control">
-                                                                <option>-- Chọn phường xã ---</option>
-                                                                {xaPhuongList.map((xaPhuong) => {
-                                                                    return (
-                                                                        <option key={xaPhuong.id} value={xaPhuong.id}>{xaPhuong.tenXaPhuong}</option>
-                                                                    );
-                                                                })}
-                                                            </select>
-                                                        </div>
-
-
-                                                        <div className="col-md-12">
-                                                            <p>Địa chỉ hiển thị trên tin đăng</p>
-                                                            <input type="text" onChange={handleDiaChi}  value={diaChiTmp} className="form-control" placeholder="Nhập địa chỉ" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <br/>
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <p className="font-weight-bold">Thông tin bài viết</p>
-                                                    <p>Tiêu đề <span className="text-danger">*</span></p>
-                                                    <input type="text" name="tieude" onChange={handleInputBDS} value={batDongSanInput.tieude} className="form-control" />
-
-                                                    <p>Mô tả <span className="text-danger">*</span></p>
-                                                    <input type="text" name="mota" onChange={handleInputBDS} value={batDongSanInput.mota} className="form-control" />
-                                                </div>
-                                            </div>
-
-                                            <br />
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <p className="font-weight-bold">Thông tin bất động sản</p>
-                                                    <p>Diện tích <span className="text-danger">*</span></p>
-                                                    <input type="text" name="dientich" onChange={handleInputBDS} value={batDongSanInput.dientich} className="form-control" />
-
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p>Mức giá <span className="text-danger">*</span></p>
-                                                            <input type="text" name="gia" onChange={handleInputBDS} value={batDongSanInput.gia} className="form-control" />
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <p>Đơn vị <span className="text-danger">*</span></p>
-                                                            <select className="form-control">
-                                                                <option>VND</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <br />
-                                                    <p className="font-weight-bold">Giấy tờ pháp lý</p>
-                                                    <div className="row">
-
-                                                        {
-                                                            phapLy.map((item, idx) => {
-                                                                return (<div className="col-md-6" key={idx}>
-                                                                    <input checked={batDongSanInput.phaply == item} onChange={handleInputBDS} type="radio" name="phaply" value={item} />
-                                                                    <label htmlFor="html">{item}</label>
-                                                                </div>)
-                                                            })
-                                                        }
-
-                                                        <div className="col-md-3">
-                                                            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                                                Thêm
-                                                            </button>
-                                                        </div>
-
-                                                        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div className="modal-dialog" role="document">
-                                                                <div className="modal-content">
-                                                                    <div className="modal-header">
-                                                                        <h5 className="modal-title" id="exampleModalLabel">Thêm giấy tờ pháp lý</h5>
-                                                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="modal-body">
-                                                                        <p className="font-weight-bold">Giấy tờ pháp lý <span className="text-danger">*</span></p>
-                                                                        <input type="text" onChange={handleInputPhapLy} value={phapLyInput} className="form-control" placeholder="Nhập giấy tờ pháp lý" />
-                                                                    </div>
-                                                                    <div className="modal-footer">
-                                                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Huỷ</button>
-                                                                        <button onClick={submitPhapLy} type="button" className="btn btn-primary">Thêm</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                    <br />
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <span>Số phòng ngủ</span>
-                                                        </div>
-
-                                                        <div className="col-md-6">
-                                                            <input className="form-control" type='number' name="phongngu" onChange={handleInputBDS} value={batDongSanInput.phongngu} />
-                                                        </div>
-                                                    </div>
-                                                    <br />
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <span>Số phòng tắm, vệ sinh</span>
-                                                        </div>
-
-                                                        <div className="col-md-6">
-                                                            <input className="form-control" type='number' name="phongtam" onChange={handleInputBDS} value={batDongSanInput.phongtam} />
-                                                        </div>
-                                                    </div>
-
-                                                    <br />
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <span>Số tầng</span>
-                                                        </div>
-
-                                                        <div className="col-md-6">
-                                                            <input className="form-control" type='number' name="sotang" onChange={handleInputBDS} value={batDongSanInput.sotang} />
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="row">
-                                                        <div className="col-md-3">
-                                                            <span className="font-weight-bold">Mô tả bổ sung</span>
-                                                        </div>
-                                                        <div className="col-md-9">
-                                                            <hr />
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p>Hướng nhà</p>
-                                                            <input placeholder="Chọn hướng" className="form-control" type='text' name="huongnha" onChange={handleInputBDS} value={batDongSanInput.huongnha} />
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <p>Hướng ban công</p>
-                                                            <input className="form-control" placeholder="Chọn hướng" type='text' name="bancong" onChange={handleInputBDS} value={batDongSanInput.bancong} />
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p>Đường vào</p>
-                                                            <input placeholder="Nhập số mét" className="form-control" type='text' name="duongvao" onChange={handleInputBDS} value={batDongSanInput.duongvao} />
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <p>Mặt tiền</p>
-                                                            <input placeholder="Nhập số mét" className="form-control" type='text' name="mattien" onChange={handleInputBDS} value={batDongSanInput.mattien} />
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="row">
-                                                        <div className="col-md-12">
-                                                            <p>Nội thất</p>
-                                                            <input type="text" className="form-control" name="noithat" onChange={handleInputBDS} value={batDongSanInput.noithat} />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <br />
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h3>Hình ảnh & Video</h3>
-                                                    <p>Mỗi hình ảnh kích thước tối thiểu 400x400, tối đa 15MB</p>
-                                                    <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
-                                                </div>
-                                            </div>
-
-                                            <br />
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h3>Thông tin liên hệ</h3>
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p>Tên liên hệ <span style={{ color: "red" }}>*</span></p>
-                                                            <input type='text' className="form-control" name="tenlienhe" onChange={handleInputBDS} value={batDongSanInput.tenlienhe}/>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <p>Số điện thoại <span style={{ color: "red" }}>*</span></p>
-                                                            <input type='text' className="form-control" name="sdt" onChange={handleInputBDS} value={batDongSanInput.sdt}/>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p>Địa chỉ</p>
-                                                            <input type='text' className="form-control" name="diachilienhe" onChange={handleInputBDS} value={batDongSanInput.diachilienhe}/>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <p>Email</p>
-                                                            <input type='text' className="form-control" name="email" onChange={handleInputBDS} value={batDongSanInput.email}/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br />
-                                            <div className="container text-center" style={{ backgroundColor: "white" }}>
-                                                <button type="submit" className="btn btn-danger">Đăng tin</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tab-pane fade" id="mua">
-                                        <p>Mua tab content ...</p>
-                                    </div>
-
-                                </div>
-                                </form>
+                                {areaInputChange}
                             </div>
 
                         </div>

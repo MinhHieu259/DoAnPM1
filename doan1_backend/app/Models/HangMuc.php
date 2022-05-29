@@ -12,6 +12,7 @@ class HangMuc extends Model
     protected $primaryKey = "id";
     protected $fillable  = [
         'tieuDe',
-        'moTa'
+        'moTa',
+        'maLoaiHangMuc'
     ];
 }
