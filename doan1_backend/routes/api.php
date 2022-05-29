@@ -49,6 +49,10 @@ Route::get('/get-ten-quan/{id_quan}',[DiaChiController::class, 'get_ten_quan']);
 Route::get('/get-phuongxa/{id_quan}',[DiaChiController::class, 'get_phuongXaFromQuan']);
 Route::get('/get-ten-xa/{id_xa}',[DiaChiController::class, 'get_ten_xa']);
 
+// Get bất động sản
+//Get Nhà
+Route::get('/get-nha',[TinTucController::class, 'get_nha']);
+
 Route::middleware(['auth:sanctum', 'isApiAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {
         return response()->json(['message' => 'Đã đăng nhập', 'status' => 200], 200);

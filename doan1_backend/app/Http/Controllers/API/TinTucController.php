@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BatDongSan;
 use App\Models\HinhAnh;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TinTucController extends Controller
@@ -22,9 +23,14 @@ class TinTucController extends Controller
             'giaTien' => 'required',
             'thongTinPhapLy' => 'required',
             'huongNha' => 'required',
-            'images' => 'required'
+            'images' => 'required',
+            'tenLienHe' => 'required',
+            'soDienThoai' => 'required',
+            'diaChiLienHe' => 'required',
+            'emailLienHe' => 'required'
+            
         ], [
-            'tenHinhThuc.required' => 'Tên hình thức không được để trống',
+            'tenHinhThuc.required' => 'Hình thức không được để trống',
             'loaiBatDongSan.required' => 'Loại bất động sản không được để trống',
             'diaChi.required' => 'Địa chỉ không được để trống',
             'tieuDe.required' => 'Tiêu đề không được để trống',
@@ -33,13 +39,17 @@ class TinTucController extends Controller
             'giaTien.required' => 'Giá tiền không được để trống',
             'thongTinPhapLy.required' => 'Thông tin pháp lý không được để trống',
             'huongNha.required' => 'Hướng nhà không được để trống',
-            'images.required' => 'Hình ảnh không được để trống'
+            'images.required' => 'Hình ảnh không được để trống',
+            'tenLienHe.required' => 'Tên liên hệ không được để trống',
+            'soDienThoai.required' => 'Số điện thoại không được để trống',
+            'diaChiLienHe.required' => 'Địa chỉ liên hệ không được để trống',
+            'emailLienHe.required' => 'Email liên hệ không được để trống'
         ]);
 
         if($validator->fails()){
             return response()->json([
-                'status' => 400,
-                'message'=> $validator->getMessageBag()
+                'status' => 422,
+                'errors'=> $validator->getMessageBag()
             ]);
         } else {
             $batDongSan = new BatDongSan();
@@ -90,8 +100,13 @@ class TinTucController extends Controller
         }
     }
 
-    public function dangTinMua()
+    public function get_nha()
     {
-        # code...
+        $batDongSan = DB::table('batdongsan')->join('hangmuc', 'batdongsan.maHangMuc', '=', 'hangmuc.id')->where('maLoaiHangMuc', '=', '2')->get();
+        return response()->json([
+            'status' => 200,
+            'batDongSan' => $batDongSan
+        ]);
     }
+
 }

@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { mainJS } from '../../js/main';
+import axios from 'axios';
 
 function Home() {
+    const [nhaList, setNha] = useState([])
     useEffect(() => {
-        mainJS()
+        mainJS();
+        axios.get(`api/get-nha`).then(res => {
+            if (res.data.status === 200) {
+                setNha(res.data.batDongSan);
+            }
+        });
     }, []);
 
     return (
@@ -99,7 +106,7 @@ function Home() {
                             <div className="col-md-12">
                                 <div className="title-wrap d-flex justify-content-between">
                                     <div className="title-box">
-                                        <h2 className="title-a">Our Services</h2>
+                                        <h2 className="title-a">Dịch vụ của chúng tôi</h2>
                                     </div>
                                 </div>
                             </div>
@@ -112,18 +119,16 @@ function Home() {
                                             <span className="bi bi-cart"></span>
                                         </div>
                                         <div className="card-title-c align-self-center">
-                                            <h2 className="title-c">Lifestyle</h2>
+                                            <h2 className="title-c">Đa dạng</h2>
                                         </div>
                                     </div>
                                     <div className="card-body-c">
                                         <p className="content-c">
-                                            Sed porttitor lectus nibh. Cras ultricies ligula sed magna dictum porta. Praesent sapien massa,
-                                            convallis a pellentesque
-                                            nec, egestas non nisi.
+                                            Cung cấp nhiều loại bất động sản trên nhiều lĩnh vực
                                         </p>
                                     </div>
                                     <div className="card-footer-c">
-                                        <Link to="#" className="link-c link-icon">Read more
+                                        <Link to="#" className="link-c link-icon">Xem thêm
                                             <span className="bi bi-chevron-right"></span>
                                         </Link>
                                     </div>
@@ -136,18 +141,17 @@ function Home() {
                                             <span className="bi bi-calendar4-week"></span>
                                         </div>
                                         <div className="card-title-c align-self-center">
-                                            <h2 className="title-c">Loans</h2>
+                                            <h2 className="title-c">Nhanh chóng</h2>
                                         </div>
                                     </div>
                                     <div className="card-body-c">
                                         <p className="content-c">
-                                            Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere blandit. Mauris blandit
-                                            aliquet elit, eget tincidunt
-                                            nibh pulvinar a.
+                                            Chỉ với vài thao tác là bạn có thể giới thiệu
+                                            bát động ản của bạn nhanh chóng
                                         </p>
                                     </div>
                                     <div className="card-footer-c">
-                                        <Link to="#" className="link-c link-icon">Read more
+                                        <Link to="#" className="link-c link-icon">Xem thêm
                                             <span className="bi bi-calendar4-week"></span>
                                         </Link>
                                     </div>
@@ -160,18 +164,17 @@ function Home() {
                                             <span className="bi bi-card-checklist"></span>
                                         </div>
                                         <div className="card-title-c align-self-center">
-                                            <h2 className="title-c">Sell</h2>
+                                            <h2 className="title-c">Xác thực</h2>
                                         </div>
                                     </div>
                                     <div className="card-body-c">
                                         <p className="content-c">
-                                            Sed porttitor lectus nibh. Cras ultricies ligula sed magna dictum porta. Praesent sapien massa,
-                                            convallis a pellentesque
-                                            nec, egestas non nisi.
+                                            Các bài đăng rên website của chúng tôi luôn được kiểm
+                                            duyệt kỹ càng
                                         </p>
                                     </div>
                                     <div className="card-footer-c">
-                                        <Link to="#" className="link-c link-icon">Read more
+                                        <Link to="#" className="link-c link-icon">Xem thêm
                                             <span className="bi bi-chevron-right"></span>
                                         </Link>
                                     </div>
@@ -187,10 +190,10 @@ function Home() {
                             <div className="col-md-12">
                                 <div className="title-wrap d-flex justify-content-between">
                                     <div className="title-box">
-                                        <h2 className="title-a">Latest Properties</h2>
+                                        <h2 className="title-a">Các loại nhà</h2>
                                     </div>
                                     <div className="title-link">
-                                        <Link to="property-grid.html">All Property
+                                        <Link to="property-grid.html">Xem thêm
                                             <span className="bi bi-chevron-right"></span>
                                         </Link>
                                     </div>
@@ -200,198 +203,59 @@ function Home() {
 
                         <div id="property-carousel" className="swiper">
                             <div className="swiper-wrapper">
-
-                                <div className="carousel-item-b swiper-slide">
-                                    <div className="card-box-a card-shadow">
-                                        <div className="img-box-a">
-                                            <img src="assets/img/property-6.jpg" alt="" className="img-a img-fluid" />
-                                        </div>
-                                        <div className="card-overlay">
-                                            <div className="card-overlay-a-content">
-                                                <div className="card-header-a">
-                                                    <h2 className="card-title-a">
-                                                        <Link to="property-single.html">206 Mount
-                                                            <br /> Olive Road Two</Link>
-                                                    </h2>
+                                {nhaList.map((nha) => {
+                                    return (
+                                        <div className="carousel-item-b swiper-slide">
+                                            <div className="card-box-a card-shadow">
+                                                <div className="img-box-a">
+                                                    <img src="assets/img/property-6.jpg" alt="" className="img-a img-fluid" />
                                                 </div>
-                                                <div className="card-body-a">
-                                                    <div className="price-box d-flex">
-                                                        <span className="price-a">rent | $ 12.000</span>
+                                                <div className="card-overlay">
+                                                    <div className="card-overlay-a-content">
+                                                        <div className="card-header-a">
+                                                            <h2 className="card-title-a">
+                                                                <Link to="property-single.html">206 Mount
+                                                                    <br /> Olive Road Two</Link>
+                                                            </h2>
+                                                        </div>
+                                                        <div className="card-body-a">
+                                                            <div className="price-box d-flex">
+                                                                <span className="price-a">rent | $ 12.000</span>
+                                                            </div>
+                                                            <Link to="#" className="link-a">Click here to view
+                                                                <span className="bi bi-chevron-right"></span>
+                                                            </Link>
+                                                        </div>
+                                                        <div className="card-footer-a">
+                                                            <ul className="card-info d-flex justify-content-around">
+                                                                <li>
+                                                                    <h4 className="card-info-title">Area</h4>
+                                                                    <span>340m
+                                                                        <sup>2</sup>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <h4 className="card-info-title">Beds</h4>
+                                                                    <span>2</span>
+                                                                </li>
+                                                                <li>
+                                                                    <h4 className="card-info-title">Baths</h4>
+                                                                    <span>4</span>
+                                                                </li>
+                                                                <li>
+                                                                    <h4 className="card-info-title">Garages</h4>
+                                                                    <span>1</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                    <Link to="#" className="link-a">Click here to view
-                                                        <span className="bi bi-chevron-right"></span>
-                                                    </Link>
-                                                </div>
-                                                <div className="card-footer-a">
-                                                    <ul className="card-info d-flex justify-content-around">
-                                                        <li>
-                                                            <h4 className="card-info-title">Area</h4>
-                                                            <span>340m
-                                                                <sup>2</sup>
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Beds</h4>
-                                                            <span>2</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Baths</h4>
-                                                            <span>4</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Garages</h4>
-                                                            <span>1</span>
-                                                        </li>
-                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    );
+                                })}
 
-                                <div className="carousel-item-b swiper-slide">
-                                    <div className="card-box-a card-shadow">
-                                        <div className="img-box-a">
-                                            <img src="assets/img/property-3.jpg" alt="" className="img-a img-fluid" />
-                                        </div>
-                                        <div className="card-overlay">
-                                            <div className="card-overlay-a-content">
-                                                <div className="card-header-a">
-                                                    <h2 className="card-title-a">
-                                                        <Link to="property-single.html">157 West
-                                                            <br /> Central Park</Link>
-                                                    </h2>
-                                                </div>
-                                                <div className="card-body-a">
-                                                    <div className="price-box d-flex">
-                                                        <span className="price-a">rent | $ 12.000</span>
-                                                    </div>
-                                                    <Link to="property-single.html" className="link-a">Click here to view
-                                                        <span className="bi bi-chevron-right"></span>
-                                                    </Link>
-                                                </div>
-                                                <div className="card-footer-a">
-                                                    <ul className="card-info d-flex justify-content-around">
-                                                        <li>
-                                                            <h4 className="card-info-title">Area</h4>
-                                                            <span>340m
-                                                                <sup>2</sup>
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Beds</h4>
-                                                            <span>2</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Baths</h4>
-                                                            <span>4</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Garages</h4>
-                                                            <span>1</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div className="carousel-item-b swiper-slide">
-                                    <div className="card-box-a card-shadow">
-                                        <div className="img-box-a">
-                                            <img src="assets/img/property-7.jpg" alt="" className="img-a img-fluid" />
-                                        </div>
-                                        <div className="card-overlay">
-                                            <div className="card-overlay-a-content">
-                                                <div className="card-header-a">
-                                                    <h2 className="card-title-a">
-                                                        <Link to="property-single.html">245 Azabu
-                                                            <br /> Nishi Park let</Link>
-                                                    </h2>
-                                                </div>
-                                                <div className="card-body-a">
-                                                    <div className="price-box d-flex">
-                                                        <span className="price-a">rent | $ 12.000</span>
-                                                    </div>
-                                                    <Link to="property-single.html" className="link-a">Click here to view
-                                                        <span className="bi bi-chevron-right"></span>
-                                                    </Link>
-                                                </div>
-                                                <div className="card-footer-a">
-                                                    <ul className="card-info d-flex justify-content-around">
-                                                        <li>
-                                                            <h4 className="card-info-title">Area</h4>
-                                                            <span>340m
-                                                                <sup>2</sup>
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Beds</h4>
-                                                            <span>2</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Baths</h4>
-                                                            <span>4</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Garages</h4>
-                                                            <span>1</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="carousel-item-b swiper-slide">
-                                    <div className="card-box-a card-shadow">
-                                        <div className="img-box-a">
-                                            <img src="assets/img/property-10.jpg" alt="" className="img-a img-fluid" />
-                                        </div>
-                                        <div className="card-overlay">
-                                            <div className="card-overlay-a-content">
-                                                <div className="card-header-a">
-                                                    <h2 className="card-title-a">
-                                                        <Link to="property-single.html">204 Montal
-                                                            <br /> South Bela Two</Link>
-                                                    </h2>
-                                                </div>
-                                                <div className="card-body-a">
-                                                    <div className="price-box d-flex">
-                                                        <span className="price-a">rent | $ 12.000</span>
-                                                    </div>
-                                                    <Link to="property-single.html" className="link-a">Click here to view
-                                                        <span className="bi bi-chevron-right"></span>
-                                                    </Link>
-                                                </div>
-                                                <div className="card-footer-a">
-                                                    <ul className="card-info d-flex justify-content-around">
-                                                        <li>
-                                                            <h4 className="card-info-title">Area</h4>
-                                                            <span>340m
-                                                                <sup>2</sup>
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Beds</h4>
-                                                            <span>2</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Baths</h4>
-                                                            <span>4</span>
-                                                        </li>
-                                                        <li>
-                                                            <h4 className="card-info-title">Garages</h4>
-                                                            <span>1</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div className="propery-carousel-pagination carousel-pagination"></div>
@@ -405,10 +269,10 @@ function Home() {
                             <div className="col-md-12">
                                 <div className="title-wrap d-flex justify-content-between">
                                     <div className="title-box">
-                                        <h2 className="title-a">Best Agents</h2>
+                                        <h2 className="title-a">Người bán nổi bật</h2>
                                     </div>
                                     <div className="title-link">
-                                        <Link to="agents-grid.html">All Agents
+                                        <Link to="agents-grid.html">Xem tất cả
                                             <span className="bi bi-chevron-right"></span>
                                         </Link>
                                     </div>
@@ -595,10 +459,10 @@ function Home() {
                             <div className="col-md-12">
                                 <div className="title-wrap d-flex justify-content-between">
                                     <div className="title-box">
-                                        <h2 className="title-a">Latest News</h2>
+                                        <h2 className="title-a">Các loại đất</h2>
                                     </div>
                                     <div className="title-link">
-                                        <Link to="blog-grid.html">All News
+                                        <Link to="blog-grid.html">Xem tất cả
                                             <span className="bi bi-chevron-right"></span>
                                         </Link>
                                     </div>

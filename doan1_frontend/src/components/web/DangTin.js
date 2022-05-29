@@ -23,6 +23,10 @@ function DangTin() {
 
     const [imagesList, setImagesList] = useState([]);
 
+    const [imageMain, setImageMain] = useState([]);
+
+    const [errorlist, setError] = useState([])
+
     const [loaiBDS, setLoaiBDS] = useState({
         hangmuc: '1'
     });
@@ -97,9 +101,17 @@ function DangTin() {
             setImagesList([...e.target.files])
         }
     };
-    console.log("list "+ imagesList)
 
-   
+    const [imagePreviewMain, setImagePreviewMain] = useState([])
+    
+    const handleImageMain = (e) => {
+        if (e.target.files) {
+            setImageMain(e.target.files[0])
+        }
+    };
+    console.log(imageMain)
+    
+
 
     useEffect(() => {
         setImagePreview([]);
@@ -107,10 +119,12 @@ function DangTin() {
             setImagePreview(arr => [...arr, URL.createObjectURL(image_file)])
         })
     }, [imagesList])
-    console.log("preview "+ imagePreview)
+
+    // useEffect(() => {
+    //     setImagePreviewMain(URL.createObjectURL(imageMain))
+    // }, [imageMain]);
+    
   
-
-
     const [inforUser, setUserInfor] = useState({
         name: '',
         ngaySinh: '',
@@ -214,8 +228,6 @@ function DangTin() {
 
    
 
-
-
     // Xử lý thêm pháp lý vào mảng
     const submitPhapLy = (e) => {
         e.preventDefault();
@@ -251,8 +263,6 @@ function DangTin() {
         })
 
 
-
-
         axios.post(`/api/dang-tin-ban`, formData).then(res => {
             if (res.data.status === 200) {
                 swal("Thành công", res.data.message, "success");
@@ -284,10 +294,11 @@ function DangTin() {
                 });
                 setdiaChiTmp('');
                 setImagesList([]);
+                setError([]);
                 //setError([]);
             } else if (res.data.status === 422) {
-                swal("Dữ liệu không được để trống", "error");
-                //setError(res.data.errors);
+                swal("Dữ liệu không được để trống", "Cảnh báo");
+                setError(res.data.errors);
             }
         });
     }
@@ -312,7 +323,7 @@ function DangTin() {
                                                     </div>
                                                 )
                                             })}
-
+                                            <small className='text-danger'>{errorlist.tenHinhThuc}</small>
                                         </div>
                                         <p className="font-weight-bold">Thông tin cơ bản</p>
                                         <p>Loại bất động sản <span className="text-danger">*</span></p>
@@ -324,6 +335,7 @@ function DangTin() {
                                             })}
 
                                         </select>
+                                        <small className='text-danger'>{errorlist.loaiBatDongSan}</small>
                                         <p className="font-weight-bold">Địa chỉ</p>
                                         <div className="row">
                                             <div className="col-md-6">
@@ -368,6 +380,7 @@ function DangTin() {
                                             <div className="col-md-12">
                                                 <p>Địa chỉ hiển thị trên tin đăng</p>
                                                 <input type="text" onChange={handleDiaChi} value={diaChiTmp} className="form-control" placeholder="Nhập địa chỉ" />
+                                                <small className='text-danger'>{errorlist.diaChi}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -379,9 +392,11 @@ function DangTin() {
                                         <p className="font-weight-bold">Thông tin bài viết</p>
                                         <p>Tiêu đề <span className="text-danger">*</span></p>
                                         <input type="text" name="tieude" onChange={handleInputBDS} value={batDongSanInput.tieude} className="form-control" />
+                                        <small className='text-danger'>{errorlist.tieuDe}</small>
 
                                         <p>Mô tả <span className="text-danger">*</span></p>
                                         <input type="text" name="mota" onChange={handleInputBDS} value={batDongSanInput.mota} className="form-control" />
+                                        <small className='text-danger'>{errorlist.moTa}</small>
                                     </div>
                                 </div>
 
@@ -391,11 +406,13 @@ function DangTin() {
                                         <p className="font-weight-bold">Thông tin bất động sản</p>
                                         <p>Diện tích <span className="text-danger">*</span></p>
                                         <input type="text" name="dientich" onChange={handleInputBDS} value={batDongSanInput.dientich} className="form-control" />
+                                        <small className='text-danger'>{errorlist.dienTich}</small>
 
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <p>Mức giá <span className="text-danger">*</span></p>
                                                 <input type="text" name="gia" onChange={handleInputBDS} value={batDongSanInput.gia} className="form-control" />
+                                                <small className='text-danger'>{errorlist.giaTien}</small>
                                             </div>
                                             <div className="col-md-6">
                                                 <p>Đơn vị <span className="text-danger">*</span></p>
@@ -422,6 +439,7 @@ function DangTin() {
                                                     Thêm
                                                 </button>
                                             </div>
+                                            <small className='text-danger'>{errorlist.thongTinPhapLy}</small>
 
                                             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div className="modal-dialog" role="document">
@@ -491,6 +509,7 @@ function DangTin() {
                                             <div className="col-md-6">
                                                 <p>Hướng nhà</p>
                                                 <input placeholder="Chọn hướng" className="form-control" type='text' name="huongnha" onChange={handleInputBDS} value={batDongSanInput.huongnha} />
+                                                <small className='text-danger'>{errorlist.huongNha}</small>
                                             </div>
                                             <div className="col-md-6">
                                                 <p>Hướng ban công</p>
@@ -522,15 +541,21 @@ function DangTin() {
                                 <div className="card">
                                     <div className="card-body">
                                         <h3>Hình ảnh & Video</h3>
-                                        <p>Mỗi hình ảnh kích thước tối thiểu 400x400, tối đa 15MB</p>
+                                        <p>Ảnh đại diện</p>
+                                        <input name="imageMain" type="file" onChange={handleImageMain}/>
+                                        <img style={{marginRight:"5px"}}  src={imagePreviewMain} width={150} height={100} />
+                                        <br/>
+                                        <br/>
+                                        <p>Ảnh chi tiết</p>
                                         <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
                                         {imagePreview.map((imageSrc, idx) => {
                                             return (
-                                                <img key={idx} src={imageSrc} width={150} height={100} />
+                                                <img style={{marginRight:"5px"}} key={idx} src={imageSrc} width={150} height={100} />
                                             )
                                         })}
-                                        
-                                    </div>
+                                       
+                                    </div> 
+                                    <small className='text-danger'>{errorlist.images}</small>
                                 </div>
 
                                 <br />
@@ -541,10 +566,12 @@ function DangTin() {
                                             <div className="col-md-6">
                                                 <p>Tên liên hệ <span style={{ color: "red" }}>*</span></p>
                                                 <input type='text' className="form-control" name="tenlienhe" onChange={handleInputBDS} value={batDongSanInput.tenlienhe} />
+                                                <small className='text-danger'>{errorlist.tenLienHe}</small>
                                             </div>
                                             <div className="col-md-6">
                                                 <p>Số điện thoại <span style={{ color: "red" }}>*</span></p>
                                                 <input type='text' className="form-control" name="sdt" onChange={handleInputBDS} value={batDongSanInput.sdt} />
+                                                <small className='text-danger'>{errorlist.soDienThoai}</small>
                                             </div>
                                         </div>
 
@@ -552,10 +579,12 @@ function DangTin() {
                                             <div className="col-md-6">
                                                 <p>Địa chỉ</p>
                                                 <input type='text' className="form-control" name="diachilienhe" onChange={handleInputBDS} value={batDongSanInput.diachilienhe} />
+                                                <small className='text-danger'>{errorlist.diaChiLienHe}</small>
                                             </div>
                                             <div className="col-md-6">
                                                 <p>Email</p>
                                                 <input type='text' className="form-control" name="email" onChange={handleInputBDS} value={batDongSanInput.email} />
+                                                <small className='text-danger'>{errorlist.emailLienHe}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -591,7 +620,7 @@ function DangTin() {
                                                 </div>
                                             )
                                         })}
-
+                                        <small className='text-danger'>{errorlist.tenHinhThuc}</small>
                                     </div>
                                     <p className="font-weight-bold">Thông tin cơ bản</p>
                                     <p>Loại bất động sản <span className="text-danger">*</span></p>
@@ -603,6 +632,7 @@ function DangTin() {
                                         })}
 
                                     </select>
+                                    <small className='text-danger'>{errorlist.loaiBatDongSan}</small>
                                     <p className="font-weight-bold">Địa chỉ</p>
                                     <div className="row">
                                         <div className="col-md-6">
@@ -647,6 +677,7 @@ function DangTin() {
                                         <div className="col-md-12">
                                             <p>Địa chỉ hiển thị trên tin đăng</p>
                                             <input type="text" onChange={handleDiaChi} value={diaChiTmp} className="form-control" placeholder="Nhập địa chỉ" />
+                                            <small className='text-danger'>{errorlist.diaChi}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -658,9 +689,11 @@ function DangTin() {
                                     <p className="font-weight-bold">Thông tin bài viết</p>
                                     <p>Tiêu đề <span className="text-danger">*</span></p>
                                     <input type="text" name="tieude" onChange={handleInputBDS} value={batDongSanInput.tieude} className="form-control" />
+                                    <small className='text-danger'>{errorlist.tieuDe}</small>
 
                                     <p>Mô tả <span className="text-danger">*</span></p>
                                     <input type="text" name="mota" onChange={handleInputBDS} value={batDongSanInput.mota} className="form-control" />
+                                    <small className='text-danger'>{errorlist.moTa}</small>
                                 </div>
                             </div>
 
@@ -670,11 +703,13 @@ function DangTin() {
                                     <p className="font-weight-bold">Thông tin bất động sản</p>
                                     <p>Diện tích <span className="text-danger">*</span></p>
                                     <input type="text" name="dientich" onChange={handleInputBDS} value={batDongSanInput.dientich} className="form-control" />
+                                    <small className='text-danger'>{errorlist.dienTich}</small>
 
                                     <div className="row">
                                         <div className="col-md-6">
                                             <p>Mức giá <span className="text-danger">*</span></p>
                                             <input type="text" name="gia" onChange={handleInputBDS} value={batDongSanInput.gia} className="form-control" />
+                                            <small className='text-danger'>{errorlist.giaTien}</small>
                                         </div>
                                         <div className="col-md-6">
                                             <p>Đơn vị <span className="text-danger">*</span></p>
@@ -695,6 +730,7 @@ function DangTin() {
                                                 </div>)
                                             })
                                         }
+                                        <small className='text-danger'>{errorlist.thongTinPhapLy}</small>
 
                                         <div className="col-md-3">
                                             <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -744,6 +780,7 @@ function DangTin() {
                                         <div className="col-md-12">
                                             <p>Hướng nhà</p>
                                             <input placeholder="Chọn hướng" className="form-control" type='text' name="huongnha" onChange={handleInputBDS} value={batDongSanInput.huongnha} />
+                                            <small className='text-danger'>{errorlist.huongNha}</small>
                                         </div>
                                       
                                     </div>
@@ -766,15 +803,20 @@ function DangTin() {
                             <br />
                             <div className="card">
                                 <div className="card-body">
-                                    <h3>Hình ảnh & Video</h3>
-                                    <p>Mỗi hình ảnh kích thước tối thiểu 400x400, tối đa 15MB</p>
-                                    <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
-                                    {imagePreview.map((imageSrc, idx) => {
+                                <h3>Hình ảnh & Video</h3>
+                                        <p>Ảnh đại diện</p>
+                                        <input name="imageMain" type="file" onChange={handleImageMain}/>
+                                        <br/>
+                                        <br/>
+                                        <p>Ảnh chi tiết</p>
+                                        <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
+                                        {imagePreview.map((imageSrc, idx) => {
                                             return (
-                                                <img key={idx} src={imageSrc} width={150} height={100} />
+                                                <img style={{marginRight:"5px"}} key={idx} src={imageSrc} width={150} height={100} />
                                             )
                                         })}
                                 </div>
+                                <small className='text-danger'>{errorlist.images}</small>
                             </div>
 
                             <br />
@@ -785,10 +827,12 @@ function DangTin() {
                                         <div className="col-md-6">
                                             <p>Tên liên hệ <span style={{ color: "red" }}>*</span></p>
                                             <input type='text' className="form-control" name="tenlienhe" onChange={handleInputBDS} value={batDongSanInput.tenlienhe} />
+                                            <small className='text-danger'>{errorlist.tenLienHe}</small>
                                         </div>
                                         <div className="col-md-6">
                                             <p>Số điện thoại <span style={{ color: "red" }}>*</span></p>
                                             <input type='text' className="form-control" name="sdt" onChange={handleInputBDS} value={batDongSanInput.sdt} />
+                                            <small className='text-danger'>{errorlist.soDienThoai}</small>
                                         </div>
                                     </div>
 
@@ -796,10 +840,12 @@ function DangTin() {
                                         <div className="col-md-6">
                                             <p>Địa chỉ</p>
                                             <input type='text' className="form-control" name="diachilienhe" onChange={handleInputBDS} value={batDongSanInput.diachilienhe} />
+                                            <small className='text-danger'>{errorlist.diaChiLienHe}</small>
                                         </div>
                                         <div className="col-md-6">
                                             <p>Email</p>
                                             <input type='text' className="form-control" name="email" onChange={handleInputBDS} value={batDongSanInput.email} />
+                                            <small className='text-danger'>{errorlist.emailLienHe}</small>
                                         </div>
                                     </div>
                                 </div>
