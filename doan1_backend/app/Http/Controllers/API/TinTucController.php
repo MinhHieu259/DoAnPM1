@@ -113,7 +113,8 @@ class TinTucController extends Controller
 
     public function get_nha()
     {
-        $batDongSan = DB::table('batdongsan')->join('hangmuc', 'batdongsan.maHangMuc', '=', 'hangmuc.id')->where('maLoaiHangMuc', '=', '1')->get();
+       // $batDongSan = DB::table('batdongsan')->join('hangmuc', 'batdongsan.maHangMuc', '=', 'hangmuc.id')->where('hangmuc.maLoaiHangMuc', '=', '1')->get();
+        $batDongSan = DB::select('SELECT batdongsan.*, hangmuc.maLoaiHangMuc FROM batdongsan, hangmuc  WHERE batdongsan.maHangMuc = hangmuc.id AND hangmuc.maLoaiHangMuc = 1');
         return response()->json([
             'status' => 200,
             'batDongSan' => $batDongSan

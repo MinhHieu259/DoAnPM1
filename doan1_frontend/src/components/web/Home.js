@@ -208,43 +208,42 @@ function Home() {
                                         <div className="carousel-item-b swiper-slide">
                                             <div className="card-box-a card-shadow">
                                                 <div className="img-box-a">
-                                                    <img src="assets/img/property-6.jpg" alt="" className="img-a img-fluid" />
+                                                    <img src={`http://localhost:8000/${nha.hinhDaiDien}`} alt="" className="img-a img-fluid" />
                                                 </div>
                                                 <div className="card-overlay">
                                                     <div className="card-overlay-a-content">
                                                         <div className="card-header-a">
                                                             <h2 className="card-title-a">
-                                                                <Link to="property-single.html">206 Mount
-                                                                    <br /> Olive Road Two</Link>
+                                                                <Link to="property-single.html">{nha.tieuDe}</Link>
                                                             </h2>
                                                         </div>
                                                         <div className="card-body-a">
                                                             <div className="price-box d-flex">
-                                                                <span className="price-a">rent | $ 12.000</span>
+                                                                <span className="price-a">Giá | {nha.giaTien} vnđ</span>
                                                             </div>
-                                                            <Link to="#" className="link-a">Click here to view
+                                                            <Link to="#" className="link-a">Xem chi tiết
                                                                 <span className="bi bi-chevron-right"></span>
                                                             </Link>
                                                         </div>
                                                         <div className="card-footer-a">
                                                             <ul className="card-info d-flex justify-content-around">
                                                                 <li>
-                                                                    <h4 className="card-info-title">Area</h4>
-                                                                    <span>340m
+                                                                    <h4 className="card-info-title">Diện tích</h4>
+                                                                    <span>{nha.dienTich+"m"}
                                                                         <sup>2</sup>
                                                                     </span>
                                                                 </li>
                                                                 <li>
-                                                                    <h4 className="card-info-title">Beds</h4>
-                                                                    <span>2</span>
+                                                                    <h4 className="card-info-title">Phòng ngủ</h4>
+                                                                    <span>{nha.soPhongNgu}</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h4 className="card-info-title">Baths</h4>
-                                                                    <span>4</span>
+                                                                    <h4 className="card-info-title">Phòng tắm</h4>
+                                                                    <span>{nha.soPhongVeSinh}</span>
                                                                 </li>
                                                                 <li>
-                                                                    <h4 className="card-info-title">Garages</h4>
-                                                                    <span>1</span>
+                                                                    <h4 className="card-info-title">Tầng</h4>
+                                                                    <span>{nha.soTang}</span>
                                                                 </li>
                                                             </ul>
                                                         </div>

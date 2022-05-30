@@ -876,7 +876,7 @@ function DangTin() {
 
                         <div className="container text-center mb-3" style={{ padding: "10px" }}>
                             <div style={{ backgroundColor: "#dcdcdc", width: "240px", borderRadius: "10px", padding: "10px" }}>
-                                <img src={src} alt="anh" width={80} height={80} className="rounded mx-auto d-block mb-3" />
+                                <img src={src}  width={80} height={80} className="rounded mx-auto d-block mb-3" />
                                 <span className="font-weight-bold">{inforUser.name}</span>
                             </div>
 
