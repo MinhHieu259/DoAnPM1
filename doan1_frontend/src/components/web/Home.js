@@ -203,9 +203,9 @@ function Home() {
 
                         <div id="property-carousel" className="swiper">
                             <div className="swiper-wrapper">
-                                {nhaList.map((nha) => {
+                                {nhaList.map((nha, idx) => {
                                     return (
-                                        <div className="carousel-item-b swiper-slide">
+                                        <div key={idx} className="carousel-item-b swiper-slide">
                                             <div className="card-box-a card-shadow">
                                                 <div className="img-box-a">
                                                     <img src={`http://localhost:8000/${nha.hinhDaiDien}`} alt="" className="img-a img-fluid" />
