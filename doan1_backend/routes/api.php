@@ -52,6 +52,7 @@ Route::get('/get-ten-xa/{id_xa}',[DiaChiController::class, 'get_ten_xa']);
 // Get bất động sản
 //Get Nhà
 Route::get('/get-nha',[TinTucController::class, 'get_nha']);
+Route::get('/chi-tiet-batdongsan/{id}',[TinTucController::class, 'chiTietBDS']);
 
 Route::middleware(['auth:sanctum', 'isApiAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {

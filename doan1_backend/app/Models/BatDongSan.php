@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BatDongSan extends Model
 {
@@ -33,10 +34,14 @@ class BatDongSan extends Model
         'huongNha',
         'matTien',
         'noiThat',
-        'trangThai'
+        'trangThai',
+        'hinhDaiDien'
     ];
 
     public function hinhanh(){
-        return $this->hasMany(HinhAnh::class, 'id');
+        return $this->hasMany(HinhAnh::class, 'maBatDongSan');
+    }
+    public function hangmuc(){
+        return $this->belongsTo(HangMuc::class, 'id');
     }
 }

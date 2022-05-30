@@ -27,7 +27,8 @@ class TinTucController extends Controller
             'tenLienHe' => 'required',
             'soDienThoai' => 'required',
             'diaChiLienHe' => 'required',
-            'emailLienHe' => 'required'
+            'emailLienHe' => 'required',
+            'hinhDaiDien' => 'required'
             
         ], [
             'tenHinhThuc.required' => 'Hình thức không được để trống',
@@ -43,7 +44,8 @@ class TinTucController extends Controller
             'tenLienHe.required' => 'Tên liên hệ không được để trống',
             'soDienThoai.required' => 'Số điện thoại không được để trống',
             'diaChiLienHe.required' => 'Địa chỉ liên hệ không được để trống',
-            'emailLienHe.required' => 'Email liên hệ không được để trống'
+            'emailLienHe.required' => 'Email liên hệ không được để trống',
+            'hinhDaiDien.required' => 'Hình đại diện không được để trống'
         ]);
 
         if($validator->fails()){
@@ -74,6 +76,15 @@ class TinTucController extends Controller
             $batDongSan->soDienThoai = $request->input('soDienThoai');
             $batDongSan->diaChiLienHe = $request->input('diaChiLienHe');
             $batDongSan->emailLienHe = $request->input('emailLienHe');
+            if($request->hasFile('hinhDaiDien'))
+            {
+               
+                $file = $request->file('hinhDaiDien');
+                $extension = $file->getClientOriginalExtension();
+                $filename = $file->getClientOriginalName().time().'dd'.'.'.$extension;
+                $file->move('uploads/batdongsan/', $filename);
+                $batDongSan->hinhDaiDien =  'uploads/batdongsan/'. $filename;
+            }
             $batDongSan->save();
 
             if($request->hasFile('images'))
@@ -102,7 +113,17 @@ class TinTucController extends Controller
 
     public function get_nha()
     {
-        $batDongSan = DB::table('batdongsan')->join('hangmuc', 'batdongsan.maHangMuc', '=', 'hangmuc.id')->where('maLoaiHangMuc', '=', '2')->get();
+        $batDongSan = DB::table('batdongsan')->join('hangmuc', 'batdongsan.maHangMuc', '=', 'hangmuc.id')->where('maLoaiHangMuc', '=', '1')->get();
+        return response()->json([
+            'status' => 200,
+            'batDongSan' => $batDongSan
+        ]);
+    }
+
+    public function chiTietBDS($id)
+    {
+        $batDongSan = BatDongSan::find($id)->first();
+        $batDongSan->hinhanh;
         return response()->json([
             'status' => 200,
             'batDongSan' => $batDongSan

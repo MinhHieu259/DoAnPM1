@@ -102,16 +102,15 @@ function DangTin() {
         }
     };
 
-    const [imagePreviewMain, setImagePreviewMain] = useState([])
+    const [{ altPre, srcPre }, setImagePreviewMain] = useState([]);
     
     const handleImageMain = (e) => {
         if (e.target.files) {
             setImageMain(e.target.files[0])
+            setImagePreviewMain({srcPre : URL.createObjectURL(e.target.files[0])})
         }
     };
-    console.log(imageMain)
     
-
 
     useEffect(() => {
         setImagePreview([]);
@@ -120,9 +119,7 @@ function DangTin() {
         })
     }, [imagesList])
 
-    // useEffect(() => {
-    //     setImagePreviewMain(URL.createObjectURL(imageMain))
-    // }, [imageMain]);
+  
     
   
     const [inforUser, setUserInfor] = useState({
@@ -258,9 +255,11 @@ function DangTin() {
         formData.append('soDienThoai', batDongSanInput.sdt);
         formData.append('diaChiLienHe', batDongSanInput.diachilienhe);
         formData.append('emailLienHe', batDongSanInput.email);
+        formData.append('hinhDaiDien', imageMain);
         imagesList.forEach((image_file) => {
             formData.append('images[]', image_file);
-        })
+        });
+       
 
 
         axios.post(`/api/dang-tin-ban`, formData).then(res => {
@@ -543,7 +542,7 @@ function DangTin() {
                                         <h3>Hình ảnh & Video</h3>
                                         <p>Ảnh đại diện</p>
                                         <input name="imageMain" type="file" onChange={handleImageMain}/>
-                                        <img style={{marginRight:"5px"}}  src={imagePreviewMain} width={150} height={100} />
+                                        <img style={{marginRight:"5px"}}  src={srcPre} width={150} height={100} />
                                         <br/>
                                         <br/>
                                         <p>Ảnh chi tiết</p>
