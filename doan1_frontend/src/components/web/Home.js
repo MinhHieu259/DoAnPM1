@@ -4,6 +4,7 @@ import { mainJS } from '../../js/main';
 import axios from 'axios';
 
 function Home() {
+    document.title = "Trang chủ"
     const [nhaList, setNha] = useState([])
     useEffect(() => {
         mainJS();

@@ -4,6 +4,7 @@ import axios from 'axios';
 import swal from 'sweetalert'
 
 function DangTin() {
+    document.title = "Đăng tin bất động sản"
     const [phapLy, setPhapLy] = useState([
         'Sổ đỏ / sổ hồng',
         'Hợp đồng mua bán',
@@ -103,14 +104,14 @@ function DangTin() {
     };
 
     const [{ altPre, srcPre }, setImagePreviewMain] = useState([]);
-    
+
     const handleImageMain = (e) => {
         if (e.target.files) {
             setImageMain(e.target.files[0])
-            setImagePreviewMain({srcPre : URL.createObjectURL(e.target.files[0])})
+            setImagePreviewMain({ srcPre: URL.createObjectURL(e.target.files[0]) })
         }
     };
-    
+
 
     useEffect(() => {
         setImagePreview([]);
@@ -119,9 +120,9 @@ function DangTin() {
         })
     }, [imagesList])
 
-  
-    
-  
+
+
+
     const [inforUser, setUserInfor] = useState({
         name: '',
         ngaySinh: '',
@@ -213,7 +214,7 @@ function DangTin() {
         e.persist();
         setLoaiBDS({ ...loaiBDS, [e.target.name]: e.target.value });
     }
-    
+
 
     useEffect(() => {
         axios.get(`api/get-hangmuc-by-id/${loaiBDS.hangmuc}`).then(res => {
@@ -223,7 +224,7 @@ function DangTin() {
         });
     }, [loaiBDS.hangmuc])
 
-   
+
 
     // Xử lý thêm pháp lý vào mảng
     const submitPhapLy = (e) => {
@@ -259,7 +260,7 @@ function DangTin() {
         imagesList.forEach((image_file) => {
             formData.append('images[]', image_file);
         });
-       
+
 
 
         axios.post(`/api/dang-tin-ban`, formData).then(res => {
@@ -541,19 +542,19 @@ function DangTin() {
                                     <div className="card-body">
                                         <h3>Hình ảnh & Video</h3>
                                         <p>Ảnh đại diện</p>
-                                        <input name="imageMain" type="file" onChange={handleImageMain}/>
-                                        <img style={{marginRight:"5px"}}  src={srcPre} width={150} height={100} />
-                                        <br/>
-                                        <br/>
+                                        <input name="imageMain" type="file" onChange={handleImageMain} />
+                                        <img style={{ marginRight: "5px" }} src={srcPre} width={150} height={100} />
+                                        <br />
+                                        <br />
                                         <p>Ảnh chi tiết</p>
                                         <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
                                         {imagePreview.map((imageSrc, idx) => {
                                             return (
-                                                <img style={{marginRight:"5px"}} key={idx} src={imageSrc} width={150} height={100} />
+                                                <img style={{ marginRight: "5px" }} key={idx} src={imageSrc} width={150} height={100} />
                                             )
                                         })}
-                                       
-                                    </div> 
+
+                                    </div>
                                     <small className='text-danger'>{errorlist.images}</small>
                                 </div>
 
@@ -760,11 +761,11 @@ function DangTin() {
 
 
                                     </div>
-                                   
-                                   
+
+
 
                                     <br />
-                                   
+
 
                                     <div className="row">
                                         <div className="col-md-3">
@@ -781,7 +782,7 @@ function DangTin() {
                                             <input placeholder="Chọn hướng" className="form-control" type='text' name="huongnha" onChange={handleInputBDS} value={batDongSanInput.huongnha} />
                                             <small className='text-danger'>{errorlist.huongNha}</small>
                                         </div>
-                                      
+
                                     </div>
 
                                     <div className="row">
@@ -795,25 +796,25 @@ function DangTin() {
                                         </div>
                                     </div>
 
-                                  
+
                                 </div>
                             </div>
 
                             <br />
                             <div className="card">
                                 <div className="card-body">
-                                <h3>Hình ảnh & Video</h3>
-                                        <p>Ảnh đại diện</p>
-                                        <input name="imageMain" type="file" onChange={handleImageMain}/>
-                                        <br/>
-                                        <br/>
-                                        <p>Ảnh chi tiết</p>
-                                        <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
-                                        {imagePreview.map((imageSrc, idx) => {
-                                            return (
-                                                <img style={{marginRight:"5px"}} key={idx} src={imageSrc} width={150} height={100} />
-                                            )
-                                        })}
+                                    <h3>Hình ảnh & Video</h3>
+                                    <p>Ảnh đại diện</p>
+                                    <input name="imageMain" type="file" onChange={handleImageMain} />
+                                    <br />
+                                    <br />
+                                    <p>Ảnh chi tiết</p>
+                                    <input multiple type='file' name="images[]" id="file" onChange={handleImage} />
+                                    {imagePreview.map((imageSrc, idx) => {
+                                        return (
+                                            <img style={{ marginRight: "5px" }} key={idx} src={imageSrc} width={150} height={100} />
+                                        )
+                                    })}
                                 </div>
                                 <small className='text-danger'>{errorlist.images}</small>
                             </div>
@@ -855,8 +856,6 @@ function DangTin() {
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </form>
         )
@@ -874,10 +873,13 @@ function DangTin() {
                 <div className="col-md-3">
                     <div className="container">
 
-                        <div className="container text-center mb-3" style={{ padding: "10px" }}>
+                        <div className="container mb-3 text-center" style={{ padding: "10px" }}>
                             <div style={{ backgroundColor: "#dcdcdc", width: "240px", borderRadius: "10px", padding: "10px" }}>
-                                <img src={src}  width={80} height={80} className="rounded mx-auto d-block mb-3" />
+                                <img src={src} width={80} height={80} className="rounded mx-auto d-block mb-3" />
                                 <span className="font-weight-bold">{inforUser.name}</span>
+                                <br />
+                                <p className="font-weight-bold">Số dư tài khoản: 100.000</p>
+                                <button className="btn btn-danger">Nạp tiền</button>
                             </div>
 
                         </div>
@@ -897,7 +899,7 @@ function DangTin() {
                     </div>
                 </div>
 
-                <div className="col-md-9">
+                <div className="col-md-6">
                     <div className="container">
                         <div className="card">
                             <div className="card-body">
@@ -912,6 +914,44 @@ function DangTin() {
 
                         </div>
 
+                    </div>
+                </div>
+
+                <div className="col-md-3" style={{ position: "fixed", right: "20px" }}>
+                    <div className="container">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5>Loại tin đăng</h5>
+                                <select className="form-control">
+                                    <option>Tin Thường</option>
+                                </select>
+                                <br />
+                                <div className="row">
+                                    <div className="col-md-5">
+                                        <h6>Số ngày đăng</h6>
+                                        <input type="number" name="soNgayDang" className="form-control" />
+                                    </div>
+                                    <div className="col-md-7">
+                                        <h6>Ngày bắt đầu</h6>
+                                        <input type="date" name="soNgayDang" className="form-control" />
+                                    </div>
+
+                                 
+                                    <div className="container text-center">
+                                    <br />
+                                        <p>Kết thúc ngày: 10/11/2022</p>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="container text-center" style={{ backgroundColor: "#edf7ff", padding: "10px", borderRadius: "5px" }}>
+                                    <p><span className="font-weight-bold">Đơn giá / ngày:</span>  2700 vnđ</p>
+                                    <p><span className="font-weight-bold">Số ngày đăng tin:</span> 8 ngày</p>
+                                    <hr />
+                                    <br />
+                                    <p>Bạn trả:  24.000 VNĐ</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

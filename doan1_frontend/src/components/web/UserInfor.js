@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import swal from 'sweetalert'
 import { mainJS } from '../../js/main';
 function UserInfor() {
-
+    document.title = "Cập nhật thông tin cá nhân"
     const history = useHistory();
     const [loading, setLoading] = useState(true);
     const [inforInput, setUserInfor] = useState({
