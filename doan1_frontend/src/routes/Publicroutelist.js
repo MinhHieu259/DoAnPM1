@@ -4,6 +4,9 @@ import Page403 from "../components/errors/Page403";
 import Page404 from "../components/errors/Page404";
 import UserInfor from "../components/web/UserInfor";
 import DangTin from "../components/web/DangTin";
+import DoiMatKhau from "../components/web/DoiMatKhau";
+import ChiTietBDS from "../components/web/ChiTietBDS";
+
 const publicRoutesList = [
     {path: '/', exact: true, name: 'Home', component: Home},
     {path: '/login', exact: true, name: 'Login', component: Login},
@@ -11,5 +14,7 @@ const publicRoutesList = [
     {path: '/404', exact: true, name: 'Page404', component: Page404},
     {path: '/thongtincanhan', exact: true, name: 'UserInfor', component: UserInfor},
     {path: '/dang-tin-mua-ban-nha-dat', exact: true, name: 'DangTin', component: DangTin},
+    {path: '/doi-mat-khau', exact: true, name: 'DoiMatKhau', component: DoiMatKhau},
+    {path: '/chi-tiet-bat-dong-san', exact: true, name: 'ChiTietBDS', component: ChiTietBDS}
 ];
 export default publicRoutesList;

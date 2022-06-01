@@ -115,7 +115,7 @@ function UserInfor() {
                             <div className="card-body">
                                 <ul>
                                     <li><Link to="/thongtincanhan">Thông tin cá nhân</Link></li>
-                                    <li><Link to="/thongtincanhan">Thay đổi mật khẩu</Link></li>
+                                    <li><Link to="/doi-mat-khau">Thay đổi mật khẩu</Link></li>
                                 </ul>
                             </div>
                         </div>
