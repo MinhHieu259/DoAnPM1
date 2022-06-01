@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { mainJS } from '../../js/main';
-
+import { Link, useHistory } from 'react-router-dom';
 
 function ChiTietBDS() {
 document.title ='Chi tiết bất động sản';
@@ -24,7 +24,7 @@ document.title ='Chi tiết bất động sản';
               <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang chủ</a>
+                    <Link to="/">Trang chủ</Link>
                   </li>
                   <li className="breadcrumb-item">
                     <a href="property-grid.html">Bất động sản</a>
