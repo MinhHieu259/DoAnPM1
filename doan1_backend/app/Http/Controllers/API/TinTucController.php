@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\BatDongSan;
 use App\Models\HinhAnh;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +30,10 @@ class TinTucController extends Controller
             'soDienThoai' => 'required',
             'diaChiLienHe' => 'required',
             'emailLienHe' => 'required',
-            'hinhDaiDien' => 'required'
+            'hinhDaiDien' => 'required',
+            'ngayBatDau' => 'required',
+            'ngayKetThuc' => 'required',
+            'maLoaiTin' => 'required'
             
         ], [
             'tenHinhThuc.required' => 'Hình thức không được để trống',
@@ -45,7 +50,10 @@ class TinTucController extends Controller
             'soDienThoai.required' => 'Số điện thoại không được để trống',
             'diaChiLienHe.required' => 'Địa chỉ liên hệ không được để trống',
             'emailLienHe.required' => 'Email liên hệ không được để trống',
-            'hinhDaiDien.required' => 'Hình đại diện không được để trống'
+            'hinhDaiDien.required' => 'Hình đại diện không được để trống',
+            'ngayBatDau.required' => 'Chưa chọn ngày bắt đầu',
+            'ngayKetThuc.required' => 'Chưa chọn ngày kết thúc',
+            'maLoaiTin.required' => 'Mã loại tin không được để trống'
         ]);
 
         if($validator->fails()){
@@ -76,6 +84,9 @@ class TinTucController extends Controller
             $batDongSan->soDienThoai = $request->input('soDienThoai');
             $batDongSan->diaChiLienHe = $request->input('diaChiLienHe');
             $batDongSan->emailLienHe = $request->input('emailLienHe');
+            $batDongSan->ngayBatDau = $request->input('ngayBatDau');
+            $batDongSan->ngayKetThuc = $request->input('ngayKetThuc');
+            $batDongSan->maLoaiTin = $request->input('maLoaiTin');
             if($request->hasFile('hinhDaiDien'))
             {
                
@@ -103,6 +114,10 @@ class TinTucController extends Controller
                    
                }
             }
+
+            $user = User::find(Auth::user()->id);
+            $user->soDu = $request->input('soDu');
+            $user->save();
 
             return response()->json([
                 'status' => 200,

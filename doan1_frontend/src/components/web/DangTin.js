@@ -37,7 +37,17 @@ function DangTin() {
     });
 
     const [nhaHayDat, setNhaHayDat] = useState();
-   
+    const [inforUser, setUserInfor] = useState({
+        name: '',
+        ngaySinh: '',
+        diaChi: '',
+        soDienThoai: '',
+        email: '',
+        cmnd: '',
+        facebook: '',
+        gioiTinh: '',
+        soDu: 0
+    });
 
 
     useEffect(() => {
@@ -113,23 +123,33 @@ function DangTin() {
         giaTin: 0
     });
 
+    const [TienTra, setTienTra] = useState();
+
     var soNgayDangInt = parseInt(batDongSanInput.soNgayDang);
   
     var tomorrow = new Date(batDongSanInput.ngayBatDau);
     tomorrow.setDate(tomorrow.getDate()+soNgayDangInt);
     
-
+   
     useEffect(() => {
-      setBatDongSan({...batDongSanInput,ngayKetThuc: moment(tomorrow).format("DD/MM/YYYY")})
+      setBatDongSan({...batDongSanInput,ngayKetThuc: moment(tomorrow).format("YYYY-MM-DD")});
+      setTienTra(batDongSanInput.soNgayDang * batDongSanInput.giaTin);
+     
     }, [batDongSanInput.soNgayDang, batDongSanInput.ngayBatDau])
 
+    var soDuConLai = inforUser.soDu - TienTra;
+    
     useEffect(() => {
         axios.get(`api/get-loai-tin-byId/${batDongSanInput.loaiTinDang}`).then(res => {
             if (res.data.status === 200) {
                 setBatDongSan({...batDongSanInput,giaTin: res.data.loaiTin.gia})
             }
         });
+
+        
       }, [batDongSanInput.loaiTinDang])
+
+      
     
     const [imagePreview, setImagePreview] = useState([])
     const handleImage = (e) => {
@@ -156,19 +176,6 @@ function DangTin() {
     }, [imagesList])
 
 
-
-
-    const [inforUser, setUserInfor] = useState({
-        name: '',
-        ngaySinh: '',
-        diaChi: '',
-        soDienThoai: '',
-        email: '',
-        cmnd: '',
-        facebook: '',
-        gioiTinh: '',
-        soDu: 0
-    });
     const [{ alt, src }, setPicture] = useState([]);
 
 
@@ -292,6 +299,10 @@ function DangTin() {
         formData.append('soDienThoai', batDongSanInput.sdt);
         formData.append('diaChiLienHe', batDongSanInput.diachilienhe);
         formData.append('emailLienHe', batDongSanInput.email);
+        formData.append('ngayBatDau', batDongSanInput.ngayBatDau);
+        formData.append('ngayKetThuc', batDongSanInput.ngayKetThuc);
+        formData.append('maLoaiTin', batDongSanInput.loaiTinDang);
+        formData.append('soDu', soDuConLai);
         formData.append('hinhDaiDien', imageMain);
         imagesList.forEach((image_file) => {
             formData.append('images[]', image_file);
@@ -299,44 +310,48 @@ function DangTin() {
 
 
 
-        axios.post(`/api/dang-tin-ban`, formData).then(res => {
-            if (res.data.status === 200) {
-                swal("Thành công", res.data.message, "success");
-                setBatDongSan({
-                    ...batDongSanInput,
-                    phaply: '',
-                    hinhthuc: '',
-                    hangmuc: '',
-                    tinh: '',
-                    quan: '',
-                    phuong: '',
-                    diaChiTmp: '',
-                    tieude: '',
-                    mota: '',
-                    dientich: '',
-                    gia: '',
-                    phongngu: '',
-                    phongtam: '',
-                    sotang: '',
-                    huongnha: '',
-                    bancong: '',
-                    duongvao: '',
-                    mattien: '',
-                    noithat: '',
-                    tenlienhe: '',
-                    sdt: '',
-                    diachilienhe: '',
-                    email: ''
-                });
-                setdiaChiTmp('');
-                setImagesList([]);
-                setError([]);
-                //setError([]);
-            } else if (res.data.status === 422) {
-                swal("Dữ liệu không được để trống", "Cảnh báo");
-                setError(res.data.errors);
-            }
-        });
+        if(soDuConLai < 0 || inforUser.soDu == 0){
+            swal("Tài khoản không đủ để đăng tin", "Cảnh báo");
+        } else {
+            axios.post(`/api/dang-tin-ban`, formData).then(res => {
+                if (res.data.status === 200) {
+                    swal("Thành công", res.data.message, "success");
+                    setBatDongSan({
+                        ...batDongSanInput,
+                        phaply: '',
+                        hinhthuc: '',
+                        hangmuc: '',
+                        tinh: '',
+                        quan: '',
+                        phuong: '',
+                        diaChiTmp: '',
+                        tieude: '',
+                        mota: '',
+                        dientich: '',
+                        gia: '',
+                        phongngu: '',
+                        phongtam: '',
+                        sotang: '',
+                        huongnha: '',
+                        bancong: '',
+                        duongvao: '',
+                        mattien: '',
+                        noithat: '',
+                        tenlienhe: '',
+                        sdt: '',
+                        diachilienhe: '',
+                        email: ''
+                    });
+                    setdiaChiTmp('');
+                    setImagesList([]);
+                    setError([]);
+                    //setError([]);
+                } else if (res.data.status === 422) {
+                    swal("Dữ liệu không được để trống", "Cảnh báo");
+                    setError(res.data.errors);
+                }
+            });
+        }
     }
 
     var areaInputChange = '';
@@ -989,7 +1004,7 @@ function DangTin() {
                                     <p><span className="font-weight-bold">Số ngày đăng tin:</span> {batDongSanInput.soNgayDang} ngày</p>
                                     <hr />
                                     <br />
-                                    <p>Bạn trả:  {batDongSanInput.soNgayDang * batDongSanInput.giaTin} VNĐ</p>
+                                    <p>Bạn trả: {TienTra} VNĐ</p>
                                 </div>
                             </div>
                         </div>
