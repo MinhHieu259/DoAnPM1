@@ -24,14 +24,38 @@ const Sidebar = () => {
                             </Link>
                             <div className="collapse" id="collapseProducts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
-                                    <Link className="nav-link" to="/admin/add-product">Thêm hình thức</Link>
+                                    <Link className="nav-link" to="/admin/them-hinh-thuc">Thêm hình thức</Link>
                                     <Link className="nav-link" to="/admin/view-product">Danh sách hình thức</Link>
                                 </nav>
                             </div>
 
-                            <Link className="nav-link" to="/admin/profile">
+                            <Link className="nav-link collapsed" to="#" data-bs-toggle="collapse" data-bs-target="#collapseHangMuc" aria-expanded="false" aria-controls="collapseHangMuc">
+                                <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
+                                Quản lý hạng mục
+                                <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
+                            </Link>
+                            <div className="collapse" id="collapseHangMuc" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <Link className="nav-link" to="/admin/them-hang-muc">Thêm hạng mục</Link>
+                                    <Link className="nav-link" to="/admin/view-product">Danh sách hạng mục</Link>
+                                </nav>
+                            </div>
+
+                            <Link className="nav-link collapsed" to="#" data-bs-toggle="collapse" data-bs-target="#collapseLoaiTin" aria-expanded="false" aria-controls="collapseLoaiTin">
+                                <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
+                                Quản lý loại tin
+                                <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
+                            </Link>
+                            <div className="collapse" id="collapseLoaiTin" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <Link className="nav-link" to="/admin/them-loai-tin">Thêm loại tin</Link>
+                                    <Link className="nav-link" to="/admin/view-product">Danh sách loại tin</Link>
+                                </nav>
+                            </div>
+
+                            <Link className="nav-link" to="/admin/quan-ly-tai-khoan">
                                 <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
-                                Tài khoản
+                                Quản lý tài khoản
                             </Link>
                             
                         </div>

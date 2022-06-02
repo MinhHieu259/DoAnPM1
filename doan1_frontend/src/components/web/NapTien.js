@@ -128,7 +128,96 @@ function NapTien() {
                                 <img width="90" height="50" src='/assets/img/mbbank.jpg' />
                             </label>
 
-                            
+                            <input className='bank' style={radio} type="radio" name='bank' id='sacombank' />
+                            <label className='labelBank text-center' for="sacombank">
+                                <img width="90" height="50" src='/assets/img/logo-sacombank.jpg' />
+                            </label>
+
+                            <input className='bank' style={radio} type="radio" name='bank' id='agribank' />
+                            <label className='labelBank text-center' for="agribank">
+                                <img width="90" height="50" src='/assets/img/agribank2.png' />
+                            </label>
+
+                            <input className='bank' style={radio} type="radio" name='bank' id='eximbank' />
+                            <label className='labelBank text-center' for="eximbank">
+                                <img width="90" height="50" src='/assets/img/eximbank.jpg' />
+                            </label>
+
+                            <input className='bank' style={radio} type="radio" name='bank' id='shbbank' />
+                            <label className='labelBank text-center' for="shbbank">
+                                <img width="90" height="50" src='/assets/img/Logo-SHB-VN.png' />
+                            </label>
+
+                            <input className='bank' style={radio} type="radio" name='bank' id='lienVietPost' />
+                            <label className='labelBank text-center' for="lienVietPost">
+                                <img width="90" height="50" src='/assets/img/DTPS-140.png' />
+                            </label>
+
+                            <div className='container'>
+                                <br />
+                                <div className='row'>
+                                    <div className='col-md-3 text-center'>
+                                        <span>Số tiền muốn nạp <span className='text-danger'>*</span></span>
+                                        <br />
+                                        <span style={{ fontSize: "14px" }}>(Chưa trừ thuế, phí)</span>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <input type="text" placeholder='Nhập số tiền muốn nạp' className='form-control' />
+                                    </div>
+                                    <div className='col-md-3'>
+                                        <span style={{ fontSize: "14px" }}>Số tiền nạp tối thiểu 10.000đ</span>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className='row'>
+                                    <div className='col-md-3 text-center'>
+                                        <span>Tên khách hàng <span className='text-danger'>*</span></span>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <input type="text" placeholder='Nhập tên khách hàng' className='form-control' />
+                                    </div>
+                                </div>
+                                <br />
+                                <div className='row'>
+                                    <div className='col-md-3 text-center'>
+                                        <span>Email <span className='text-danger'>*</span></span>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <input type="text" placeholder='Nhập email' className='form-control' />
+                                    </div>
+                                </div>
+                                <br />
+                                <div className='row'>
+                                    <div className='col-md-3 text-center'>
+                                        <span>Số điện thoại <span className='text-danger'>*</span></span>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <input type="text" placeholder='Nhập số điện thoại' className='form-control' />
+                                    </div>
+                                </div>
+                                <br />
+                                <div className='row'>
+                                    <div className='col-md-3 text-center'>
+                                        <span>Nội dung giao dịch <span className='text-danger'>*</span></span>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <textarea placeholder='Nội dung giao dịch' className='form-control'></textarea>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className='row'>
+                                    <div className='col-md-3 text-center'>
+                                        <span>Mã an toàn <span className='text-danger'>*</span></span>
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <input type="text" placeholder='Nhập mã an toàn' className='form-control' />
+                                    </div>
+                                </div>
+                                <br/>
+                                <div className="container text-center">
+                                    <button type='button' className='btn btn-primary'>Tiếp tục</button>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

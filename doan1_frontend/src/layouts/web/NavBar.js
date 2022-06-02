@@ -151,7 +151,7 @@ function NavBar() {
                         <div className="dropdown-menu">
                             <Link to="#" className="dropdown-item"><i className="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
                             <Link to="/thongtincanhan" className="dropdown-item"><i className="fa-solid fa-user"></i> Thông tin cá nhân</Link>
-                            <Link to="#" className="dropdown-item"><i className="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
+                            <Link to="/doi-mat-khau" className="dropdown-item"><i className="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
                             <div className="dropdown-divider"></div>
                             <Link to="#" onClick={logoutSubmit} className="dropdown-item"><i className="fa-solid fa-power-off"></i> Đăng xuất</Link>
                         </div>

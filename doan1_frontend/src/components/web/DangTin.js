@@ -879,7 +879,7 @@ function DangTin() {
                                 <span className="font-weight-bold">{inforUser.name}</span>
                                 <br />
                                 <p className="font-weight-bold">Số dư tài khoản: 100.000</p>
-                                <button className="btn btn-danger">Nạp tiền</button>
+                                <Link to="/nap-tien" className="btn btn-danger">Nạp tiền</Link>
                             </div>
 
                         </div>
