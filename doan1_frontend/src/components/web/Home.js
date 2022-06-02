@@ -215,14 +215,14 @@ function Home() {
                                                     <div className="card-overlay-a-content">
                                                         <div className="card-header-a">
                                                             <h2 className="card-title-a">
-                                                                <Link to="property-single.html">{nha.tieuDe}</Link>
+                                                                <Link to={`/chi-tiet-bat-dong-san`}>{nha.tieuDe}</Link>
                                                             </h2>
                                                         </div>
                                                         <div className="card-body-a">
                                                             <div className="price-box d-flex">
                                                                 <span className="price-a">Giá | {nha.giaTien} vnđ</span>
                                                             </div>
-                                                            <Link to="#" className="link-a">Xem chi tiết
+                                                            <Link to={`/chi-tiet-bat-dong-san`} className="link-a">Xem chi tiết
                                                                 <span className="bi bi-chevron-right"></span>
                                                             </Link>
                                                         </div>

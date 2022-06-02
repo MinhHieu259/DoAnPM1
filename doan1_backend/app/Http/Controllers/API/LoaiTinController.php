@@ -100,4 +100,24 @@ class LoaiTinController extends Controller
             ]);
         }
     }
+
+    public function get_all_loai_tin()
+    {
+       $loaiTin = LoaiTinDang::all();
+       
+       return response()->json([
+        'status' => 200,
+        'loaiTin' => $loaiTin
+    ]);
+    }
+
+    public function getLoaiTinByID($id)
+    {
+       $loaiTin = LoaiTinDang::find($id);
+
+       return response()->json([
+        'status' => 200,
+        'loaiTin' => $loaiTin
+    ]);
+    }
 }

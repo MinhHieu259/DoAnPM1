@@ -15,7 +15,8 @@ function UserInfor() {
         email: '',
         cmnd: '',
         facebook: '',
-        gioiTinh: ''
+        gioiTinh: '',
+        soDu: 0
     });
     useEffect(() => {
         mainJS()
@@ -96,7 +97,7 @@ function UserInfor() {
                                 <input type="file" name="image" onChange={handleImage} className='form-control' />
                                 <p className='text-center mt-3' style={{ fontWeight: "bold" }}>{inforInput.name}</p>
                                 <div className='container' style={{ backgroundColor: "#E5E5E5" }}>
-                                    <p className='text-center'>Số dư: {inforInput.soDuTaiKhoan} đ</p>
+                                    <p className='text-center'>Số dư: {inforInput.soDu} đ</p>
                                 </div>
                                 <div className="container">
                                     <div className="row">

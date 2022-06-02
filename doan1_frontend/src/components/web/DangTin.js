@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from 'axios';
 import swal from 'sweetalert'
+import { mainJS } from "../../js/main";
+import moment from 'moment'
 
 function DangTin() {
     document.title = "Đăng tin bất động sản"
@@ -28,13 +30,18 @@ function DangTin() {
 
     const [errorlist, setError] = useState([])
 
+    const [loaitinList, setLoaiTinList] = useState([])
+
     const [loaiBDS, setLoaiBDS] = useState({
         hangmuc: '1'
     });
 
     const [nhaHayDat, setNhaHayDat] = useState();
+   
+
 
     useEffect(() => {
+        mainJS();
         axios.get(`api/get-all-hinhthuc`).then(res => {
             if (res.data.status === 200) {
                 setHinhThucList(res.data.hinhThuc);
@@ -50,6 +57,12 @@ function DangTin() {
         axios.get(`api/get-all-tinhthanh`).then(res => {
             if (res.data.status === 200) {
                 settinhThanhList(res.data.tinhThanh);
+            }
+        });
+
+        axios.get(`api/get-all-loai-tin`).then(res => {
+            if (res.data.status === 200) {
+               setLoaiTinList(res.data.loaiTin)
             }
         });
 
@@ -92,10 +105,32 @@ function DangTin() {
         tenlienhe: '',
         sdt: '',
         diachilienhe: '',
-        email: ''
+        email: '',
+        loaiTinDang:  2,
+        soNgayDang: 1,
+        ngayBatDau: '',
+        ngayKetThuc: '',
+        giaTin: 0
     });
 
+    var soNgayDangInt = parseInt(batDongSanInput.soNgayDang);
+  
+    var tomorrow = new Date(batDongSanInput.ngayBatDau);
+    tomorrow.setDate(tomorrow.getDate()+soNgayDangInt);
+    
 
+    useEffect(() => {
+      setBatDongSan({...batDongSanInput,ngayKetThuc: moment(tomorrow).format("DD/MM/YYYY")})
+    }, [batDongSanInput.soNgayDang, batDongSanInput.ngayBatDau])
+
+    useEffect(() => {
+        axios.get(`api/get-loai-tin-byId/${batDongSanInput.loaiTinDang}`).then(res => {
+            if (res.data.status === 200) {
+                setBatDongSan({...batDongSanInput,giaTin: res.data.loaiTin.gia})
+            }
+        });
+      }, [batDongSanInput.loaiTinDang])
+    
     const [imagePreview, setImagePreview] = useState([])
     const handleImage = (e) => {
         if (e.target.files) {
@@ -131,7 +166,8 @@ function DangTin() {
         email: '',
         cmnd: '',
         facebook: '',
-        gioiTinh: ''
+        gioiTinh: '',
+        soDu: 0
     });
     const [{ alt, src }, setPicture] = useState([]);
 
@@ -878,7 +914,7 @@ function DangTin() {
                                 <img src={src} width={80} height={80} className="rounded mx-auto d-block mb-3" />
                                 <span className="font-weight-bold">{inforUser.name}</span>
                                 <br />
-                                <p className="font-weight-bold">Số dư tài khoản: 100.000</p>
+                                <p className="font-weight-bold">Số dư tài khoản: {inforUser.soDu}đ</p>
                                 <Link to="/nap-tien" className="btn btn-danger">Nạp tiền</Link>
                             </div>
 
@@ -922,33 +958,38 @@ function DangTin() {
                         <div className="card">
                             <div className="card-body">
                                 <h5>Loại tin đăng</h5>
-                                <select className="form-control">
-                                    <option>Tin Thường</option>
+                                <select className="form-control" name="loaiTinDang" onChange={handleInputBDS} value={batDongSanInput.loaiTinDang}>
+                                {loaitinList.map((loaiTin, idx) => {
+                                    return (
+                                        <option key={idx} value={loaiTin.id}>{loaiTin.tenLoaiTinDang}</option>
+                                    )
+                                })}
+                                    
                                 </select>
                                 <br />
                                 <div className="row">
                                     <div className="col-md-5">
                                         <h6>Số ngày đăng</h6>
-                                        <input type="number" name="soNgayDang" className="form-control" />
+                                        <input type="number" name="soNgayDang" onChange={handleInputBDS} value={batDongSanInput.soNgayDang} className="form-control" />
                                     </div>
                                     <div className="col-md-7">
                                         <h6>Ngày bắt đầu</h6>
-                                        <input type="date" name="soNgayDang" className="form-control" />
+                                        <input placeholder="dd-mm-yyyy" name="ngayBatDau" onChange={handleInputBDS} value={batDongSanInput.ngayBatDau} type="date"  className="form-control" />
                                     </div>
 
-                                 
+
                                     <div className="container text-center">
-                                    <br />
-                                        <p>Kết thúc ngày: 10/11/2022</p>
+                                        <br />
+                                        <p>Kết thúc ngày: {batDongSanInput.ngayKetThuc}</p>
                                     </div>
                                 </div>
                                 <br />
                                 <div className="container text-center" style={{ backgroundColor: "#edf7ff", padding: "10px", borderRadius: "5px" }}>
-                                    <p><span className="font-weight-bold">Đơn giá / ngày:</span>  2700 vnđ</p>
-                                    <p><span className="font-weight-bold">Số ngày đăng tin:</span> 8 ngày</p>
+                                    <p><span className="font-weight-bold">Đơn giá / ngày:</span>  {batDongSanInput.giaTin} vnđ</p>
+                                    <p><span className="font-weight-bold">Số ngày đăng tin:</span> {batDongSanInput.soNgayDang} ngày</p>
                                     <hr />
                                     <br />
-                                    <p>Bạn trả:  24.000 VNĐ</p>
+                                    <p>Bạn trả:  {batDongSanInput.soNgayDang * batDongSanInput.giaTin} VNĐ</p>
                                 </div>
                             </div>
                         </div>

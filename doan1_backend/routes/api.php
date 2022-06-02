@@ -7,6 +7,7 @@ use App\Http\Controllers\API\HinhThucController;
 use App\Http\Controllers\API\LoaiTinController;
 use App\Http\Controllers\API\TinTucController;
 use App\Http\Controllers\API\UserController;
+use App\Models\LoaiTinDang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,10 @@ Route::get('/get-ten-xa/{id_xa}',[DiaChiController::class, 'get_ten_xa']);
 //Get Nhà
 Route::get('/get-nha',[TinTucController::class, 'get_nha']);
 Route::get('/chi-tiet-batdongsan/{id}',[TinTucController::class, 'chiTietBDS']);
+
+//get all loại tin
+Route::get('/get-all-loai-tin',[LoaiTinController::class, 'get_all_loai_tin']);
+Route::get('/get-loai-tin-byId/{id}',[LoaiTinController::class, 'getLoaiTinByID']);
 
 Route::middleware(['auth:sanctum', 'isApiAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {
