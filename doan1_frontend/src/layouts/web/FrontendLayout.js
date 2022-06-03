@@ -10,9 +10,9 @@ import {mainJS} from '../../js/main';
 
 
 const FrontendLayout = () => {
-    // useEffect(() => {
-    //     mainJS()
-    // }, []);
+    useEffect(() => {
+        mainJS()
+    }, []);
     
     return(
       <div>

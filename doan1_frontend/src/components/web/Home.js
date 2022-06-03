@@ -36,7 +36,7 @@ function Home() {
                                                     <br /> Olive Road Two
                                                 </h1>
                                                 <p className="intro-subtitle intro-price">
-                                                    <Link to="#"><span className="price-a">rent | $ 12.000</span></Link>
+                                                    <Link to="#"><span className="price-a">Giá | $ 12.000</span></Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@ function Home() {
                                                     <br /> Venda Road Five
                                                 </h1>
                                                 <p className="intro-subtitle intro-price">
-                                                    <Link to="#"><span className="price-a">rent | $ 12.000</span></Link>
+                                                    <Link to="#"><span className="price-a">Giá | $ 12.000</span></Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@ function Home() {
                                                     <br /> Roan Road One
                                                 </h1>
                                                 <p className="intro-subtitle intro-price">
-                                                    <Link to="#"><span className="price-a">rent | $ 12.000</span></Link>
+                                                    <Link to="#"><span className="price-a">Giá | $ 12.000</span></Link>
                                                 </p>
                                             </div>
                                         </div>
