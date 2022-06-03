@@ -130,27 +130,35 @@ function DangTin() {
     var tomorrow = new Date(batDongSanInput.ngayBatDau);
     tomorrow.setDate(tomorrow.getDate()+soNgayDangInt);
     
+
+    useEffect(() => {
+        axios.get(`api/get-loai-tin-byId/${batDongSanInput.loaiTinDang}`).then(res => {
+            if (res.data.status === 200) {
+                setBatDongSan({...batDongSanInput, giaTin: res.data.loaiTin.gia})
+            }
+        });
+        setTienTra(batDongSanInput.soNgayDang * batDongSanInput.giaTin);
+        
+      }, [batDongSanInput.loaiTinDang])
+
+      useEffect(() => {
+        setTienTra(batDongSanInput.soNgayDang * batDongSanInput.giaTin);
+        
+      }, [batDongSanInput.giaTin])
    
+     
+
     useEffect(() => {
       setBatDongSan({...batDongSanInput,ngayKetThuc: moment(tomorrow).format("YYYY-MM-DD")});
       setTienTra(batDongSanInput.soNgayDang * batDongSanInput.giaTin);
      
-    }, [batDongSanInput.soNgayDang, batDongSanInput.ngayBatDau])
+    }, [batDongSanInput.soNgayDang])
+
+
 
     var soDuConLai = inforUser.soDu - TienTra;
     
-    useEffect(() => {
-        axios.get(`api/get-loai-tin-byId/${batDongSanInput.loaiTinDang}`).then(res => {
-            if (res.data.status === 200) {
-                setBatDongSan({...batDongSanInput,giaTin: res.data.loaiTin.gia})
-            }
-        });
-
-        
-      }, [batDongSanInput.loaiTinDang])
-
-      
-    
+  
     const [imagePreview, setImagePreview] = useState([])
     const handleImage = (e) => {
         if (e.target.files) {
@@ -857,6 +865,7 @@ function DangTin() {
                                     <h3>Hình ảnh & Video</h3>
                                     <p>Ảnh đại diện</p>
                                     <input name="imageMain" type="file" onChange={handleImageMain} />
+                                    <img style={{ marginRight: "5px" }} src={srcPre} width={150} height={100} />
                                     <br />
                                     <br />
                                     <p>Ảnh chi tiết</p>
