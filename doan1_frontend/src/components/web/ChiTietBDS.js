@@ -1,13 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { mainJS } from '../../js/main';
 import { Link, useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
+import axios from 'axios';
 
 function ChiTietBDS() {
-document.title ='Chi tiết bất động sản';
+  const history = useHistory();
+  document.title = 'Chi tiết bất động sản';
+  const [inForBDS, setInfoBDS] = useState({
+    tieuDe: '',
+    diaChi: '',
+    giaTien: '',
+    moTa: '',
+    dienTich: '',
+    soPhongNgu: '',
+    soPhongVeSinh: '',
+    soTang: '',
+    huongNha: '',
+    noiThat: ''
+  });
+
+  const [detailId, setdetailId] = useState()
+  const [listImage, setListImage] = useState([])
+  const [listImageShow, setListImageShow] = useState([])
 
   useEffect(() => {
     mainJS()
   }, [])
+
+  useEffect(() => {
+    setdetailId(localStorage.getItem('detail_id'))
+  }, [localStorage.getItem('detail_id')])
+
+  useEffect(() => {
+    if (detailId != null) {
+      axios.get(`/api/chi-tiet-batdongsan/${detailId}`).then(res => {
+        if (res.data.status === 200) {
+          console.log(res.data.batDongSan)
+          setInfoBDS(res.data.batDongSan);
+          setListImage(res.data.batDongSan.hinhanh)
+        } else if (res.data.status === 404) {
+          history.push('/collections');
+          swal("Lỗi", res.data.message, "error");
+        }
+      });
+    }
+  }, [detailId])
+
+  useEffect(() => {
+    if (listImage != null) {
+      listImage.forEach((image_file) => {
+        setListImageShow(arr => [...arr, image_file.hinhAnh])
+      })
+    }
+  }, [listImage])
 
   return (
     <div id="main">
@@ -16,8 +62,8 @@ document.title ='Chi tiết bất động sản';
           <div className="row">
             <div className="col-md-12 col-lg-8">
               <div className="title-single-box">
-                <h1 className="title-single">Bán nhà tại Đà Nẵng</h1>
-                <span className="color-text-a">233 Điện Biên Phủ, Hoà Khê, Thanh Khê, Đà Nẵng</span>
+                <h1 className="title-single">{inForBDS.tieuDe}</h1>
+                <span className="color-text-a">{inForBDS.diaChi}</span>
               </div>
             </div>
             <div className="col-md-12 col-lg-4">
@@ -30,7 +76,7 @@ document.title ='Chi tiết bất động sản';
                     <a href="property-grid.html">Bất động sản</a>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    Bán nhà tại Đà Nẵng
+                    {inForBDS.tieuDe}
                   </li>
                 </ol>
               </nav>
@@ -45,12 +91,17 @@ document.title ='Chi tiết bất động sản';
             <div className="col-lg-8">
               <div id="property-single-carousel" className="swiper">
                 <div className="swiper-wrapper">
-                  <div className="carousel-item-b swiper-slide">
-                    <img src="assets/img/slide-1.jpg" alt="" />
-                  </div>
-                  <div className="carousel-item-b swiper-slide">
-                    <img src="assets/img/slide-2.jpg" alt="" />
-                  </div>
+                  {
+                    listImageShow.map((image, idx) => {
+                      return (
+                        <div key={idx} className="carousel-item-b swiper-slide">
+                          <img src={`http://localhost:8000/${image}`} alt="" />
+                        </div>
+                      )
+                    })
+                  }
+
+
                 </div>
               </div>
               <div className="property-single-carousel-pagination carousel-pagination"></div>
@@ -68,7 +119,7 @@ document.title ='Chi tiết bất động sản';
                         <span className="bi bi-cash">$</span>
                       </div>
                       <div className="card-title-c align-self-center">
-                        <h5 className="title-c">15000</h5>
+                        <h5 className="title-c">{inForBDS.giaTien}</h5>
                       </div>
                     </div>
                   </div>
@@ -87,8 +138,8 @@ document.title ='Chi tiết bất động sản';
                           <span>1134</span>
                         </li>
                         <li className="d-flex justify-content-between">
-                          <strong>Location:</strong>
-                          <span>Chicago, IL 606543</span>
+                          <strong>Hướng nhà:</strong>
+                          <span>{inForBDS.huongNha}</span>
                         </li>
                         <li className="d-flex justify-content-between">
                           <strong>Property Type:</strong>
@@ -99,18 +150,18 @@ document.title ='Chi tiết bất động sản';
                           <span>Sale</span>
                         </li>
                         <li className="d-flex justify-content-between">
-                          <strong>Area:</strong>
-                          <span>340m
+                          <strong>Diện tích:</strong>
+                          <span>{inForBDS.dienTich}m
                             <sup>2</sup>
                           </span>
                         </li>
                         <li className="d-flex justify-content-between">
-                          <strong>Beds:</strong>
-                          <span>4</span>
+                          <strong>Phòng ngủ:</strong>
+                          <span>{inForBDS.soPhongNgu}</span>
                         </li>
                         <li className="d-flex justify-content-between">
-                          <strong>Baths:</strong>
-                          <span>2</span>
+                          <strong>Phòng tắm:</strong>
+                          <span>{inForBDS.soPhongVeSinh}</span>
                         </li>
                         <li className="d-flex justify-content-between">
                           <strong>Garage:</strong>
@@ -130,16 +181,7 @@ document.title ='Chi tiết bất động sản';
                   </div>
                   <div className="property-description">
                     <p className="description color-text-a">
-                      Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit
-                      neque, auctor sit amet
-                      aliquam vel, ullamcorper sit amet ligula. Cras ultricies ligula sed magna dictum porta.
-                      Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt
-                      nibh pulvinar quam id dui posuere blandit.
-                    </p>
-                    <p className="description color-text-a no-margin">
-                      Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec rutrum congue leo eget
-                      malesuada. Quisque velit nisi,
-                      pretium ut lacinia in, elementum id enim. Donec sollicitudin molestie malesuada.
+                      {inForBDS.moTa}
                     </p>
                   </div>
                   <div className="row section-t3">
@@ -151,15 +193,7 @@ document.title ='Chi tiết bất động sản';
                   </div>
                   <div className="amenities-list color-text-a">
                     <ul className="list-a no-margin">
-                      <li>Balcony</li>
-                      <li>Outdoor Kitchen</li>
-                      <li>Cable Tv</li>
-                      <li>Deck</li>
-                      <li>Tennis Courts</li>
-                      <li>Internet</li>
-                      <li>Parking</li>
-                      <li>Sun Room</li>
-                      <li>Concrete Flooring</li>
+                      {inForBDS.noiThat}
                     </ul>
                   </div>
                   <button className='btn btn-danger mt-5'>Yêu cầu mua</button>
@@ -190,7 +224,7 @@ document.title ='Chi tiết bất động sản';
                 </div>
               </div>
             </div>
-           
+
           </div>
         </div>
       </section>

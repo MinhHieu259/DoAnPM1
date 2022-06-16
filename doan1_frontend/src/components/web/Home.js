@@ -2,18 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { mainJS } from '../../js/main';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 function Home() {
     document.title = "Trang chủ"
     const [nhaList, setNha] = useState([])
     useEffect(() => {
-        mainJS();
+         mainJS();
         axios.get(`api/get-nha`).then(res => {
             if (res.data.status === 200) {
                 setNha(res.data.batDongSan);
             }
         });
     }, []);
+
+    const clickSetChiTietId = (e, id) => {
+        e.persist();
+        localStorage.setItem('detail_id', id);
+        <Redirect to="/chi-tiet-bat-dong-san"/>
+        
+    }
 
     return (
         <div>
@@ -215,7 +223,7 @@ function Home() {
                                                     <div className="card-overlay-a-content">
                                                         <div className="card-header-a">
                                                             <h2 className="card-title-a">
-                                                                <Link to={`/chi-tiet-bat-dong-san`}>{nha.tieuDe}</Link>
+                                                                <Link onClick={(e) => clickSetChiTietId(e, nha.id)} to={`/chi-tiet-bat-dong-san`}>{nha.tieuDe}</Link>
                                                             </h2>
                                                         </div>
                                                         <div className="card-body-a">

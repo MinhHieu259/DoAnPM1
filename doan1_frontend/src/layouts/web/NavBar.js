@@ -4,12 +4,12 @@ import swal from 'sweetalert';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 
-
 function NavBar() {
     const styleError = {
         color: "red",
         fontStyle: "italic"
     };
+
 
     // Khai báo các trường dl
     const [registerInput, setRegister] = useState({

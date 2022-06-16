@@ -138,7 +138,7 @@ class TinTucController extends Controller
 
     public function chiTietBDS($id)
     {
-        $batDongSan = BatDongSan::find($id)->first();
+        $batDongSan = BatDongSan::find($id);
         $batDongSan->hinhanh;
         return response()->json([
             'status' => 200,
