@@ -93,6 +93,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
      //Đăng tin
      Route::post('dang-tin-ban', [TinTucController::class, 'dangTinBan']);
      Route::post('dang-tin-mua', [TinTucController::class, 'dangTinMua']);
+
+     //Lấy tin đã đăng
+     Route::get('danh-sach-tin-dang', [UserController::class, 'getTinDang']);
      
 });
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

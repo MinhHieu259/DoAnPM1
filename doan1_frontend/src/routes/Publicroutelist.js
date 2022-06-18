@@ -7,6 +7,8 @@ import DangTin from "../components/web/DangTin";
 import DoiMatKhau from "../components/web/DoiMatKhau";
 import ChiTietBDS from "../components/web/ChiTietBDS";
 import NapTien from "../components/web/NapTien";
+import NapTien2 from "../components/web/NapTien2";
+import DanhSachTin from "../components/web/DanhSachTin";
 
 const publicRoutesList = [
     {path: '/', exact: true, name: 'Home', component: Home},
@@ -17,6 +19,8 @@ const publicRoutesList = [
     {path: '/dang-tin-mua-ban-nha-dat', exact: true, name: 'DangTin', component: DangTin},
     {path: '/doi-mat-khau', exact: true, name: 'DoiMatKhau', component: DoiMatKhau},
     {path: '/chi-tiet-bat-dong-san', exact: true, name: 'ChiTietBDS', component: ChiTietBDS},
-    {path: '/nap-tien', exact: true, name: 'NapTien', component: NapTien}
+    {path: '/nap-tien', exact: true, name: 'NapTien', component: NapTien},
+    {path: '/nap-tien-2', exact: true, name: 'NapTien2', component: NapTien2},
+    {path: '/danh-sach-tin-da-dang', exact: true, name: 'DanhSachTin', component: DanhSachTin}
 ];
 export default publicRoutesList;

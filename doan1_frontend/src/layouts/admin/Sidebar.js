@@ -57,6 +57,11 @@ const Sidebar = () => {
                                 <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                                 Quản lý tài khoản
                             </Link>
+
+                            <Link className="nav-link" to="/admin/duyet-nap-tien">
+                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                Duyệt nạp tiền tài khoản
+                            </Link>
                             
                         </div>
                     </div>

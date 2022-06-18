@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\BatDongSan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,23 @@ class UserController extends Controller
     public function xoaNguoiDung($id)
     {
         # code...
+    }
+
+    public function getTinDang()
+    {
+        $userId = auth()->user()->id;
+        $batDongSan = BatDongSan::where('maTkKhachHang', $userId)->get();
+        if($userId != null){
+            return response()->json([
+                'status' => 200,
+                'batDongSan' => $batDongSan
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Đăng nhập để xem tin đăng'
+            ]);
+        }
     }
 
 }

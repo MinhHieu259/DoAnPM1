@@ -952,7 +952,7 @@ function DangTin() {
                             <div className="card-body">
                                 <ul>
                                     <li><Link to="/thongtincanhan">Đăng mới</Link></li>
-                                    <li><Link to="/thongtincanhan">Danh sách tin</Link></li>
+                                    <li><Link to="/danh-sach-tin-da-dang">Danh sách tin</Link></li>
                                 </ul>
                             </div>
                         </div>

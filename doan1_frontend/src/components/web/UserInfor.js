@@ -102,7 +102,7 @@ function UserInfor() {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col text-center">
-                                            <Link to="/nap-tien" className="btn btn-danger">Nạp tiền</Link>
+                                            <Link to="/nap-tien-2" className="btn btn-danger">Nạp tiền</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -127,8 +127,8 @@ function UserInfor() {
                             </div>
                             <div className="card-body">
                                 <ul>
-                                    <li><Link to="/thongtincanhan">Đăng mới</Link></li>
-                                    <li><Link to="/thongtincanhan">Danh sách tin</Link></li>
+                                    <li><Link to="/dang-tin-mua-ban-nha-dat">Đăng mới</Link></li>
+                                    <li><Link to="/danh-sach-tin-da-dang">Danh sách tin</Link></li>
                                 </ul>
                             </div>
                         </div>
