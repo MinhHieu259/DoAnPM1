@@ -60,7 +60,7 @@ function NapTien2() {
                             <div className="card-body">
                                 <ul>
                                     <li><Link to="/dang-tin-mua-ban-nha-dat">Đăng mới</Link></li>
-                                    <li><Link to="/thongtincanhan">Danh sách tin</Link></li>
+                                    <li><Link to="/danh-sach-tin-da-dang">Danh sách tin</Link></li>
                                 </ul>
                             </div>
                         </div>

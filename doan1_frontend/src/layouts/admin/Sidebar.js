@@ -62,6 +62,14 @@ const Sidebar = () => {
                                 <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                                 Duyệt nạp tiền tài khoản
                             </Link>
+                            <Link className="nav-link" to="/admin/duyet-bai-dang">
+                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                Duyệt bài đăng
+                            </Link>
+                            <Link className="nav-link" to="/admin/xac-nhan-yeu-cau">
+                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                Xác nhận yêu cầu mua
+                            </Link>
                             
                         </div>
                     </div>

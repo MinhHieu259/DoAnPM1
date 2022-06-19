@@ -36,15 +36,13 @@ function Home() {
                                     <div className="row">
                                         <div className="col-lg-8">
                                             <div className="intro-body">
-                                                <p className="intro-title-top">Doral, Florida
-                                                    <br /> 78345
+                                                <p className="intro-title-top">Điện biên phủ, Đà Nẵng
                                                 </p>
                                                 <h1 className="intro-title mb-4 ">
-                                                    <span className="color-b">204 </span> Mount
-                                                    <br /> Olive Road Two
+                                                   Bán căn hộ
                                                 </h1>
                                                 <p className="intro-subtitle intro-price">
-                                                    <Link to="#"><span className="price-a">Giá | $ 12.000</span></Link>
+                                                    <Link to="#"><span className="price-a">Giá | 1.000.000.000 đ</span></Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -61,15 +59,13 @@ function Home() {
                                     <div className="row">
                                         <div className="col-lg-8">
                                             <div className="intro-body">
-                                                <p className="intro-title-top">Doral, Florida
-                                                    <br /> 78345
+                                                <p className="intro-title-top">Trường Chinh, Đà Nẵng
                                                 </p>
                                                 <h1 className="intro-title mb-4">
-                                                    <span className="color-b">204 </span> Rino
-                                                    <br /> Venda Road Five
+                                                    Cho thuê nhà
                                                 </h1>
                                                 <p className="intro-subtitle intro-price">
-                                                    <Link to="#"><span className="price-a">Giá | $ 12.000</span></Link>
+                                                    <Link to="#"><span className="price-a">Giá | 5.000.000 đ / Tháng</span></Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -86,15 +82,13 @@ function Home() {
                                     <div className="row">
                                         <div className="col-lg-8">
                                             <div className="intro-body">
-                                                <p className="intro-title-top">Doral, Florida
-                                                    <br /> 78345
+                                                <p className="intro-title-top">Lê Duẩn, Đà Nẵng
                                                 </p>
                                                 <h1 className="intro-title mb-4">
-                                                    <span className="color-b">204 </span> Alira
-                                                    <br /> Roan Road One
+                                                    Bán nhà trung tâm thành phố
                                                 </h1>
                                                 <p className="intro-subtitle intro-price">
-                                                    <Link to="#"><span className="price-a">Giá | $ 12.000</span></Link>
+                                                    <Link to="#"><span className="price-a">Giá | 4.000.000.000 đ</span></Link>
                                                 </p>
                                             </div>
                                         </div>

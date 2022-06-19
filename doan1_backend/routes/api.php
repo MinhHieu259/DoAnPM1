@@ -82,6 +82,12 @@ Route::middleware(['auth:sanctum', 'isApiAdmin'])->group(function () {
     Route::delete('/xoa-user/{id}', [UserController::class, 'xoaNguoiDung']);
 });
 
+Route::middleware(['auth:sanctum', 'isApiCtv'])->group(function () {
+    Route::get('/checkingCtvAuth', function () {
+        return response()->json(['message' => 'Đã đăng nhập', 'status' => 200], 200);
+    });
+});
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 

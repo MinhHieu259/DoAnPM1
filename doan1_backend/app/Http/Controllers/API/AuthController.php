@@ -91,7 +91,11 @@ class AuthController extends Controller
                 if ($user->maPhanQuyen == 1) { // Admin
                     $role = 'admin';
                     $token = $user->createToken($user->email . '_AdminToken', ['server:admin'])->plainTextToken;
-                } else {
+                } else if($user->maPhanQuyen == 3){ //Cộng tác viên
+                    $role = 'ctv';
+                    $token = $user->createToken($user->email . '_CtvToken', ['server:ctv'])->plainTextToken;
+                }
+                else  {
                     $role = '';
                     $token = $user->createToken($user->email . '_Token', [''])->plainTextToken;
                 }

@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom
 import PublicRoute from './PublicRoute';
 import axios from 'axios';
 import Login from './components/web/Login';
+import CtvPrivateRoute from './CtvPrivateRoute';
 
 axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -23,6 +24,7 @@ function App() {
       <Router>
         <Switch>
           <AdminPrivateRoute path="/admin" name="Admin" />
+          <CtvPrivateRoute path="/cong-tac-vien" name="CTV" />
           <PublicRoute path="/" name="Home" />
           <Route path="/login">
                   {localStorage.getItem('auth_token') ? <Redirect to='/' /> : <Login/>}

@@ -88,7 +88,11 @@ function NavBar() {
                     if (res.data.role === 'admin') {
                         history.push('/admin/dashboard');
                         window.location.reload();
-                    } else {
+                    } else  if (res.data.role === 'ctv') {
+                        history.push('/cong-tac-vien/dashboard');
+                        window.location.reload();
+                    } 
+                     else {
                         history.push('/');
                     }
 
@@ -149,7 +153,7 @@ function NavBar() {
                     <div className="nav-item dropdown">
                         <Link to="#" data-toggle="dropdown" className="nav-link dropdown-toggle user-action"> <img src={src} alt="anh" width={"30"} className="img-circle" /></Link>
                         <div className="dropdown-menu">
-                            <Link to="#" className="dropdown-item"><i className="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
+                            <Link to="/danh-sach-tin-da-dang" className="dropdown-item"><i className="fa-solid fa-list-check"></i> Quản lý tin đăng</Link>
                             <Link to="/thongtincanhan" className="dropdown-item"><i className="fa-solid fa-user"></i> Thông tin cá nhân</Link>
                             <Link to="/doi-mat-khau" className="dropdown-item"><i className="fa-solid fa-lock"></i> Thay đổi mật khẩu</Link>
                             <div className="dropdown-divider"></div>
