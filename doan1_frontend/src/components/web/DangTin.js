@@ -154,6 +154,12 @@ function DangTin() {
      
     }, [batDongSanInput.soNgayDang])
 
+    useEffect(() => {
+        setBatDongSan({...batDongSanInput,ngayKetThuc: moment(tomorrow).format("YYYY-MM-DD")});
+        setTienTra(batDongSanInput.soNgayDang * batDongSanInput.giaTin);
+       
+      }, [batDongSanInput.ngayBatDau])
+
 
 
     var soDuConLai = inforUser.soDu - TienTra;
@@ -951,7 +957,7 @@ function DangTin() {
                             </div>
                             <div className="card-body">
                                 <ul>
-                                    <li><Link to="/thongtincanhan">Đăng mới</Link></li>
+                                    <li><Link to="/dang-tin-mua-ban-nha-dat">Đăng mới</Link></li>
                                     <li><Link to="/danh-sach-tin-da-dang">Danh sách tin</Link></li>
                                 </ul>
                             </div>

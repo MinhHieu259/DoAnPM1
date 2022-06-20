@@ -25,7 +25,7 @@ const Sidebar = () => {
                             <div className="collapse" id="collapseProducts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/admin/them-hinh-thuc">Thêm hình thức</Link>
-                                    <Link className="nav-link" to="/admin/view-product">Danh sách hình thức</Link>
+                                    <Link className="nav-link" to="/admin/danh-sach-hinh-thuc">Danh sách hình thức</Link>
                                 </nav>
                             </div>
 
@@ -37,7 +37,7 @@ const Sidebar = () => {
                             <div className="collapse" id="collapseHangMuc" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/admin/them-hang-muc">Thêm hạng mục</Link>
-                                    <Link className="nav-link" to="/admin/view-product">Danh sách hạng mục</Link>
+                                    <Link className="nav-link" to="/admin/danh-sach-hang-muc">Danh sách hạng mục</Link>
                                 </nav>
                             </div>
 
@@ -49,7 +49,7 @@ const Sidebar = () => {
                             <div className="collapse" id="collapseLoaiTin" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/admin/them-loai-tin">Thêm loại tin</Link>
-                                    <Link className="nav-link" to="/admin/view-product">Danh sách loại tin</Link>
+                                    <Link className="nav-link" to="/admin/danh-sach-loai-tin">Danh sách loại tin</Link>
                                 </nav>
                             </div>
 

@@ -37,8 +37,8 @@ function QuanLyTaiKhoan() {
                         <td>Minh Hiếu</td>
                         <td>Nguyễn Minh Hiếu</td>
                         <td>0329568259</td>
-                        <td>mhieu7252@gmail.com</td>
-                        <td><button className='btn btn-danger'>Người dùng</button></td>
+                        <td>mhieu@gmail.com</td>
+                        <td><button className='btn btn-success'>Cộng tác viên</button></td>
                         <td>1/6/2022</td>
                         <td><input type="checkbox"/></td>
                         <td><button className='btn btn-danger'>Xoá</button></td>
