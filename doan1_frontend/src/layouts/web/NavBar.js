@@ -45,6 +45,7 @@ function NavBar() {
                     localStorage.setItem('user_id', res.data.id);
                     swal("Success", res.data.message, "success");
                     history.push('/thongtincanhan');
+                    window.location.reload();
                 } else {
                     setRegister({ ...registerInput, error_list: res.data.validation_errors });
                 }

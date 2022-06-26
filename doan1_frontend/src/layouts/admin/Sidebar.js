@@ -18,7 +18,7 @@ const Sidebar = () => {
                             </Link>
                             
                             <Link className="nav-link collapsed" to="#" data-bs-toggle="collapse" data-bs-target="#collapseProducts" aria-expanded="false" aria-controls="collapseProducts">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
+                                <div className="sb-nav-link-icon"><i class="fa-solid fa-bars-progress"></i></div>
                                 Quản lý hình thức
                                 <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
                             </Link>
@@ -30,7 +30,7 @@ const Sidebar = () => {
                             </div>
 
                             <Link className="nav-link collapsed" to="#" data-bs-toggle="collapse" data-bs-target="#collapseHangMuc" aria-expanded="false" aria-controls="collapseHangMuc">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
+                                <div className="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
                                 Quản lý hạng mục
                                 <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
                             </Link>
@@ -54,20 +54,20 @@ const Sidebar = () => {
                             </div>
 
                             <Link className="nav-link" to="/admin/quan-ly-tai-khoan">
-                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                <div className="sb-nav-link-icon"><i class="fa-solid fa-user-check"></i></div>
                                 Quản lý tài khoản
                             </Link>
 
                             <Link className="nav-link" to="/admin/duyet-nap-tien">
-                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                <div className="sb-nav-link-icon"><i class="fa-solid fa-money-bill-1-wave"></i></div>
                                 Duyệt nạp tiền tài khoản
                             </Link>
                             <Link className="nav-link" to="/admin/duyet-bai-dang">
-                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                <div className="sb-nav-link-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
                                 Duyệt bài đăng
                             </Link>
                             <Link className="nav-link" to="/admin/xac-nhan-yeu-cau">
-                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                                <div className="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                                 Xác nhận yêu cầu mua
                             </Link>
                             
