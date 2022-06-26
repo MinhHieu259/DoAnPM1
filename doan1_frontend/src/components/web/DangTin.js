@@ -3,7 +3,8 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from 'axios';
 import swal from 'sweetalert'
 import { mainJS } from "../../js/main";
-import moment from 'moment'
+import moment from 'moment';
+import NumberFormat from 'react-number-format';
 
 function DangTin() {
     document.title = "Đăng tin bất động sản"
@@ -944,7 +945,7 @@ function DangTin() {
                                 <img src={src} width={80} height={80} className="rounded mx-auto d-block mb-3" />
                                 <span className="font-weight-bold">{inforUser.name}</span>
                                 <br />
-                                <p className="font-weight-bold">Số dư tài khoản: {inforUser.soDu}đ</p>
+                                <p className="font-weight-bold">Số dư tài khoản: <NumberFormat value={inforUser.soDu} displayType={'text'} thousandSeparator={true} suffix={' đ'} /></p>
                                 <Link to="/nap-tien-2" className="btn btn-danger">Nạp tiền</Link>
                             </div>
 
