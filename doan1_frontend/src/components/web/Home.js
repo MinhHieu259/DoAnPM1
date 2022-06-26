@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { mainJS } from '../../js/main';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import NumberFormat from 'react-number-format';
 
 function Home() {
     document.title = "Trang chủ"
@@ -222,7 +223,7 @@ function Home() {
                                                         </div>
                                                         <div className="card-body-a">
                                                             <div className="price-box d-flex">
-                                                                <span className="price-a">Giá | {nha.giaTien} vnđ</span>
+                                                                <span className="price-a">Giá | <NumberFormat value={nha.giaTien} displayType={'text'} thousandSeparator={true} suffix={' đ'} /></span>
                                                             </div>
                                                             <Link to={`/chi-tiet-bat-dong-san`} className="link-a">Xem chi tiết
                                                                 <span className="bi bi-chevron-right"></span>

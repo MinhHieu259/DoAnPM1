@@ -3,6 +3,7 @@ import { mainJS } from '../../js/main';
 import { Link, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import axios from 'axios';
+import NumberFormat from 'react-number-format';
 
 function ChiTietBDS() {
   const history = useHistory();
@@ -117,10 +118,10 @@ function ChiTietBDS() {
                   <div className="property-price d-flex justify-content-center foo">
                     <div className="card-header-c d-flex">
                       <div className="card-box-ico">
-                        <span className="bi bi-cash">$</span>
+                       
                       </div>
                       <div className="card-title-c align-self-center">
-                        <h5 className="title-c">{inForBDS.giaTien}</h5>
+                        <h5 className="title-c"><NumberFormat value={inForBDS.giaTien} displayType={'text'} thousandSeparator={true} suffix={' đ'} /></h5>
                       </div>
                     </div>
                   </div>
@@ -135,16 +136,8 @@ function ChiTietBDS() {
                     <div className="summary-list">
                       <ul className="list">
                         <li className="d-flex justify-content-between">
-                          <strong>Property ID:</strong>
-                          <span>1134</span>
-                        </li>
-                        <li className="d-flex justify-content-between">
                           <strong>Hướng nhà:</strong>
                           <span>{inForBDS.huongNha}</span>
-                        </li>
-                        <li className="d-flex justify-content-between">
-                          <strong>Property Type:</strong>
-                          <span>House</span>
                         </li>
                         <li className="d-flex justify-content-between">
                           <strong>Trạng thái:</strong>
